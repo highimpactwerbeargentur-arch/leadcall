@@ -187,11 +187,19 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         
         .section-title {
             font-size: 18px;
             font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
         
         .refresh-btn {
@@ -208,6 +216,36 @@
         
         .refresh-btn:hover {
             background: #f8fafc;
+        }
+        
+        /* Filter Buttons */
+        .filter-group {
+            display: flex;
+            gap: 4px;
+            background: white;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .filter-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: #f1f5f9;
+        }
+        
+        .filter-btn.active {
+            background: #2563eb;
+            color: white;
         }
         
         /* Leads Table */
@@ -323,6 +361,21 @@
             border-color: #cbd5e1;
         }
         
+        .delete-btn {
+            padding: 6px 10px;
+            font-size: 13px;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+        
+        .delete-btn:hover {
+            background: #fecaca;
+        }
+        
         /* Time */
         .time-ago {
             font-size: 13px;
@@ -411,6 +464,74 @@
             background: #e2e8f0;
         }
         
+        /* Input Modal */
+        .modal-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        
+        .modal-input:focus {
+            border-color: #2563eb;
+        }
+        
+        .modal-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            outline: none;
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background: #2563eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        
+        .modal-btn:hover {
+            background: #1d4ed8;
+        }
+        
+        .modal-btn.secondary {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .modal-btn.danger {
+            background: #dc2626;
+        }
+        
+        .modal-btn.danger:hover {
+            background: #b91c1c;
+        }
+        
+        /* Notes indicator */
+        .has-notes {
+            color: #2563eb;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -426,6 +547,11 @@
             .leads-table th:nth-child(5),
             .leads-table td:nth-child(5) {
                 display: none;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -484,9 +610,18 @@
         <!-- Leads List -->
         <div class="section-header">
             <h2 class="section-title">Alle Anfragen</h2>
-            <button class="refresh-btn" onclick="loadData()">
-                ↻ Aktualisieren
-            </button>
+            <div class="header-actions">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">Alle</button>
+                    <button class="filter-btn" data-filter="new" onclick="setFilter('new')">Neu</button>
+                    <button class="filter-btn" data-filter="offer_sent" onclick="setFilter('offer_sent')">Angebot</button>
+                    <button class="filter-btn" data-filter="won" onclick="setFilter('won')">Gewonnen</button>
+                    <button class="filter-btn" data-filter="lost" onclick="setFilter('lost')">Verloren</button>
+                </div>
+                <button class="refresh-btn" onclick="loadData()">
+                    ↻ Aktualisieren
+                </button>
+            </div>
         </div>
         
         <div class="leads-card">
@@ -513,9 +648,46 @@
     <!-- Detail Modal -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
         <div class="modal" onclick="event.stopPropagation()">
-            <h2>Lead Details</h2>
+            <h2 id="modalTitle">Lead Details</h2>
             <div id="modalContent"></div>
             <button class="modal-close" onclick="closeModal()">Schließen</button>
+        </div>
+    </div>
+    
+    <!-- Offer Modal -->
+    <div class="modal-overlay" id="offerModal" onclick="closeOfferModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Angebot gesendet</h2>
+            <p style="color: #64748b; margin-bottom: 16px;">Wie hoch ist die Angebotssumme?</p>
+            <input type="number" class="modal-input" id="offerAmount" placeholder="z.B. 2500" step="0.01">
+            <div>
+                <button class="modal-btn" onclick="confirmOffer()">Speichern</button>
+                <button class="modal-btn secondary" onclick="closeOfferModal()">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notes Modal -->
+    <div class="modal-overlay" id="notesModal" onclick="closeNotesModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Notizen</h2>
+            <textarea class="modal-textarea" id="notesText" placeholder="Notizen zu diesem Lead..."></textarea>
+            <div>
+                <button class="modal-btn" onclick="saveNotes()">Speichern</button>
+                <button class="modal-btn secondary" onclick="closeNotesModal()">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal" onclick="closeDeleteModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2>Lead löschen?</h2>
+            <p style="color: #64748b; margin-bottom: 16px;">Möchtest du diesen Lead wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.</p>
+            <div>
+                <button class="modal-btn danger" onclick="confirmDelete()">Ja, löschen</button>
+                <button class="modal-btn secondary" onclick="closeDeleteModal()">Abbrechen</button>
+            </div>
         </div>
     </div>
 
@@ -539,6 +711,11 @@
             'this_week': 'Diese Woche',
             'flexible': 'Flexibel'
         };
+        
+        // State
+        let allLeads = [];
+        let currentFilter = 'all';
+        let currentLeadId = null;
         
         // API Helper
         async function supabaseGet(table, query = '') {
@@ -565,6 +742,17 @@
             return response.json();
         }
         
+        async function supabaseDelete(table, id) {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                }
+            });
+            return response.ok;
+        }
+        
         // Zeit-Formatierung
         function timeAgo(dateString) {
             if (!dateString) return '-';
@@ -579,12 +767,18 @@
             return date.toLocaleDateString('de-DE');
         }
         
-        // Leads laden
-        let allLeads = [];
+        // Filter
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            renderLeadsTable(allLeads);
+        }
         
+        // Leads laden
         async function loadData() {
             try {
-                // Leads laden
                 const leads = await supabaseGet('leads', `tenant_id=eq.${TENANT_ID}&order=created_at.desc`);
                 allLeads = leads;
                 
@@ -636,27 +830,37 @@
         function renderLeadsTable(leads) {
             const tbody = document.getElementById('leadsTableBody');
             
-            if (leads.length === 0) {
+            // Filter anwenden
+            let filteredLeads = leads;
+            if (currentFilter !== 'all') {
+                filteredLeads = leads.filter(l => l.status === currentFilter);
+            }
+            
+            if (filteredLeads.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="6" class="empty-state">
-                            <h3>Noch keine Anfragen</h3>
-                            <p>Neue Leads erscheinen hier automatisch.</p>
+                            <h3>Keine Anfragen</h3>
+                            <p>${currentFilter === 'all' ? 'Neue Leads erscheinen hier automatisch.' : 'Keine Leads mit diesem Status.'}</p>
                         </td>
                     </tr>
                 `;
                 return;
             }
             
-            tbody.innerHTML = leads.map(lead => `
+            tbody.innerHTML = filteredLeads.map(lead => `
                 <tr onclick="showDetail('${lead.id}')" style="cursor: pointer;">
                     <td>
-                        <div class="lead-name">${escapeHtml(lead.name || 'Unbekannt')}</div>
+                        <div class="lead-name">
+                            ${escapeHtml(lead.name || 'Unbekannt')}
+                            ${lead.notes ? '<span class="has-notes">📝</span>' : ''}
+                        </div>
                         <div class="lead-phone">${escapeHtml(lead.phone || '-')}</div>
                     </td>
                     <td>
                         <div>${escapeHtml(lead.service_type || '-')}</div>
                         ${lead.company ? `<div class="lead-phone">${escapeHtml(lead.company)}</div>` : ''}
+                        ${lead.offer_amount ? `<div class="lead-phone" style="color: #16a34a; font-weight: 600;">${parseFloat(lead.offer_amount).toLocaleString('de-DE')} €</div>` : ''}
                     </td>
                     <td>
                         <span class="urgency-${lead.urgency || 'flexible'}">
@@ -672,43 +876,128 @@
                         </span>
                     </td>
                     <td onclick="event.stopPropagation()">
-                        <select class="action-select" onchange="updateStatus('${lead.id}', this.value)">
+                        <select class="action-select" onchange="handleAction('${lead.id}', this.value); this.value='';">
                             <option value="">Aktion...</option>
                             <option value="contacted">→ Kontaktiert</option>
                             <option value="offer_sent">→ Angebot gesendet</option>
                             <option value="won">→ Gewonnen ✓</option>
                             <option value="lost">→ Verloren ✗</option>
+                            <option value="notes">📝 Notizen</option>
+                            <option value="delete">🗑 Löschen</option>
                         </select>
                     </td>
                 </tr>
             `).join('');
         }
         
-        // Status aktualisieren
-        async function updateStatus(leadId, newStatus) {
-            if (!newStatus) return;
+        // Action Handler
+        function handleAction(leadId, action) {
+            if (!action) return;
+            currentLeadId = leadId;
             
+            if (action === 'offer_sent') {
+                openOfferModal();
+            } else if (action === 'notes') {
+                openNotesModal(leadId);
+            } else if (action === 'delete') {
+                openDeleteModal();
+            } else {
+                updateStatus(leadId, action);
+            }
+        }
+        
+        // Status aktualisieren
+        async function updateStatus(leadId, newStatus, extraData = {}) {
             try {
                 const updateData = { 
                     status: newStatus,
-                    updated_at: new Date().toISOString()
+                    updated_at: new Date().toISOString(),
+                    ...extraData
                 };
                 
-                // Spezielle Felder je nach Status
-                if (newStatus === 'offer_sent') {
+                if (newStatus === 'offer_sent' && !extraData.offer_sent_at) {
                     updateData.offer_sent_at = new Date().toISOString();
                 } else if (newStatus === 'won' || newStatus === 'lost') {
                     updateData.closed_at = new Date().toISOString();
                 }
                 
                 await supabaseUpdate('leads', leadId, updateData);
-                
-                // Neu laden
                 loadData();
                 
             } catch (err) {
                 console.error('Fehler beim Update:', err);
                 alert('Fehler beim Aktualisieren: ' + err.message);
+            }
+        }
+        
+        // Offer Modal
+        function openOfferModal() {
+            document.getElementById('offerAmount').value = '';
+            document.getElementById('offerModal').classList.add('show');
+            document.getElementById('offerAmount').focus();
+        }
+        
+        function closeOfferModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('offerModal').classList.remove('show');
+            currentLeadId = null;
+        }
+        
+        async function confirmOffer() {
+            const amount = document.getElementById('offerAmount').value;
+            await updateStatus(currentLeadId, 'offer_sent', {
+                offer_amount: amount ? parseFloat(amount) : null,
+                offer_sent_at: new Date().toISOString()
+            });
+            closeOfferModal();
+        }
+        
+        // Notes Modal
+        function openNotesModal(leadId) {
+            const lead = allLeads.find(l => l.id === leadId);
+            document.getElementById('notesText').value = lead?.notes || '';
+            document.getElementById('notesModal').classList.add('show');
+            document.getElementById('notesText').focus();
+        }
+        
+        function closeNotesModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('notesModal').classList.remove('show');
+            currentLeadId = null;
+        }
+        
+        async function saveNotes() {
+            const notes = document.getElementById('notesText').value;
+            try {
+                await supabaseUpdate('leads', currentLeadId, { 
+                    notes: notes,
+                    updated_at: new Date().toISOString()
+                });
+                loadData();
+                closeNotesModal();
+            } catch (err) {
+                alert('Fehler beim Speichern: ' + err.message);
+            }
+        }
+        
+        // Delete Modal
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.add('show');
+        }
+        
+        function closeDeleteModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('deleteModal').classList.remove('show');
+            currentLeadId = null;
+        }
+        
+        async function confirmDelete() {
+            try {
+                await supabaseDelete('leads', currentLeadId);
+                loadData();
+                closeDeleteModal();
+            } catch (err) {
+                alert('Fehler beim Löschen: ' + err.message);
             }
         }
         
@@ -780,7 +1069,13 @@
                 ${lead.offer_amount ? `
                 <div class="modal-field">
                     <div class="modal-label">Angebotssumme</div>
-                    <div class="modal-value">${parseFloat(lead.offer_amount).toLocaleString('de-DE')} €</div>
+                    <div class="modal-value" style="color: #16a34a; font-weight: 600;">${parseFloat(lead.offer_amount).toLocaleString('de-DE')} €</div>
+                </div>
+                ` : ''}
+                ${lead.notes ? `
+                <div class="modal-field">
+                    <div class="modal-label">Notizen</div>
+                    <div class="modal-value">${escapeHtml(lead.notes)}</div>
                 </div>
                 ` : ''}
             `;
@@ -835,3 +1130,4 @@
     </script>
 </body>
 </html>
+
