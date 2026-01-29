@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ihre Anfrage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -404,6 +405,25 @@
                 
                 const result = await response.json();
                 console.log('Erfolg:', result);
+                
+                // E-Mail-Benachrichtigung senden
+                try {
+                    emailjs.init('fc6zzeTCmrKyrkxJ2');
+                    await emailjs.send('service_te0rxxz', 'template_qr2bxjn', {
+                        name: leadData.name,
+                        phone: leadData.phone,
+                        email: leadData.email || '-',
+                        company: leadData.company || '-',
+                        service_type: leadData.service_type,
+                        urgency: leadData.urgency,
+                        description: leadData.description || '-',
+                        dashboard_link: 'https://leadcall-bitcooy7b-tristans-projects-7ffa8023.vercel.app'
+                    });
+                    console.log('E-Mail gesendet');
+                } catch (emailErr) {
+                    console.error('E-Mail-Fehler:', emailErr);
+                    // Formular trotzdem als erfolgreich markieren
+                }
                 
                 // Erfolgs-Seite zeigen
                 formContainer.classList.add('hidden');
