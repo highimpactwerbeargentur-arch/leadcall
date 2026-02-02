@@ -223,6 +223,76 @@
         .form-container.hidden {
             display: none;
         }
+        
+        /* Bild-Upload */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .file-upload:hover {
+            border-color: #2563eb;
+        }
+        
+        .file-upload.dragging {
+            border-color: #2563eb;
+            background: #f0f7ff;
+        }
+        
+        .file-upload input {
+            display: none;
+        }
+        
+        .file-upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .file-upload-text span {
+            color: #2563eb;
+            font-weight: 500;
+        }
+        
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .image-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .image-preview-item button {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border-radius: 50%;
+            background: #dc2626;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -300,6 +370,29 @@
                 </div>
                 
                 <div class="field">
+                    <label for="budget">Geschätztes Budget <span class="optional">(optional)</span></label>
+                    <select id="budget" name="budget">
+                        <option value="">Bitte wählen...</option>
+                        <option value="under_500">Unter 500€</option>
+                        <option value="500_2000">500€ - 2.000€</option>
+                        <option value="2000_5000">2.000€ - 5.000€</option>
+                        <option value="over_5000">Über 5.000€</option>
+                        <option value="unknown">Weiß ich noch nicht</option>
+                    </select>
+                </div>
+                
+                <div class="field">
+                    <label>Fotos <span class="optional">(optional, max. 3 Bilder)</span></label>
+                    <div class="file-upload" id="fileUpload">
+                        <input type="file" id="imageInput" accept="image/*" multiple>
+                        <div class="file-upload-text">
+                            <span>Bilder auswählen</span> oder hierher ziehen
+                        </div>
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+                
+                <div class="field">
                     <label class="checkbox-label">
                         <input type="checkbox" id="privacy" name="privacy" required>
                         <span class="checkbox-text">
@@ -337,6 +430,89 @@
         const submitBtn = document.getElementById('submitBtn');
         const formContainer = document.getElementById('formContainer');
         const successDiv = document.getElementById('success');
+        
+        // Bild-Upload
+        const fileUpload = document.getElementById('fileUpload');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        let selectedFiles = [];
+        
+        fileUpload.addEventListener('click', () => imageInput.click());
+        
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragging');
+        });
+        
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragging');
+        });
+        
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragging');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        imageInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        function handleFiles(files) {
+            for (let file of files) {
+                if (selectedFiles.length >= 3) break;
+                if (!file.type.startsWith('image/')) continue;
+                selectedFiles.push(file);
+            }
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            imagePreview.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.className = 'image-preview-item';
+                
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = '×';
+                btn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updatePreview();
+                };
+                
+                div.appendChild(img);
+                div.appendChild(btn);
+                imagePreview.appendChild(div);
+            });
+        }
+        
+        // Bilder hochladen Funktion
+        async function uploadImages(leadId) {
+            const urls = [];
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const fileName = `${leadId}/${Date.now()}_${i}.${file.name.split('.').pop()}`;
+                
+                const response = await fetch(`${SUPABASE_URL}/storage/v1/object/lead-images/${fileName}`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': file.type
+                    },
+                    body: file
+                });
+                
+                if (response.ok) {
+                    urls.push(`${SUPABASE_URL}/storage/v1/object/public/lead-images/${fileName}`);
+                }
+            }
+            return urls;
+        }
         
         // Fehler anzeigen
         function showError(message) {
@@ -395,6 +571,7 @@
                     service_type: formData.get('service_type'),
                     description: formData.get('description').trim() || null,
                     urgency: formData.get('urgency') || 'flexible',
+                    budget: formData.get('budget') || null,
                     privacy_accepted: true,
                     privacy_accepted_at: new Date().toISOString(),
                     form_submitted_at: new Date().toISOString(),
@@ -422,6 +599,23 @@
                 
                 const result = await response.json();
                 console.log('Erfolg:', result);
+                
+                // Bilder hochladen falls vorhanden
+                if (selectedFiles.length > 0 && result[0]?.id) {
+                    const imageUrls = await uploadImages(result[0].id);
+                    if (imageUrls.length > 0) {
+                        await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${result[0].id}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'apikey': SUPABASE_ANON_KEY,
+                                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                            },
+                            body: JSON.stringify({ image_urls: imageUrls })
+                        });
+                        console.log('Bilder hochgeladen:', imageUrls);
+                    }
+                }
                 
                 // E-Mail-Benachrichtigung senden
                 try {
