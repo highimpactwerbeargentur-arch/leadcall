@@ -417,12 +417,38 @@
                         service_type: leadData.service_type,
                         urgency: leadData.urgency,
                         description: leadData.description || '-',
-                        dashboard_link: 'https://leadcall-bitcooy7b-tristans-projects-7ffa8023.vercel.app'
+                        dashboard_link: 'https://leadcall-git-main-tristans-projects-7ffa8023.vercel.app'
                     });
                     console.log('E-Mail gesendet');
                 } catch (emailErr) {
                     console.error('E-Mail-Fehler:', emailErr);
-                    // Formular trotzdem als erfolgreich markieren
+                }
+                
+                // Bestätigungs-SMS über Twilio senden
+                try {
+                    const TWILIO_ACCOUNT_SID = 'AC69e8a043f6049873ad18f1a84fd46e42';
+                    const TWILIO_AUTH_TOKEN = 'dad41a9b13d9d8b3e96df73ddc0b58d4';
+                    const TWILIO_PHONE_NUMBER = '+13135460107';
+                    
+                    const smsText = 'Vielen Dank für Ihre Anfrage! Wir haben alles erhalten und melden uns schnellstmöglich bei Ihnen.';
+                    
+                    const twilioAuth = btoa(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`);
+                    
+                    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Basic ${twilioAuth}`,
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            From: TWILIO_PHONE_NUMBER,
+                            To: leadData.phone,
+                            Body: smsText
+                        })
+                    });
+                    console.log('Bestätigungs-SMS gesendet');
+                } catch (smsErr) {
+                    console.error('SMS-Fehler:', smsErr);
                 }
                 
                 // Erfolgs-Seite zeigen
