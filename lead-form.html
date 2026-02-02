@@ -368,11 +368,28 @@
                 if (!formData.get('service_type')) throw new Error('Bitte wählen Sie eine Kategorie');
                 if (!formData.get('privacy')) throw new Error('Bitte akzeptieren Sie die Datenschutzerklärung');
                 
+                // Telefonnummer formatieren (deutsche Nummern zu +49)
+                function formatPhoneNumber(phone) {
+                    let cleaned = phone.replace(/[\s\-\/\(\)]/g, ''); // Leerzeichen etc. entfernen
+                    
+                    if (cleaned.startsWith('0049')) {
+                        cleaned = '+49' + cleaned.substring(4);
+                    } else if (cleaned.startsWith('49') && !cleaned.startsWith('+')) {
+                        cleaned = '+49' + cleaned.substring(2);
+                    } else if (cleaned.startsWith('0')) {
+                        cleaned = '+49' + cleaned.substring(1);
+                    } else if (!cleaned.startsWith('+')) {
+                        cleaned = '+49' + cleaned;
+                    }
+                    
+                    return cleaned;
+                }
+                
                 // Lead-Daten vorbereiten
                 const leadData = {
                     tenant_id: tenantId,
                     name: formData.get('name').trim(),
-                    phone: formData.get('phone').trim(),
+                    phone: formatPhoneNumber(formData.get('phone').trim()),
                     email: formData.get('email').trim() || null,
                     company: formData.get('company').trim() || null,
                     service_type: formData.get('service_type'),
