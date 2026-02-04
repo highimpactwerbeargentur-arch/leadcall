@@ -66,12 +66,12 @@
         
         /* Hero */
         .hero {
-            padding: 140px 24px 80px;
+            padding: 120px 24px 60px;
             background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
         }
         
         .hero-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             text-align: center;
         }
@@ -84,14 +84,14 @@
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .hero h1 {
-            font-size: clamp(36px, 6vw, 56px);
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             color: #0f172a;
         }
         
@@ -99,11 +99,49 @@
             color: #2563eb;
         }
         
-        .hero p {
-            font-size: 20px;
+        .hero > .hero-container > p {
+            font-size: 18px;
             color: #475569;
-            max-width: 700px;
-            margin: 0 auto 40px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Hero Benefits - direkt sichtbar */
+        .hero-benefits {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 40px 0;
+            text-align: left;
+        }
+        
+        .hero-benefit {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .hero-benefit-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .hero-benefit h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #0f172a;
+        }
+        
+        .hero-benefit p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        
+        .hero-cta-section {
+            margin-top: 40px;
         }
         
         .hero-cta {
@@ -131,12 +169,7 @@
             color: #64748b;
         }
         
-        /* Problem Section */
-        .problem {
-            padding: 80px 24px;
-            background: #fff;
-        }
-        
+        /* Section Styles */
         .section-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -152,216 +185,182 @@
         }
         
         .section-title {
-            font-size: clamp(28px, 4vw, 40px);
+            font-size: clamp(26px, 4vw, 36px);
             font-weight: 700;
-            margin-bottom: 48px;
+            margin-bottom: 40px;
             color: #0f172a;
         }
         
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-        
-        .problem-card {
-            padding: 32px;
-            background: #fef2f2;
-            border-radius: 16px;
-            border-left: 4px solid #dc2626;
-        }
-        
-        .problem-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #991b1b;
-        }
-        
-        .problem-card p {
-            color: #7f1d1d;
-            font-size: 16px;
-        }
-        
-        /* Solution Section */
-        .solution {
-            padding: 80px 24px;
+        /* How it works */
+        .how-it-works {
+            padding: 70px 24px;
             background: #f8fafc;
         }
         
         .steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-top: 48px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
         
         .step {
             text-align: center;
+            background: white;
+            padding: 30px 24px;
+            border-radius: 12px;
         }
         
         .step-number {
-            width: 64px;
-            height: 64px;
+            width: 50px;
+            height: 50px;
             background: #2563eb;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
-            margin: 0 auto 20px;
+            margin: 0 auto 16px;
         }
         
         .step h3 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .step p {
             color: #64748b;
-            font-size: 16px;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            padding: 80px 24px;
-            background: #fff;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 48px;
-        }
-        
-        .benefit-card {
-            padding: 32px;
-            background: #f8fafc;
-            border-radius: 16px;
-            transition: all 0.2s;
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-        }
-        
-        .benefit-icon {
-            width: 48px;
-            height: 48px;
-            background: #dbeafe;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .benefit-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .benefit-card p {
-            color: #64748b;
-            font-size: 16px;
+            font-size: 15px;
         }
         
         /* Social Proof */
         .proof {
-            padding: 80px 24px;
+            padding: 60px 24px;
             background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
             color: white;
             text-align: center;
         }
         
         .proof-quote {
-            font-size: clamp(20px, 3vw, 28px);
+            font-size: clamp(18px, 3vw, 24px);
             font-weight: 500;
-            max-width: 800px;
-            margin: 0 auto 24px;
+            max-width: 700px;
+            margin: 0 auto 20px;
             font-style: italic;
         }
         
         .proof-author {
-            font-size: 16px;
+            font-size: 15px;
             opacity: 0.9;
+        }
+        
+        /* More Benefits */
+        .more-benefits {
+            padding: 70px 24px;
+            background: #fff;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .benefit-card {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        
+        .benefit-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+        
+        .benefit-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        
+        .benefit-card p {
+            color: #64748b;
+            font-size: 15px;
         }
         
         /* Target Audience */
         .audience {
-            padding: 80px 24px;
+            padding: 70px 24px;
             background: #f8fafc;
         }
         
         .audience-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 48px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
         }
         
         .audience-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 20px 24px;
+            gap: 10px;
+            padding: 14px 20px;
             background: white;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 15px;
         }
         
         .audience-item span {
-            font-size: 24px;
+            font-size: 22px;
         }
         
         /* CTA Section */
         .cta-section {
-            padding: 80px 24px;
+            padding: 70px 24px;
             background: #fff;
         }
         
         .cta-box {
-            max-width: 600px;
+            max-width: 550px;
             margin: 0 auto;
             text-align: center;
         }
         
         .cta-box h2 {
-            font-size: clamp(28px, 4vw, 40px);
+            font-size: clamp(26px, 4vw, 36px);
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         
-        .cta-box p {
-            font-size: 18px;
+        .cta-box > p {
+            font-size: 17px;
             color: #64748b;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
         
         /* Contact Form */
         .contact-form {
             background: #f8fafc;
-            padding: 40px;
-            border-radius: 16px;
+            padding: 32px;
+            border-radius: 12px;
             text-align: left;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         
         .form-group label {
             display: block;
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #374151;
         }
         
@@ -369,7 +368,7 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 14px;
             font-size: 16px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -385,18 +384,18 @@
         }
         
         .form-group textarea {
-            min-height: 100px;
+            min-height: 80px;
             resize: vertical;
         }
         
         .form-submit {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: #2563eb;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
@@ -408,29 +407,30 @@
         
         .form-note {
             text-align: center;
-            margin-top: 16px;
-            font-size: 14px;
+            margin-top: 14px;
+            font-size: 13px;
             color: #64748b;
         }
         
         /* Alternative Contact */
         .alt-contact {
-            margin-top: 40px;
-            padding-top: 40px;
+            margin-top: 32px;
+            padding-top: 32px;
             border-top: 1px solid #e2e8f0;
             text-align: center;
         }
         
         .alt-contact p {
             color: #64748b;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            font-size: 15px;
         }
         
         .phone-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: #2563eb;
             text-decoration: none;
@@ -442,10 +442,11 @@
         
         /* Footer */
         .footer {
-            padding: 40px 24px;
+            padding: 32px 24px;
             background: #0f172a;
             color: #94a3b8;
             text-align: center;
+            font-size: 14px;
         }
         
         .footer a {
@@ -461,7 +462,7 @@
         .form-success {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 32px;
         }
         
         .form-success.show {
@@ -469,9 +470,9 @@
         }
         
         .form-success h3 {
-            font-size: 24px;
+            font-size: 22px;
             color: #16a34a;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .contact-form.hidden {
@@ -479,21 +480,39 @@
         }
         
         /* Responsive */
+        @media (max-width: 900px) {
+            .hero-benefits {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
         @media (max-width: 768px) {
             .nav-cta {
                 display: none;
             }
             
             .hero {
-                padding: 120px 20px 60px;
+                padding: 100px 20px 50px;
             }
             
-            .problem, .solution, .benefits, .audience, .cta-section {
-                padding: 60px 20px;
+            .hero-benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .how-it-works, .more-benefits, .audience, .cta-section {
+                padding: 50px 20px;
             }
             
             .contact-form {
-                padding: 24px;
+                padding: 20px;
             }
         }
     </style>
@@ -507,99 +526,74 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero mit Vorteilen -->
     <section class="hero">
         <div class="hero-container">
             <div class="hero-badge">Für Handwerksbetriebe</div>
             <h1>Nie wieder <span>Aufträge verpassen</span></h1>
-            <p>Jede Kundenanfrage strukturiert erfasst. Mit allen Infos, Budget und Foto. Sie sehen sofort welche Aufträge sich lohnen – und rufen die richtigen zuerst an.</p>
-            <a href="#kontakt" class="hero-cta">Kostenlose Demo vereinbaren</a>
-            <p class="hero-sub">Unverbindlich • 15 Minuten • Sofort einsatzbereit</p>
-        </div>
-    </section>
-
-    <!-- Problem -->
-    <section class="problem">
-        <div class="section-container">
-            <div class="section-label">Das Problem</div>
-            <h2 class="section-title">Kommt Ihnen das bekannt vor?</h2>
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <h3>Zettelwirtschaft</h3>
-                    <p>Telefonnummer auf einen Zettel geschrieben, Zettel weg. Oder die Handschrift ist unleserlich. Oder abends fragen Sie sich: "Was wollte der nochmal?"</p>
+            <p>Jede Anfrage strukturiert erfasst. Sie sehen sofort welche sich lohnen.</p>
+            
+            <!-- 6 Hauptvorteile direkt sichtbar -->
+            <div class="hero-benefits">
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">💰</div>
+                    <h3>30% mehr Umsatz</h3>
+                    <p>Sie sehen das Budget bevor Sie zurückrufen. 8.000€-Auftrag vor 80€-Reparatur.</p>
                 </div>
-                <div class="problem-card">
-                    <h3>Keine Zeit am Telefon</h3>
-                    <p>Sie stehen auf der Baustelle, das Telefon klingelt. Entweder Sie gehen ran und verlieren Zeit – oder Sie gehen nicht ran und verlieren den Kunden.</p>
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">⏱️</div>
+                    <h3>10 Std. weniger pro Woche</h3>
+                    <p>Keine Zettel, keine Mailbox, kein Chaos. Alles strukturiert an einem Ort.</p>
                 </div>
-                <div class="problem-card">
-                    <h3>Falsche Prioritäten</h3>
-                    <p>Sie rufen alle der Reihe nach zurück. Der mit der 80€-Steckdose zuerst, der mit der 8.000€-Sanierung zuletzt – wenn noch Zeit ist.</p>
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">📸</div>
+                    <h3>Bilder vor dem Rückruf</h3>
+                    <p>Kunde schickt Foto vom Problem. Sie wissen was Sie erwartet.</p>
                 </div>
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">🔔</div>
+                    <h3>Automatische Erinnerungen</h3>
+                    <p>Angebot geschickt, keine Antwort? Follow-up SMS läuft automatisch.</p>
+                </div>
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">🌙</div>
+                    <h3>24/7 erreichbar</h3>
+                    <p>Samstag Nacht, Feiertag – jeder Anrufer wird erfasst.</p>
+                </div>
+                <div class="hero-benefit">
+                    <div class="hero-benefit-icon">✨</div>
+                    <h3>Wirkt professionell</h3>
+                    <p>Kunden denken Sie haben ein Call-Center. Haben Sie auch.</p>
+                </div>
+            </div>
+            
+            <div class="hero-cta-section">
+                <a href="#kontakt" class="hero-cta">Kostenlose Demo – 15 Minuten</a>
+                <p class="hero-sub">Unverbindlich • Sofort einsatzbereit</p>
             </div>
         </div>
     </section>
 
-    <!-- Solution -->
-    <section class="solution">
+    <!-- So funktioniert's -->
+    <section class="how-it-works">
         <div class="section-container">
-            <div class="section-label">Die Lösung</div>
-            <h2 class="section-title">So einfach funktioniert's</h2>
+            <div class="section-label">So funktioniert's</div>
+            <h2 class="section-title">In 3 Schritten zum strukturierten Lead</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <h3>Kunde ruft an</h3>
-                    <p>Unser System nimmt freundlich ab – oder Sie leiten den Anruf einfach weiter.</p>
+                    <p>Unser System nimmt ab – oder Sie leiten den Anruf weiter.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
                     <h3>Kunde füllt Formular aus</h3>
-                    <p>Er bekommt eine SMS mit Link. Trägt ein was er braucht, wie dringend, Budget – und macht ein Foto.</p>
+                    <p>Per SMS. Mit allem was Sie brauchen: Was, wann, Budget, Foto.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>Sie sehen alles im Dashboard</h3>
-                    <p>Strukturiert, priorisiert, mit allen Infos. Sie rufen die lukrativen Aufträge zuerst an.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Benefits -->
-    <section class="benefits">
-        <div class="section-container">
-            <div class="section-label">Ihre Vorteile</div>
-            <h2 class="section-title">Mehr Umsatz. Weniger Chaos.</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Die richtigen Aufträge machen</h3>
-                    <p>Sie sehen das Budget bevor Sie zurückrufen. 8.000€-Auftrag vor 80€-Steckdose. Gleiche Arbeitszeit, mehr Umsatz.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⏱️</div>
-                    <h3>Zeit sparen</h3>
-                    <p>Statt 10 Minuten Telefonat haben Sie in 30 Sekunden alle Infos – strukturiert und mit Foto.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📋</div>
-                    <h3>Alles an einem Ort</h3>
-                    <p>Keine Zettel, keine Mailbox, kein Chaos. Ein Dashboard, alle Anfragen, alle Infos.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📸</div>
-                    <h3>Bilder vor dem Rückruf</h3>
-                    <p>Kunde schickt Foto vom Problem. Sie wissen vorher was Sie erwartet – und welches Material Sie brauchen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔔</div>
-                    <h3>Automatische Erinnerungen</h3>
-                    <p>Angebot geschickt, keine Antwort? Nach 2, 5 und 10 Tagen bekommt der Kunde automatisch eine freundliche Erinnerung.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🌙</div>
-                    <h3>Funktioniert 24/7</h3>
-                    <p>Samstag Abend, Sonntag früh – jeder Anrufer wird erfasst. Sie rufen zurück wenn SIE Zeit haben.</p>
+                    <h3>Sie rufen zurück</h3>
+                    <p>Die lukrativen zuerst. Mit allen Infos schon vor dem Gespräch.</p>
                 </div>
             </div>
         </div>
@@ -608,49 +602,25 @@
     <!-- Social Proof -->
     <section class="proof">
         <div class="section-container">
-            <p class="proof-quote">"Drei Aufträge in einer Woche, die ich sonst verpasst hätte. Und ich konnte endlich priorisieren – gleiche Arbeitszeit, 30% mehr Umsatz."</p>
+            <p class="proof-quote">"Drei Aufträge in der ersten Woche, die ich sonst verpasst hätte. Und ich rufe jetzt die richtigen zuerst an – 30% mehr Umsatz."</p>
             <p class="proof-author">– Elektriker aus Düsseldorf</p>
         </div>
     </section>
 
-    <!-- Target Audience -->
+    <!-- Zielgruppe -->
     <section class="audience">
         <div class="section-container">
             <div class="section-label">Perfekt für</div>
             <h2 class="section-title">Handwerksbetriebe wie Sie</h2>
             <div class="audience-list">
-                <div class="audience-item">
-                    <span>🔧</span>
-                    Sanitär & Heizung
-                </div>
-                <div class="audience-item">
-                    <span>⚡</span>
-                    Elektriker
-                </div>
-                <div class="audience-item">
-                    <span>🏠</span>
-                    Dachdecker
-                </div>
-                <div class="audience-item">
-                    <span>🪟</span>
-                    Fensterbauer
-                </div>
-                <div class="audience-item">
-                    <span>🎨</span>
-                    Maler & Lackierer
-                </div>
-                <div class="audience-item">
-                    <span>🧱</span>
-                    Maurer & Bauunternehmen
-                </div>
-                <div class="audience-item">
-                    <span>🪵</span>
-                    Tischler & Schreiner
-                </div>
-                <div class="audience-item">
-                    <span>❄️</span>
-                    Klimatechnik
-                </div>
+                <div class="audience-item"><span>🔧</span> Sanitär & Heizung</div>
+                <div class="audience-item"><span>⚡</span> Elektriker</div>
+                <div class="audience-item"><span>🏠</span> Dachdecker</div>
+                <div class="audience-item"><span>🎨</span> Maler</div>
+                <div class="audience-item"><span>🪵</span> Tischler</div>
+                <div class="audience-item"><span>🧱</span> Bauunternehmen</div>
+                <div class="audience-item"><span>❄️</span> Klimatechnik</div>
+                <div class="audience-item"><span>🪟</span> Fensterbauer</div>
             </div>
         </div>
     </section>
@@ -658,8 +628,8 @@
     <!-- CTA Section -->
     <section class="cta-section" id="kontakt">
         <div class="cta-box">
-            <h2>Bereit für mehr Struktur?</h2>
-            <p>Kostenlose Demo in 15 Minuten. Unverbindlich. Wir zeigen Ihnen live wie es funktioniert.</p>
+            <h2>Kostenlose Demo</h2>
+            <p>15 Minuten. Wir zeigen Ihnen live wie es funktioniert.</p>
             
             <div class="contact-form" id="contactForm">
                 <form id="leadForm">
@@ -677,39 +647,22 @@
                     </div>
                     <div class="form-group">
                         <label for="email">E-Mail *</label>
-                        <input type="email" id="email" name="email" required placeholder="max@mustermann-sanitaer.de">
+                        <input type="email" id="email" name="email" required placeholder="max@firma.de">
                     </div>
-                    <div class="form-group">
-                        <label for="branche">Branche</label>
-                        <select id="branche" name="branche">
-                            <option value="">Bitte wählen...</option>
-                            <option value="sanitaer">Sanitär & Heizung</option>
-                            <option value="elektro">Elektriker</option>
-                            <option value="dachdecker">Dachdecker</option>
-                            <option value="maler">Maler & Lackierer</option>
-                            <option value="tischler">Tischler & Schreiner</option>
-                            <option value="bau">Bauunternehmen</option>
-                            <option value="sonstige">Sonstige</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="nachricht">Ihre Nachricht (optional)</label>
-                        <textarea id="nachricht" name="nachricht" placeholder="Wie können wir Ihnen helfen?"></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Kostenlose Demo anfordern</button>
+                    <button type="submit" class="form-submit">Demo vereinbaren</button>
                 </form>
-                <p class="form-note">Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+                <p class="form-note">Wir melden uns innerhalb von 24 Stunden.</p>
             </div>
             
             <div class="form-success" id="formSuccess">
                 <h3>✓ Vielen Dank!</h3>
-                <p>Wir haben Ihre Anfrage erhalten und melden uns schnellstmöglich bei Ihnen.</p>
+                <p>Wir melden uns schnellstmöglich bei Ihnen.</p>
             </div>
             
             <div class="alt-contact">
                 <p>Lieber direkt sprechen?</p>
-                <a href="tel:+4921187973991547" class="phone-link">
-                    📞 0211 - 879 739 91547
+                <a href="tel:+491631692010" class="phone-link">
+                    📞 0163 1692010
                 </a>
             </div>
         </div>
@@ -717,11 +670,10 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2026 LeadCall24 • <a href="/impressum">Impressum</a> • <a href="/datenschutz">Datenschutz</a></p>
+        <p>© 2026 LeadCall24 • <a href="/impressum.html">Impressum</a> • <a href="/datenschutz.html">Datenschutz</a></p>
     </footer>
 
     <script>
-        // Supabase Config für Kontaktformular
         const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
 
@@ -741,14 +693,11 @@
                     firma: formData.get('firma'),
                     telefon: formData.get('telefon'),
                     email: formData.get('email'),
-                    branche: formData.get('branche'),
-                    nachricht: formData.get('nachricht'),
                     quelle: 'landingpage',
                     created_at: new Date().toISOString()
                 };
                 
-                // In Supabase speichern (neue Tabelle "interessenten")
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/interessenten`, {
+                await fetch(`${SUPABASE_URL}/rest/v1/interessenten`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -758,19 +707,17 @@
                     body: JSON.stringify(data)
                 });
                 
-                // Erfolg anzeigen
                 document.getElementById('contactForm').classList.add('hidden');
                 document.getElementById('formSuccess').classList.add('show');
                 
             } catch (err) {
                 console.error('Fehler:', err);
-                alert('Es gab einen Fehler. Bitte versuchen Sie es erneut oder rufen Sie uns an.');
+                alert('Es gab einen Fehler. Bitte rufen Sie uns an.');
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Kostenlose Demo anfordern';
+                submitBtn.textContent = 'Demo vereinbaren';
             }
         });
         
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -782,4 +729,3 @@
     </script>
 </body>
 </html>
-
