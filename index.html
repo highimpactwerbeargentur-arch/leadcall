@@ -88,7 +88,7 @@
         }
         
         .hero h1 {
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: clamp(32px, 5vw, 52px);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 20px;
@@ -99,45 +99,45 @@
             color: #2563eb;
         }
         
-        .hero > .hero-container > p {
+        .hero-subtitle {
             font-size: 18px;
             color: #475569;
             max-width: 600px;
             margin: 0 auto 30px;
         }
         
-        /* Hero Benefits - direkt sichtbar */
+        /* 3 Top-Vorteile im Hero */
         .hero-benefits {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            gap: 20px;
             margin: 40px 0;
             text-align: left;
         }
         
         .hero-benefit {
             background: white;
-            padding: 20px;
+            padding: 24px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
         
         .hero-benefit-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 32px;
+            margin-bottom: 12px;
         }
         
         .hero-benefit h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #0f172a;
         }
         
         .hero-benefit p {
-            font-size: 14px;
+            font-size: 15px;
             color: #64748b;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         
         .hero-cta-section {
@@ -191,8 +191,40 @@
             color: #0f172a;
         }
         
-        /* How it works */
-        .how-it-works {
+        /* Problem Section */
+        .problem {
+            padding: 70px 24px;
+            background: #fff;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .problem-card {
+            padding: 28px;
+            background: #fef2f2;
+            border-radius: 12px;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .problem-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #991b1b;
+        }
+        
+        .problem-card p {
+            color: #7f1d1d;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        /* Solution Section */
+        .solution {
             padding: 70px 24px;
             background: #f8fafc;
         }
@@ -235,6 +267,47 @@
             font-size: 15px;
         }
         
+        /* Benefits Section */
+        .benefits {
+            padding: 70px 24px;
+            background: #fff;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        .benefit-card {
+            padding: 28px;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        
+        .benefit-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .benefit-card p {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
         /* Social Proof */
         .proof {
             padding: 60px 24px;
@@ -254,42 +327,6 @@
         .proof-author {
             font-size: 15px;
             opacity: 0.9;
-        }
-        
-        /* More Benefits */
-        .more-benefits {
-            padding: 70px 24px;
-            background: #fff;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-        
-        .benefit-card {
-            display: flex;
-            gap: 16px;
-            padding: 24px;
-            background: #f8fafc;
-            border-radius: 12px;
-        }
-        
-        .benefit-icon {
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-        
-        .benefit-card h3 {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        
-        .benefit-card p {
-            color: #64748b;
-            font-size: 15px;
         }
         
         /* Target Audience */
@@ -481,7 +518,9 @@
         
         /* Responsive */
         @media (max-width: 900px) {
-            .hero-benefits {
+            .hero-benefits,
+            .problem-grid,
+            .benefits-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -495,19 +534,14 @@
                 padding: 100px 20px 50px;
             }
             
-            .hero-benefits {
-                grid-template-columns: 1fr;
-            }
-            
-            .steps {
-                grid-template-columns: 1fr;
-            }
-            
+            .hero-benefits,
+            .problem-grid,
+            .steps,
             .benefits-grid {
                 grid-template-columns: 1fr;
             }
             
-            .how-it-works, .more-benefits, .audience, .cta-section {
+            .problem, .solution, .benefits, .audience, .cta-section {
                 padding: 50px 20px;
             }
             
@@ -526,44 +560,29 @@
         </div>
     </nav>
 
-    <!-- Hero mit Vorteilen -->
+    <!-- Hero mit 3 Top-Vorteilen -->
     <section class="hero">
         <div class="hero-container">
             <div class="hero-badge">Für Handwerksbetriebe</div>
             <h1>Nie wieder <span>Aufträge verpassen</span></h1>
-            <p>Jede Anfrage strukturiert erfasst. Sie sehen sofort welche sich lohnen.</p>
+            <p class="hero-subtitle">Jede Anfrage strukturiert erfasst. Sie sehen sofort welche sich lohnen.</p>
             
-            <!-- 6 Hauptvorteile direkt sichtbar -->
+            <!-- 3 Top-Vorteile direkt sichtbar -->
             <div class="hero-benefits">
                 <div class="hero-benefit">
                     <div class="hero-benefit-icon">💰</div>
                     <h3>30% mehr Umsatz</h3>
-                    <p>Sie sehen das Budget bevor Sie zurückrufen. 8.000€-Auftrag vor 80€-Reparatur.</p>
+                    <p>Sie sehen das Budget bevor Sie zurückrufen. 8.000€-Auftrag vor 80€-Reparatur. Gleiche Zeit, mehr Gewinn.</p>
                 </div>
                 <div class="hero-benefit">
                     <div class="hero-benefit-icon">⏱️</div>
                     <h3>10 Std. weniger pro Woche</h3>
-                    <p>Keine Zettel, keine Mailbox, kein Chaos. Alles strukturiert an einem Ort.</p>
+                    <p>Keine Zettel, keine Mailbox, kein Chaos. Alles an einem Ort – strukturiert und mit Foto.</p>
                 </div>
                 <div class="hero-benefit">
-                    <div class="hero-benefit-icon">📸</div>
-                    <h3>Bilder vor dem Rückruf</h3>
-                    <p>Kunde schickt Foto vom Problem. Sie wissen was Sie erwartet.</p>
-                </div>
-                <div class="hero-benefit">
-                    <div class="hero-benefit-icon">🔔</div>
-                    <h3>Automatische Erinnerungen</h3>
-                    <p>Angebot geschickt, keine Antwort? Follow-up SMS läuft automatisch.</p>
-                </div>
-                <div class="hero-benefit">
-                    <div class="hero-benefit-icon">🌙</div>
-                    <h3>24/7 erreichbar</h3>
-                    <p>Samstag Nacht, Feiertag – jeder Anrufer wird erfasst.</p>
-                </div>
-                <div class="hero-benefit">
-                    <div class="hero-benefit-icon">✨</div>
-                    <h3>Wirkt professionell</h3>
-                    <p>Kunden denken Sie haben ein Call-Center. Haben Sie auch.</p>
+                    <div class="hero-benefit-icon">📱</div>
+                    <h3>Läuft automatisch</h3>
+                    <p>Kunde ruft an, bekommt SMS, füllt Formular aus. Sie sehen alles im Dashboard. Ohne Aufwand.</p>
                 </div>
             </div>
             
@@ -574,11 +593,33 @@
         </div>
     </section>
 
-    <!-- So funktioniert's -->
-    <section class="how-it-works">
+    <!-- Problem -->
+    <section class="problem">
         <div class="section-container">
-            <div class="section-label">So funktioniert's</div>
-            <h2 class="section-title">In 3 Schritten zum strukturierten Lead</h2>
+            <div class="section-label">Das Problem</div>
+            <h2 class="section-title">Kommt Ihnen das bekannt vor?</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>Zettelwirtschaft</h3>
+                    <p>Telefonnummer auf einen Zettel geschrieben, Zettel weg. Oder die Handschrift ist unleserlich. Oder abends fragen Sie sich: "Was wollte der nochmal?"</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Keine Zeit am Telefon</h3>
+                    <p>Sie stehen auf der Baustelle, das Telefon klingelt. Entweder Sie gehen ran und verlieren Zeit – oder Sie gehen nicht ran und verlieren den Kunden.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Falsche Prioritäten</h3>
+                    <p>Sie rufen alle der Reihe nach zurück. Der mit der 80€-Steckdose zuerst, der mit der 8.000€-Sanierung zuletzt – wenn noch Zeit ist.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lösung -->
+    <section class="solution">
+        <div class="section-container">
+            <div class="section-label">Die Lösung</div>
+            <h2 class="section-title">So einfach funktioniert's</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
@@ -594,6 +635,46 @@
                     <div class="step-number">3</div>
                     <h3>Sie rufen zurück</h3>
                     <p>Die lukrativen zuerst. Mit allen Infos schon vor dem Gespräch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alle Vorteile -->
+    <section class="benefits">
+        <div class="section-container">
+            <div class="section-label">Ihre Vorteile</div>
+            <h2 class="section-title">Mehr Umsatz. Weniger Chaos.</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Die richtigen Aufträge machen</h3>
+                    <p>Sie sehen das Budget bevor Sie zurückrufen. 8.000€-Auftrag vor 80€-Steckdose. Gleiche Arbeitszeit, mehr Umsatz.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏱️</div>
+                    <h3>Zeit sparen</h3>
+                    <p>Statt 10 Minuten Telefonat haben Sie in 30 Sekunden alle Infos – strukturiert und mit Foto.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📋</div>
+                    <h3>Alles an einem Ort</h3>
+                    <p>Keine Zettel, keine Mailbox, kein Chaos. Ein Dashboard, alle Anfragen, alle Infos.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📸</div>
+                    <h3>Bilder vor dem Rückruf</h3>
+                    <p>Kunde schickt Foto vom Problem. Sie wissen vorher was Sie erwartet – und welches Material Sie brauchen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔔</div>
+                    <h3>Automatische Erinnerungen</h3>
+                    <p>Angebot geschickt, keine Antwort? Nach 2, 5 und 10 Tagen bekommt der Kunde automatisch eine freundliche Erinnerung.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌙</div>
+                    <h3>Funktioniert 24/7</h3>
+                    <p>Samstag Abend, Sonntag früh – jeder Anrufer wird erfasst. Sie rufen zurück wenn SIE Zeit haben.</p>
                 </div>
             </div>
         </div>
