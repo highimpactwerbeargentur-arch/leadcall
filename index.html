@@ -267,6 +267,45 @@
             font-size: 15px;
         }
         
+        /* Demo Section */
+        .demo {
+            padding: 70px 24px;
+            background: #f8fafc;
+        }
+        
+        .demo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .demo-screenshot {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .demo-screenshot img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .screenshot-caption {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .detail-screenshot {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
         /* Benefits Section */
         .benefits {
             padding: 70px 24px;
@@ -635,6 +674,26 @@
                     <div class="step-number">3</div>
                     <h3>Sie rufen zurück</h3>
                     <p>Die lukrativen zuerst. Mit allen Infos schon vor dem Gespräch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo / Screenshots -->
+    <section class="demo">
+        <div class="section-container">
+            <div class="section-label">So sieht es aus</div>
+            <h2 class="section-title">Ihr neues Dashboard</h2>
+            
+            <div class="demo-content">
+                <div class="demo-screenshot main-screenshot">
+                    <img src="Screenshot_dashboard.png" alt="LeadCall24 Dashboard – Alle Anfragen auf einen Blick">
+                    <p class="screenshot-caption">Alle Anfragen auf einen Blick – mit Status, Dringlichkeit und Conversion-Rate</p>
+                </div>
+                
+                <div class="demo-screenshot detail-screenshot">
+                    <img src="Screenshot_Lead.png" alt="LeadCall24 Lead Details – Alle Infos vor dem Rückruf">
+                    <p class="screenshot-caption">Alle Details vor dem Rückruf: Beschreibung, Budget, Foto vom Problem</p>
                 </div>
             </div>
         </div>
