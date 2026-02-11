@@ -559,6 +559,15 @@
                         <div class="hint">Das ist die Nummer, über die Ihre Kunden Sie aktuell erreichen. Auf diese Nummer richten wir die Weiterleitung ein.</div>
                     </div>
 
+                    <div class="field" id="phoneTypeField" style="display:none">
+                        <label>Ist das eine Festnetz- oder Mobilnummer?</label>
+                        <div class="radio-simple">
+                            <label><input type="radio" name="phone_type" value="festnetz"> Festnetz</label>
+                            <label><input type="radio" name="phone_type" value="mobil"> Mobil</label>
+                        </div>
+                        <div class="hint">Wichtig für die Einrichtung, da die Rufweiterleitung je nach Anschlussart unterschiedlich funktioniert.</div>
+                    </div>
+
                     <div class="field" id="deviceField" style="display:none">
                         <label>Welches Smartphone nutzen Sie?</label>
                         <div class="radio-simple">
@@ -665,6 +674,7 @@
             r.addEventListener('change', () => {
                 document.getElementById('deviceField').style.display = r.value === 'redirect' ? 'block' : 'none';
                 document.getElementById('businessPhoneField').style.display = r.value === 'redirect' ? 'block' : 'none';
+                document.getElementById('phoneTypeField').style.display = r.value === 'redirect' ? 'block' : 'none';
             });
         });
 
@@ -698,6 +708,7 @@
                     phone_setup: f.get('phone_setup') || null,
                     device: f.get('device') || null,
                     business_phone: f.get('business_phone')?.trim() || null,
+                    phone_type: f.get('phone_type') || null,
                     subdomain: f.get('subdomain')?.trim() || null,
                     notes: f.get('notes')?.trim() || null,
                     status: 'new'
