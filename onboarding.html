@@ -444,11 +444,13 @@
                     <div class="field">
                         <label>Telefonnummer <span class="required">*</span></label>
                         <input type="tel" name="phone" placeholder="+49 170 1234567" required>
+                        <div class="hint">Unter dieser Nummer erreichen wir Sie für Rückfragen zur Einrichtung.</div>
                     </div>
 
                     <div class="field">
                         <label>E-Mail <span class="required">*</span></label>
                         <input type="email" name="email" placeholder="info@ihre-firma.de" required>
+                        <div class="hint">Hierhin senden wir Ihre Zugangsdaten und wichtige Infos zu Ihrem System.</div>
                     </div>
 
                     <div class="field">
@@ -531,15 +533,15 @@
                             <div class="radio-card">
                                 <input type="radio" name="phone_setup" value="redirect" id="p1">
                                 <label for="p1">
-                                    <span class="radio-title">Eigene Nummer</span>
-                                    <span class="radio-desc">Rufumleitung einrichten</span>
+                                    <span class="radio-title">Meine Nummer behalten</span>
+                                    <span class="radio-desc">Ihre Kunden rufen weiterhin Ihre bekannte Nummer an</span>
                                 </label>
                             </div>
                             <div class="radio-card">
                                 <input type="radio" name="phone_setup" value="new_number" id="p2">
                                 <label for="p2">
-                                    <span class="radio-title">Neue Nummer</span>
-                                    <span class="radio-desc">Wir stellen eine bereit</span>
+                                    <span class="radio-title">Neue Nummer bekommen</span>
+                                    <span class="radio-desc">Sie bekommen eine neue Nummer von uns</span>
                                 </label>
                             </div>
                         </div>
@@ -551,13 +553,7 @@
                             <label><input type="radio" name="device" value="iphone"> iPhone</label>
                             <label><input type="radio" name="device" value="android"> Android</label>
                         </div>
-                        <div class="hint">Wir senden Ihnen die passende Anleitung zur Rufumleitung.</div>
-                    </div>
-
-                    <div class="field">
-                        <label>Gewünschte Begrüßung <span class="optional">(optional)</span></label>
-                        <textarea name="greeting" placeholder='z.B. "Guten Tag, Sie haben Müller Sanitär erreicht. Wie kann ich Ihnen helfen?"'></textarea>
-                        <div class="hint">So begrüßt die KI Ihre Anrufer. Wenn leer, nutzen wir einen Standardtext.</div>
+                        <div class="hint">Je nach Gerät ist die Rufumleitung etwas anders einzurichten. Wir schicken Ihnen die passende Schritt-für-Schritt-Anleitung.</div>
                     </div>
 
                     <div class="btn-row">
@@ -580,7 +576,7 @@
                             <input type="text" name="subdomain" placeholder="ihre-firma">
                             <span class="subdomain-suffix">.leadcall24.de</span>
                         </div>
-                        <div class="hint">Ihre persönliche Adresse für Dashboard und Formular.</div>
+                        <div class="hint">Über diese Adresse erreichen Sie Ihr persönliches Dashboard, z.B. <strong>ihre-firma.leadcall24.de</strong></div>
                     </div>
 
                     <div class="field">
@@ -683,7 +679,6 @@
                     services_other: f.get('services_other')?.trim() || null,
                     phone_setup: f.get('phone_setup') || null,
                     device: f.get('device') || null,
-                    greeting: f.get('greeting')?.trim() || null,
                     subdomain: f.get('subdomain')?.trim() || null,
                     notes: f.get('notes')?.trim() || null,
                     status: 'new'
