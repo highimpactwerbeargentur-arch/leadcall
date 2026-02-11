@@ -4,831 +4,719 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeadCall24 – Onboarding</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #F7F5F2;
-            --card: #FFFFFF;
-            --primary: #1A1A2E;
-            --accent: #E8883C;
-            --accent-light: #FFF3E8;
-            --text: #2C2C3A;
-            --text-light: #7A7A8C;
-            --border: #E4E2DE;
-            --border-focus: #E8883C;
-            --success: #3A8C6E;
-            --radius: 12px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
-            --shadow-hover: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f5f5f5;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            padding: 20px;
         }
 
-        /* === HEADER === */
-        .header {
-            background: var(--primary);
-            padding: 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: var(--bg);
-            border-radius: 24px 24px 0 0;
-        }
-
-        .header-inner {
-            max-width: 680px;
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 48px 24px 64px;
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        .header-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(232, 136, 60, 0.15);
-            color: var(--accent);
-            font-size: 13px;
+        h1 {
+            font-size: 24px;
             font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 100px;
-            margin-bottom: 20px;
-            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+            color: #111;
         }
 
-        .header-badge svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 5vw, 38px);
-            color: #FFFFFF;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-
-        .header p {
-            color: rgba(255,255,255,0.6);
-            font-size: 16px;
-            line-height: 1.6;
-            max-width: 520px;
-        }
-
-        /* === MAIN === */
-        .main {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 8px 24px 80px;
-        }
-
-        /* === PROGRESS === */
-        .progress-bar {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 40px;
-        }
-
-        .progress-step {
-            flex: 1;
-            height: 4px;
-            background: var(--border);
-            border-radius: 4px;
-            transition: background 0.4s ease;
-        }
-
-        .progress-step.active {
-            background: var(--accent);
-        }
-
-        /* === SECTIONS === */
-        .form-section {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 32px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            transition: box-shadow 0.3s ease;
-            animation: slideUp 0.5s ease backwards;
-        }
-
-        .form-section:nth-child(2) { animation-delay: 0.05s; }
-        .form-section:nth-child(3) { animation-delay: 0.1s; }
-        .form-section:nth-child(4) { animation-delay: 0.15s; }
-        .form-section:nth-child(5) { animation-delay: 0.2s; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-section:hover {
-            box-shadow: var(--shadow-hover);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
+        .subtitle {
+            font-size: 15px;
+            color: #666;
             margin-bottom: 24px;
         }
 
-        .section-icon {
-            width: 42px;
-            height: 42px;
-            background: var(--accent-light);
-            border-radius: 10px;
+        /* Progress */
+        .progress {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            gap: 6px;
+            margin-bottom: 24px;
         }
-
-        .section-icon svg {
-            width: 20px;
-            height: 20px;
-            color: var(--accent);
+        .progress-step {
+            flex: 1;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            transition: background 0.3s;
         }
-
-        .section-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
+        .progress-step.active {
+            background: #2563eb;
         }
-
-        .section-header span {
-            display: block;
-            font-size: 13px;
-            color: var(--text-light);
-            font-weight: 400;
-            margin-top: 2px;
-        }
-
-        /* === FORM FIELDS === */
-        .field {
+        .step-labels {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 20px;
         }
-
-        .field:last-child {
-            margin-bottom: 0;
+        .step-label {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            flex: 1;
+        }
+        .step-label.active {
+            color: #2563eb;
+            font-weight: 600;
         }
 
-        .field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        @media (max-width: 520px) {
-            .field-row {
-                grid-template-columns: 1fr;
-            }
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         label {
-            display: block;
             font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 7px;
+            font-weight: 500;
+            color: #333;
         }
 
-        label .required {
-            color: var(--accent);
-            margin-left: 2px;
-        }
-
-        label .optional {
-            color: var(--text-light);
+        .optional {
             font-weight: 400;
-            font-size: 12px;
-            margin-left: 4px;
+            color: #999;
+        }
+
+        .required {
+            color: #dc2626;
         }
 
         input[type="text"],
-        input[type="email"],
         input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            color: var(--text);
-            background: var(--bg);
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
+        input[type="email"],
+        select,
+        textarea {
+            padding: 12px 14px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.2s;
+            width: 100%;
+            font-family: inherit;
         }
 
         input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px rgba(232, 136, 60, 0.1);
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
         }
 
-        input::placeholder,
-        textarea::placeholder {
-            color: #B5B3AF;
-        }
+        select { background: white; cursor: pointer; }
+        textarea { resize: vertical; min-height: 80px; }
 
-        textarea {
-            resize: vertical;
-            min-height: 90px;
-        }
-
-        .field-hint {
+        .hint {
             font-size: 12px;
-            color: var(--text-light);
-            margin-top: 5px;
-            line-height: 1.4;
+            color: #999;
+            margin-top: 2px;
         }
 
-        /* === CHECKBOXES === */
+        /* Checkboxes als Karten */
         .checkbox-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
 
-        @media (max-width: 520px) {
-            .checkbox-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .checkbox-card {
+        .cb-card {
             position: relative;
         }
 
-        .checkbox-card input {
+        .cb-card input {
             position: absolute;
             opacity: 0;
-            pointer-events: none;
+            width: 0;
+            height: 0;
         }
 
-        .checkbox-card label {
+        .cb-card label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 16px;
-            background: var(--bg);
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
+            gap: 8px;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333;
+            transition: all 0.15s;
+        }
+
+        .cb-card label:hover {
+            border-color: #2563eb;
+        }
+
+        .cb-card input:checked + label {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
             font-weight: 500;
-            margin-bottom: 0;
         }
 
-        .checkbox-card label:hover {
-            border-color: var(--accent);
-        }
-
-        .checkbox-card input:checked + label {
-            background: var(--accent-light);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .check-icon {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
+        .cb-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.2s ease;
+            transition: all 0.15s;
         }
 
-        .checkbox-card input:checked + label .check-icon {
-            background: var(--accent);
-            border-color: var(--accent);
+        .cb-card input:checked + label .cb-check {
+            background: #2563eb;
+            border-color: #2563eb;
         }
 
-        .check-icon svg {
+        .cb-check svg {
             width: 12px;
             height: 12px;
-            color: white;
+            stroke: white;
             opacity: 0;
-            transition: opacity 0.2s ease;
         }
 
-        .checkbox-card input:checked + label .check-icon svg {
+        .cb-card input:checked + label .cb-check svg {
             opacity: 1;
         }
 
-        /* === RADIO CARDS === */
+        /* Radio-Karten */
         .radio-group {
             display: flex;
-            gap: 10px;
-        }
-
-        @media (max-width: 520px) {
-            .radio-group {
-                flex-direction: column;
-            }
+            gap: 8px;
         }
 
         .radio-card {
-            position: relative;
             flex: 1;
+            position: relative;
         }
 
         .radio-card input {
             position: absolute;
             opacity: 0;
-            pointer-events: none;
+            width: 0;
+            height: 0;
         }
 
         .radio-card label {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            padding: 20px 16px;
-            background: var(--bg);
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
+            gap: 4px;
+            padding: 16px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
             text-align: center;
-            font-weight: 500;
-            margin-bottom: 0;
-        }
-
-        .radio-card label:hover {
-            border-color: var(--accent);
-        }
-
-        .radio-card input:checked + label {
-            background: var(--accent-light);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .radio-card label svg {
-            width: 28px;
-            height: 28px;
-            color: var(--text-light);
-            transition: color 0.2s ease;
-        }
-
-        .radio-card input:checked + label svg {
-            color: var(--accent);
-        }
-
-        .radio-card label .radio-label {
-            font-size: 14px;
-        }
-
-        .radio-card label .radio-desc {
-            font-size: 12px;
-            color: var(--text-light);
+            transition: all 0.15s;
             font-weight: 400;
         }
 
-        /* === SUBMIT === */
-        .submit-section {
-            text-align: center;
-            animation: slideUp 0.5s ease backwards;
-            animation-delay: 0.25s;
+        .radio-card label:hover {
+            border-color: #2563eb;
         }
 
-        .submit-btn {
-            display: inline-flex;
+        .radio-card input:checked + label {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .radio-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .radio-desc {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .radio-card input:checked + label .radio-desc {
+            color: #93b4f4;
+        }
+
+        /* Simple radios */
+        .radio-simple {
+            display: flex;
+            gap: 16px;
+        }
+
+        .radio-simple label {
+            display: flex;
             align-items: center;
-            gap: 10px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 16px 48px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 100px;
+            gap: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(232, 136, 60, 0.3);
+            font-weight: 400;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(232, 136, 60, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn svg {
+        .radio-simple input[type="radio"] {
             width: 18px;
             height: 18px;
         }
 
-        .submit-note {
-            margin-top: 14px;
+        /* Subdomain field */
+        .subdomain-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .subdomain-row input {
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+        }
+
+        .subdomain-suffix {
+            padding: 12px 14px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        /* Section divider */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .section-divider .line {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .section-divider .label {
             font-size: 13px;
-            color: var(--text-light);
+            font-weight: 600;
+            color: #2563eb;
+            white-space: nowrap;
         }
 
-        /* === SUCCESS STATE === */
-        .success-screen {
+        /* Buttons */
+        .btn-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background-color: #2563eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            flex: 1;
+        }
+
+        button:hover { background-color: #1d4ed8; }
+        button:disabled { background-color: #93c5fd; cursor: not-allowed; }
+
+        .btn-back {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-back:hover { background: #f5f5f5; }
+
+        /* Error */
+        .error {
+            padding: 12px 16px;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #dc2626;
+            font-size: 14px;
             display: none;
-            text-align: center;
-            padding: 80px 24px;
-            max-width: 520px;
-            margin: 0 auto;
-            animation: slideUp 0.5s ease;
         }
 
-        .success-screen.visible {
-            display: block;
-        }
+        .error.show { display: block; }
 
+        /* Success */
+        .success { display: none; text-align: center; }
+        .success.show { display: block; }
         .success-icon {
-            width: 72px;
-            height: 72px;
-            background: #E8F5EE;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
+            background-color: #22c55e;
+            color: white;
+            font-size: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
+            margin: 0 auto 20px;
         }
+        .success h1 { text-align: center; margin-bottom: 12px; }
+        .success p { color: #333; margin-bottom: 8px; }
+        .success .subtext { color: #888; font-size: 14px; }
 
-        .success-icon svg {
-            width: 32px;
-            height: 32px;
-            color: var(--success);
-        }
+        .form-page { display: none; }
+        .form-page.active { display: flex; flex-direction: column; gap: 20px; }
 
-        .success-screen h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .success-screen p {
-            color: var(--text-light);
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        /* === FOOTER === */
         .footer {
             text-align: center;
-            padding: 32px 24px;
             font-size: 13px;
-            color: var(--text-light);
-        }
-
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
+            color: #999;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <div class="card">
+        <!-- Erfolg -->
+        <div class="success" id="success">
+            <div class="success-icon">✓</div>
+            <h1>Vielen Dank!</h1>
+            <p>Wir haben Ihre Angaben erhalten und richten Ihr System ein.</p>
+            <p class="subtext">Sie hören innerhalb von 24 Stunden von uns.</p>
+        </div>
 
-    <div class="header">
-        <div class="header-inner">
-            <div class="header-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                LeadCall24
+        <!-- Formular -->
+        <div id="formContainer">
+            <h1>LeadCall24 Onboarding</h1>
+            <p class="subtitle">Wir richten Ihr System ein – dauert nur 2 Minuten.</p>
+
+            <div class="progress">
+                <div class="progress-step active" id="ps1"></div>
+                <div class="progress-step" id="ps2"></div>
+                <div class="progress-step" id="ps3"></div>
+                <div class="progress-step" id="ps4"></div>
             </div>
-            <h1>Willkommen an Bord!</h1>
-            <p>Bitte füllen Sie die folgenden Angaben aus, damit wir Ihr System schnellstmöglich einrichten können.</p>
+            <div class="step-labels">
+                <div class="step-label active" id="sl1">Firma</div>
+                <div class="step-label" id="sl2">Leistungen</div>
+                <div class="step-label" id="sl3">Telefonie</div>
+                <div class="step-label" id="sl4">Extras</div>
+            </div>
+
+            <div class="error" id="error"></div>
+
+            <form id="obForm">
+                <!-- PAGE 1: Firmendaten -->
+                <div class="form-page active" id="page1">
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="label">Ihre Firmendaten</div>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>Firmenname <span class="required">*</span></label>
+                        <input type="text" name="company" placeholder="z.B. Müller Sanitär GmbH" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Ansprechpartner <span class="required">*</span></label>
+                        <input type="text" name="contact_name" placeholder="Ihr Name" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Position <span class="optional">(optional)</span></label>
+                        <input type="text" name="position" placeholder="z.B. Geschäftsführer">
+                    </div>
+
+                    <div class="field">
+                        <label>Telefonnummer <span class="required">*</span></label>
+                        <input type="tel" name="phone" placeholder="+49 170 1234567" required>
+                    </div>
+
+                    <div class="field">
+                        <label>E-Mail <span class="required">*</span></label>
+                        <input type="email" name="email" placeholder="info@ihre-firma.de" required>
+                    </div>
+
+                    <div class="field">
+                        <label>Adresse <span class="optional">(optional)</span></label>
+                        <input type="text" name="address" placeholder="Straße, PLZ, Ort">
+                    </div>
+
+                    <button type="button" onclick="goPage(2)">Weiter</button>
+                </div>
+
+                <!-- PAGE 2: Leistungen -->
+                <div class="form-page" id="page2">
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="label">Ihre Leistungen</div>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>Leistungsbereiche <span class="required">*</span></label>
+                        <div class="checkbox-grid">
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="sanitaer" id="s1">
+                                <label for="s1"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Sanitär</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="heizung" id="s2">
+                                <label for="s2"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Heizung</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="elektro" id="s3">
+                                <label for="s3"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Elektro</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="klima" id="s4">
+                                <label for="s4"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Klima / Lüftung</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="solar" id="s5">
+                                <label for="s5"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Solar / PV</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="bad" id="s6">
+                                <label for="s6"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Badsanierung</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="hausverwaltung" id="s7">
+                                <label for="s7"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Hausverwaltung</label>
+                            </div>
+                            <div class="cb-card">
+                                <input type="checkbox" name="services" value="reinigung" id="s8">
+                                <label for="s8"><span class="cb-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Reinigung</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Weitere Leistungen <span class="optional">(optional)</span></label>
+                        <input type="text" name="services_other" placeholder="z.B. Notdienst, Wartung, Rohrreinigung ...">
+                        <div class="hint">Falls Ihre Leistungen oben nicht aufgeführt sind.</div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back" onclick="goPage(1)">Zurück</button>
+                        <button type="button" onclick="goPage(3)">Weiter</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: Telefonie -->
+                <div class="form-page" id="page3">
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="label">Telefonie & Erreichbarkeit</div>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>Wie möchten Sie angerufen werden? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-card">
+                                <input type="radio" name="phone_setup" value="redirect" id="p1">
+                                <label for="p1">
+                                    <span class="radio-title">Eigene Nummer</span>
+                                    <span class="radio-desc">Rufumleitung einrichten</span>
+                                </label>
+                            </div>
+                            <div class="radio-card">
+                                <input type="radio" name="phone_setup" value="new_number" id="p2">
+                                <label for="p2">
+                                    <span class="radio-title">Neue Nummer</span>
+                                    <span class="radio-desc">Wir stellen eine bereit</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field" id="deviceField" style="display:none">
+                        <label>Welches Smartphone nutzen Sie?</label>
+                        <div class="radio-simple">
+                            <label><input type="radio" name="device" value="iphone"> iPhone</label>
+                            <label><input type="radio" name="device" value="android"> Android</label>
+                        </div>
+                        <div class="hint">Wir senden Ihnen die passende Anleitung zur Rufumleitung.</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Gewünschte Begrüßung <span class="optional">(optional)</span></label>
+                        <textarea name="greeting" placeholder='z.B. "Guten Tag, Sie haben Müller Sanitär erreicht. Wie kann ich Ihnen helfen?"'></textarea>
+                        <div class="hint">So begrüßt die KI Ihre Anrufer. Wenn leer, nutzen wir einen Standardtext.</div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back" onclick="goPage(2)">Zurück</button>
+                        <button type="button" onclick="goPage(4)">Weiter</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 4: Extras -->
+                <div class="form-page" id="page4">
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="label">Zusätzliche Wünsche</div>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>Wunsch-Subdomain <span class="optional">(optional)</span></label>
+                        <div class="subdomain-row">
+                            <input type="text" name="subdomain" placeholder="ihre-firma">
+                            <span class="subdomain-suffix">.leadcall24.de</span>
+                        </div>
+                        <div class="hint">Ihre persönliche Adresse für Dashboard und Formular.</div>
+                    </div>
+
+                    <div class="field">
+                        <label>Anmerkungen oder Wünsche <span class="optional">(optional)</span></label>
+                        <textarea name="notes" placeholder="Gibt es etwas, das wir wissen sollten?"></textarea>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="button" class="btn-back" onclick="goPage(3)">Zurück</button>
+                        <button type="submit" id="submitBtn">Absenden</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="main" id="formContainer">
-        <div class="progress-bar">
-            <div class="progress-step active"></div>
-            <div class="progress-step"></div>
-            <div class="progress-step"></div>
-            <div class="progress-step"></div>
-        </div>
-
-        <form id="onboardingForm" novalidate>
-
-            <!-- SECTION 1: Firmendaten -->
-            <div class="form-section" data-section="1">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    </div>
-                    <div>
-                        <h2>Firmendaten</h2>
-                        <span>Grundlegende Informationen zu Ihrem Betrieb</span>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Firmenname <span class="required">*</span></label>
-                    <input type="text" name="company" placeholder="z.B. Müller Sanitär GmbH" required>
-                    <div class="field-hint">So erscheint Ihr Name in SMS-Nachrichten und im Kundenformular.</div>
-                </div>
-
-                <div class="field">
-                    <div class="field-row">
-                        <div>
-                            <label>Ansprechpartner <span class="required">*</span></label>
-                            <input type="text" name="contact_name" placeholder="Vor- und Nachname" required>
-                        </div>
-                        <div>
-                            <label>Position <span class="optional">(optional)</span></label>
-                            <input type="text" name="position" placeholder="z.B. Geschäftsführer">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="field-row">
-                        <div>
-                            <label>Telefonnummer <span class="required">*</span></label>
-                            <input type="tel" name="phone" placeholder="+49 163 ..." required>
-                            <div class="field-hint">Ihre Mobilnummer für die Rufumleitung</div>
-                        </div>
-                        <div>
-                            <label>E-Mail-Adresse <span class="required">*</span></label>
-                            <input type="email" name="email" placeholder="info@firma.de" required>
-                            <div class="field-hint">Hierhin senden wir Lead-Benachrichtigungen</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Firmenadresse <span class="optional">(optional)</span></label>
-                    <input type="text" name="address" placeholder="Straße, PLZ, Ort">
-                </div>
-            </div>
-
-            <!-- SECTION 2: Leistungen -->
-            <div class="form-section" data-section="2">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-                    </div>
-                    <div>
-                        <h2>Ihre Leistungen</h2>
-                        <span>Welche Dienstleistungen bieten Sie an?</span>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Leistungsbereiche <span class="required">*</span></label>
-                    <div class="checkbox-grid">
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="sanitaer" id="s1">
-                            <label for="s1">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Sanitär
-                            </label>
-                        </div>
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="heizung" id="s2">
-                            <label for="s2">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Heizung
-                            </label>
-                        </div>
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="elektro" id="s3">
-                            <label for="s3">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Elektro
-                            </label>
-                        </div>
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="klima" id="s4">
-                            <label for="s4">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Klima / Lüftung
-                            </label>
-                        </div>
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="solar" id="s5">
-                            <label for="s5">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Solar / PV
-                            </label>
-                        </div>
-                        <div class="checkbox-card">
-                            <input type="checkbox" name="services" value="bad" id="s6">
-                            <label for="s6">
-                                <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                Badsanierung
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Weitere Leistungen <span class="optional">(optional)</span></label>
-                    <input type="text" name="services_other" placeholder="z.B. Notdienst, Wartung, Rohrreinigung ...">
-                    <div class="field-hint">Falls Ihre Leistungen oben nicht aufgeführt sind.</div>
-                </div>
-            </div>
-
-            <!-- SECTION 3: Telefonie -->
-            <div class="form-section" data-section="3">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                    </div>
-                    <div>
-                        <h2>Telefonie & Erreichbarkeit</h2>
-                        <span>Wie sollen Anrufe zu Ihnen geleitet werden?</span>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Wie möchten Sie angerufen werden? <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <div class="radio-card">
-                            <input type="radio" name="phone_setup" value="redirect" id="p1">
-                            <label for="p1">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.05 5A5 5 0 0119 8.95M15.05 1A9 9 0 0123 8.94m-1 7.98v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                                <span class="radio-label">Eigene Nummer</span>
-                                <span class="radio-desc">Rufumleitung einrichten</span>
-                            </label>
-                        </div>
-                        <div class="radio-card">
-                            <input type="radio" name="phone_setup" value="new_number" id="p2">
-                            <label for="p2">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                <span class="radio-label">Neue Nummer</span>
-                                <span class="radio-desc">Wir stellen eine bereit</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field" id="deviceField" style="display:none;">
-                    <label>Welches Smartphone nutzen Sie?</label>
-                    <div class="radio-group">
-                        <div class="radio-card">
-                            <input type="radio" name="device" value="iphone" id="d1">
-                            <label for="d1">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                                <span class="radio-label">iPhone</span>
-                            </label>
-                        </div>
-                        <div class="radio-card">
-                            <input type="radio" name="device" value="android" id="d2">
-                            <label for="d2">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                                <span class="radio-label">Android</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="field-hint">Wir senden Ihnen die passende Anleitung zur Rufumleitung.</div>
-                </div>
-
-                <div class="field">
-                    <label>Gewünschte Begrüßung am Telefon <span class="optional">(optional)</span></label>
-                    <textarea name="greeting" placeholder="z.B. &quot;Guten Tag, Sie haben Müller Sanitär erreicht. Wie kann ich Ihnen helfen?&quot;"></textarea>
-                    <div class="field-hint">So begrüßt die KI Ihre Anrufer. Wenn leer, nutzen wir einen Standardtext.</div>
-                </div>
-            </div>
-
-            <!-- SECTION 4: Extras -->
-            <div class="form-section" data-section="4">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-                    </div>
-                    <div>
-                        <h2>Zusätzliche Wünsche</h2>
-                        <span>Optionale Einstellungen für Ihr System</span>
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label>Wunsch-Subdomain <span class="optional">(optional)</span></label>
-                    <div style="display:flex;align-items:center;gap:0;">
-                        <input type="text" name="subdomain" placeholder="ihre-firma" style="border-radius:10px 0 0 10px;border-right:none;">
-                        <span style="padding:12px 14px;background:var(--bg);border:1.5px solid var(--border);border-left:none;border-radius:0 10px 10px 0;font-size:14px;color:var(--text-light);white-space:nowrap;">.leadcall24.de</span>
-                    </div>
-                    <div class="field-hint">Ihre persönliche Adresse für Dashboard und Formular.</div>
-                </div>
-
-                <div class="field">
-                    <label>Anmerkungen oder Wünsche <span class="optional">(optional)</span></label>
-                    <textarea name="notes" placeholder="Gibt es etwas, das wir wissen sollten? Besondere Wünsche, zeitliche Einschränkungen, etc."></textarea>
-                </div>
-            </div>
-
-            <!-- SUBMIT -->
-            <div class="submit-section">
-                <button type="submit" class="submit-btn">
-                    Absenden
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </button>
-                <div class="submit-note">Ihre Daten werden ausschließlich zur Einrichtung Ihres Systems verwendet.</div>
-            </div>
-
-        </form>
-    </div>
-
-    <!-- SUCCESS -->
-    <div class="success-screen" id="successScreen">
-        <div class="success-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h2>Vielen Dank!</h2>
-        <p>Wir haben Ihre Angaben erhalten und richten Ihr System ein. Sie hören innerhalb von 24 Stunden von uns.</p>
-    </div>
-
-    <div class="footer">
-        © 2025 LeadCall24 · <a href="https://leadcall24.de">leadcall24.de</a>
-    </div>
+    <p class="footer">© 2025 LeadCall24 · Ihre Daten werden vertraulich behandelt.</p>
 
     <script>
-        // Show device field when redirect is selected
-        document.querySelectorAll('input[name="phone_setup"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                const deviceField = document.getElementById('deviceField');
-                deviceField.style.display = radio.value === 'redirect' ? 'block' : 'none';
+        const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
+
+        let currentPage = 1;
+
+        function goPage(n) {
+            const err = document.getElementById('error');
+            err.classList.remove('show');
+
+            // Validate current page before advancing
+            if (n > currentPage) {
+                if (currentPage === 1) {
+                    const f = document.forms.obForm;
+                    if (!f.company.value.trim()) { showErr('Bitte Firmennamen eingeben.'); return; }
+                    if (!f.contact_name.value.trim()) { showErr('Bitte Ansprechpartner eingeben.'); return; }
+                    if (!f.phone.value.trim()) { showErr('Bitte Telefonnummer eingeben.'); return; }
+                    if (!f.email.value.trim()) { showErr('Bitte E-Mail eingeben.'); return; }
+                }
+                if (currentPage === 2) {
+                    const checked = document.querySelectorAll('input[name="services"]:checked');
+                    if (checked.length === 0) { showErr('Bitte mindestens einen Leistungsbereich wählen.'); return; }
+                }
+                if (currentPage === 3) {
+                    const setup = document.querySelector('input[name="phone_setup"]:checked');
+                    if (!setup) { showErr('Bitte Telefonie-Option wählen.'); return; }
+                }
+            }
+
+            currentPage = n;
+            document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page${n}`).classList.add('active');
+
+            // Update progress
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`ps${i}`).classList.toggle('active', i <= n);
+                document.getElementById(`sl${i}`).classList.toggle('active', i <= n);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showErr(msg) {
+            const err = document.getElementById('error');
+            err.textContent = msg;
+            err.classList.add('show');
+            err.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Show device field when redirect
+        document.querySelectorAll('input[name="phone_setup"]').forEach(r => {
+            r.addEventListener('change', () => {
+                document.getElementById('deviceField').style.display = r.value === 'redirect' ? 'block' : 'none';
             });
         });
 
-        // Progress bar update on scroll
-        const sections = document.querySelectorAll('.form-section');
-        const steps = document.querySelectorAll('.progress-step');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const idx = parseInt(entry.target.dataset.section) - 1;
-                    steps.forEach((step, i) => {
-                        step.classList.toggle('active', i <= idx);
-                    });
-                }
-            });
-        }, { threshold: 0.4 });
-
-        sections.forEach(s => observer.observe(s));
-
-        // Form submit
-        document.getElementById('onboardingForm').addEventListener('submit', function(e) {
+        // Submit
+        document.getElementById('obForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const err = document.getElementById('error');
+            err.classList.remove('show');
 
-            // Collect form data
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => {
-                if (data[key]) {
-                    if (Array.isArray(data[key])) {
-                        data[key].push(value);
-                    } else {
-                        data[key] = [data[key], value];
-                    }
-                } else {
-                    data[key] = value;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Wird gesendet...';
+
+            try {
+                const f = new FormData(this);
+
+                // Collect services as array
+                const services = [];
+                document.querySelectorAll('input[name="services"]:checked').forEach(cb => services.push(cb.value));
+
+                const data = {
+                    company: f.get('company').trim(),
+                    contact_name: f.get('contact_name').trim(),
+                    position: f.get('position')?.trim() || null,
+                    phone: f.get('phone').trim(),
+                    email: f.get('email').trim(),
+                    address: f.get('address')?.trim() || null,
+                    services: services,
+                    services_other: f.get('services_other')?.trim() || null,
+                    phone_setup: f.get('phone_setup') || null,
+                    device: f.get('device') || null,
+                    greeting: f.get('greeting')?.trim() || null,
+                    subdomain: f.get('subdomain')?.trim() || null,
+                    notes: f.get('notes')?.trim() || null,
+                    status: 'new'
+                };
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/onboarding_requests`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Fehler ${response.status}: ${errText}`);
                 }
-            });
 
-            // In production: send to your backend/Supabase
-            console.log('Onboarding-Daten:', data);
+                // Success
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('success').classList.add('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Show success
-            document.getElementById('formContainer').style.display = 'none';
-            document.getElementById('successScreen').classList.add('visible');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (error) {
+                console.error('Fehler:', error);
+                showErr(error.message);
+                btn.disabled = false;
+                btn.textContent = 'Absenden';
+            }
         });
     </script>
-
 </body>
 </html>
