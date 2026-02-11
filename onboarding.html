@@ -454,6 +454,12 @@
                     </div>
 
                     <div class="field">
+                        <label>E-Mail für Auftragsbenachrichtigungen <span class="required">*</span></label>
+                        <input type="email" name="notification_email" placeholder="auftraege@ihre-firma.de" required>
+                        <div class="hint">An diese Adresse werden Sie benachrichtigt, wenn ein neuer Auftrag eingeht. Kann auch dieselbe wie oben sein.</div>
+                    </div>
+
+                    <div class="field">
                         <label>Adresse <span class="optional">(optional)</span></label>
                         <input type="text" name="address" placeholder="Straße, PLZ, Ort">
                     </div>
@@ -619,6 +625,7 @@
                     if (!f.contact_name.value.trim()) { showErr('Bitte Ansprechpartner eingeben.'); return; }
                     if (!f.phone.value.trim()) { showErr('Bitte Telefonnummer eingeben.'); return; }
                     if (!f.email.value.trim()) { showErr('Bitte E-Mail eingeben.'); return; }
+                    if (!f.notification_email.value.trim()) { showErr('Bitte E-Mail für Auftragsbenachrichtigungen eingeben.'); return; }
                 }
                 if (currentPage === 2) {
                     const checked = document.querySelectorAll('input[name="services"]:checked');
@@ -684,6 +691,7 @@
                     position: f.get('position')?.trim() || null,
                     phone: f.get('phone').trim(),
                     email: f.get('email').trim(),
+                    notification_email: f.get('notification_email').trim(),
                     address: f.get('address')?.trim() || null,
                     services: services,
                     services_other: f.get('services_other')?.trim() || null,
