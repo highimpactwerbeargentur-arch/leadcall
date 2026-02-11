@@ -547,6 +547,12 @@
                         </div>
                     </div>
 
+                    <div class="field" id="businessPhoneField" style="display:none">
+                        <label>Ihre Geschäftsnummer für die Rufweiterleitung <span class="required">*</span></label>
+                        <input type="tel" name="business_phone" placeholder="+49 30 1234567">
+                        <div class="hint">Das ist die Nummer, über die Ihre Kunden Sie aktuell erreichen. Auf diese Nummer richten wir die Weiterleitung ein.</div>
+                    </div>
+
                     <div class="field" id="deviceField" style="display:none">
                         <label>Welches Smartphone nutzen Sie?</label>
                         <div class="radio-simple">
@@ -621,6 +627,9 @@
                 if (currentPage === 3) {
                     const setup = document.querySelector('input[name="phone_setup"]:checked');
                     if (!setup) { showErr('Bitte Telefonie-Option wählen.'); return; }
+                    if (setup.value === 'redirect' && !document.forms.obForm.business_phone.value.trim()) {
+                        showErr('Bitte Ihre Geschäftsnummer eingeben.'); return;
+                    }
                 }
             }
 
@@ -644,10 +653,11 @@
             err.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Show device field when redirect
+        // Show device field and business phone when redirect
         document.querySelectorAll('input[name="phone_setup"]').forEach(r => {
             r.addEventListener('change', () => {
                 document.getElementById('deviceField').style.display = r.value === 'redirect' ? 'block' : 'none';
+                document.getElementById('businessPhoneField').style.display = r.value === 'redirect' ? 'block' : 'none';
             });
         });
 
@@ -679,6 +689,7 @@
                     services_other: f.get('services_other')?.trim() || null,
                     phone_setup: f.get('phone_setup') || null,
                     device: f.get('device') || null,
+                    business_phone: f.get('business_phone')?.trim() || null,
                     subdomain: f.get('subdomain')?.trim() || null,
                     notes: f.get('notes')?.trim() || null,
                     status: 'new'
