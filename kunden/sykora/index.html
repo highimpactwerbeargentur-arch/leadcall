@@ -404,26 +404,7 @@
                     <textarea id="description" name="description" placeholder="Was können wir für Sie tun?"></textarea>
                 </div>
 
-                <div class="field">
-                    <label>Wie dringend ist es?</label>
-                    <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="urgency" value="today"> <span>Heute noch</span></label>
-                        <label class="radio-label"><input type="radio" name="urgency" value="this_week"> <span>Diese Woche</span></label>
-                        <label class="radio-label"><input type="radio" name="urgency" value="flexible" checked> <span>Flexibel</span></label>
-                    </div>
-                </div>
 
-                <div class="field">
-                    <label>Geschätztes Budget <span class="optional">(optional)</span></label>
-                    <select id="budget" name="budget">
-                        <option value="">Bitte wählen...</option>
-                        <option value="under_500">Unter 500€</option>
-                        <option value="500_2000">500€ - 2.000€</option>
-                        <option value="2000_5000">2.000€ - 5.000€</option>
-                        <option value="over_5000">Über 5.000€</option>
-                        <option value="unknown">Weiß ich noch nicht</option>
-                    </select>
-                </div>
 
                 <div class="field">
                     <label>Fotos <span class="optional">(optional, max. 3 Bilder)</span></label>
@@ -585,8 +566,8 @@
                     company: f.get('company').trim() || null,
                     service_type: serviceType,
                     description: f.get('description').trim() || null,
-                    urgency: f.get('urgency') || 'flexible',
-                    budget: f.get('budget') || null,
+                    urgency: 'flexible',
+                    budget: null,
                     privacy_accepted: true,
                     privacy_accepted_at: new Date().toISOString(),
                     form_submitted_at: new Date().toISOString(),
