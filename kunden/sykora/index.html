@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ihre Anfrage – Hausmeisterservice Sykora</title>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -608,40 +607,22 @@
                     }
                 }
 
-                // E-Mail-Benachrichtigung
+                // Benachrichtigungen (SMS + E-Mail) via Edge Function
                 try {
-                    emailjs.init('fc6zzeTCmrKyrkxJ2');
-                    await emailjs.send('service_te0rxxz', 'template_qr2bxjn', {
-                        name: leadData.name,
-                        phone: leadData.phone,
-                        email: leadData.email || '-',
-                        company: leadData.company || '-',
-                        service_type: leadData.service_type,
-                        urgency: leadData.urgency,
-                        description: leadData.description || '-',
-                        dashboard_link: 'https://leadcall24.de/dashboard.html'
-                    });
-                } catch (emailErr) { console.error('E-Mail-Fehler:', emailErr); }
-
-                // SMS-Bestätigung
-                try {
-                    const TWILIO_SID = 'AC69e8a043f6049873ad18f1a84fd46e42';
-                    const TWILIO_TOKEN = 'e449dee8480ba06b6bb98cad07a6f07e';
-                    const TWILIO_FROM = '+13135460107';
-
-                    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`, {
+                    await fetch('https://fbkkyzvumytipjtnrjrn.supabase.co/functions/v1/lead-notification', {
                         method: 'POST',
-                        headers: {
-                            'Authorization': 'Basic ' + btoa(`${TWILIO_SID}:${TWILIO_TOKEN}`),
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams({
-                            From: TWILIO_FROM,
-                            To: leadData.phone,
-                            Body: 'Vielen Dank für Ihre Anfrage bei Hausmeisterservice Sykora! Wir haben alles erhalten und melden uns schnellstmöglich bei Ihnen.'
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            phone: leadData.phone,
+                            name: leadData.name,
+                            tenant_name: 'Hausmeisterservice Sykora',
+                            tenant_email: 'm.sykora@hausmeisterservicesykora.de',
+                            service_type: leadData.service_type,
+                            description: leadData.description || '',
+                            dashboard_link: 'https://leadcall24.de/dashboard.html'
                         })
                     });
-                } catch (smsErr) { console.error('SMS-Fehler:', smsErr); }
+                } catch (notifErr) { console.error('Benachrichtigungs-Fehler:', notifErr); }
 
                 // Erfolg
                 document.getElementById('formContainer').classList.add('hidden');
