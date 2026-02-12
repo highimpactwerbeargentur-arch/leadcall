@@ -61,7 +61,7 @@
         .cat-grid { display: flex; flex-direction: column; gap: 8px; }
 
         .cat-card { position: relative; }
-        .cat-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .cat-card > input { position: absolute; opacity: 0; width: 0; height: 0; }
 
         .cat-card label {
             display: flex;
@@ -129,6 +129,13 @@
         .sub-options input[type="radio"] {
             width: 18px;
             height: 18px;
+            position: static;
+            opacity: 1;
+        }
+
+        .sub-options input[type="number"] {
+            width: 120px;
+            height: auto;
             position: static;
             opacity: 1;
         }
