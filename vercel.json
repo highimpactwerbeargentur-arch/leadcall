@@ -1,16 +1,10 @@
 {
-  "rewrites": {
-    "beforeFiles": [
-      {
-        "source": "/",
-        "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
-        "destination": "/kunden/sykora/index.html"
-      },
-      {
-        "source": "/:path*",
-        "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
-        "destination": "/kunden/sykora/:path*"
-      }
-    ]
-  }
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
+      "destination": "/kunden/sykora/index.html",
+      "permanent": false
+    }
+  ]
 }
