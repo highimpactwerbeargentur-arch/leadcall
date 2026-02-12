@@ -394,8 +394,42 @@
 
                         <!-- Sonstiges -->
                         <div class="cat-card">
-                            <input type="radio" name="service_type" value="sonstiges" id="cat3">
+                            <input type="radio" name="service_type" value="hausmeisterdienste" id="cat3">
                             <label for="cat3">
+                                <div class="cat-icon">🔧</div>
+                                <div class="cat-info">
+                                    <span class="cat-name">Hausmeisterdienste</span>
+                                    <span class="cat-desc">Laufende Betreuung von Wohnanlagen</span>
+                                </div>
+                            </label>
+                            <div class="sub-options" id="subCat3">
+                                <div style="margin-top:4px">
+                                    <label style="font-weight:500;padding-bottom:4px;display:block">Anzahl der Wohneinheiten</label>
+                                    <input type="number" name="wohneinheiten" placeholder="z.B. 12" min="1" style="width:120px;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:15px;">
+                                </div>
+                                <div class="qm-field show">
+                                    <label style="font-weight:500;padding-bottom:4px">Gesamtfläche ca.</label>
+                                    <div class="qm-row">
+                                        <input type="number" name="flaeche_hm" placeholder="z.B. 800" min="0">
+                                        <span>m²</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top:12px">
+                                    <label style="font-weight:500;padding-bottom:4px;display:block">Gewünschter Start</label>
+                                    <div class="freq-grid">
+                                        <label class="freq-option"><input type="radio" name="start_wunsch" value="sofort"> Sofort</label>
+                                        <label class="freq-option"><input type="radio" name="start_wunsch" value="1_monat"> Innerhalb 1 Monat</label>
+                                        <label class="freq-option"><input type="radio" name="start_wunsch" value="3_monate"> Innerhalb 3 Monate</label>
+                                        <label class="freq-option"><input type="radio" name="start_wunsch" value="flexibel"> Flexibel</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sonstiges -->
+                        <div class="cat-card">
+                            <input type="radio" name="service_type" value="sonstiges" id="cat4">
+                            <label for="cat4">
                                 <div class="cat-icon">💬</div>
                                 <div class="cat-info">
                                     <span class="cat-name">Sonstiges</span>
@@ -458,11 +492,14 @@
                 // Sub-Service reset
                 document.querySelectorAll('input[name="sub_service"]').forEach(r => r.checked = false);
                 document.querySelectorAll('input[name="frequency"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="start_wunsch"]').forEach(r => r.checked = false);
 
                 if (radio.value === 'hausmeisterpflege') {
                     document.getElementById('subCat1').classList.add('show');
                 } else if (radio.value === 'gebaeudereinigung') {
                     document.getElementById('subCat2').classList.add('show');
+                } else if (radio.value === 'hausmeisterdienste') {
+                    document.getElementById('subCat3').classList.add('show');
                 }
             });
         });
@@ -564,6 +601,15 @@
                     };
                     serviceType += ' – ' + (freqMap[frequency] || frequency);
                 }
+                if (f.get('service_type') === 'hausmeisterdienste') {
+                    const we = f.get('wohneinheiten');
+                    const fhm = f.get('flaeche_hm');
+                    const start = f.get('start_wunsch');
+                    if (we) serviceType += ' / ' + we + ' WE';
+                    if (fhm) serviceType += ' (' + fhm + ' m²)';
+                    const startMap = { 'sofort': 'Sofort', '1_monat': 'Innerhalb 1 Monat', '3_monate': 'Innerhalb 3 Monate', 'flexibel': 'Flexibel' };
+                    if (start) serviceType += ' – Start: ' + (startMap[start] || start);
+                }
 
                 const leadData = {
                     tenant_id: TENANT_ID,
@@ -625,7 +671,7 @@
                 try {
                     emailjs.init('fc6zzeTCmrKyrkxJ2');
                     await emailjs.send('service_te0rxxz', 'template_qr2bxjn', {
-                        to_email: 'm.sykora@hausmeisterservicesykora.de',
+                        to_email: 'tristanhaupt01@gmail.com',
                         name: leadData.name,
                         phone: leadData.phone,
                         service_type: leadData.service_type,
