@@ -2,9 +2,14 @@
   "rewrites": {
     "beforeFiles": [
       {
-        "source": "/(.*)",
+        "source": "/",
         "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
-        "destination": "/kunden/sykora/$1"
+        "destination": "/kunden/sykora/index.html"
+      },
+      {
+        "source": "/:path*",
+        "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
+        "destination": "/kunden/sykora/:path*"
       }
     ]
   }
