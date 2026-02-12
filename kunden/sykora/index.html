@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ihre Anfrage – Hausmeisterservice Sykora</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -607,22 +608,31 @@
                     }
                 }
 
-                // Benachrichtigungen (SMS + E-Mail) via Edge Function
+                // SMS via Edge Function
                 try {
                     await fetch('https://fbkkyzvumytipjtnrjrn.supabase.co/functions/v1/lead-notification', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk' },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             phone: leadData.phone,
                             name: leadData.name,
-                            tenant_name: 'Hausmeisterservice Sykora',
-                            tenant_email: 'tristanhaupt01@gmail.com',
-                            service_type: leadData.service_type,
-                            description: leadData.description || '',
-                            dashboard_link: 'https://leadcall24.de/dashboard.html'
+                            tenant_name: 'Hausmeisterservice Sykora'
                         })
                     });
-                } catch (notifErr) { console.error('Benachrichtigungs-Fehler:', notifErr); }
+                } catch (smsErr) { console.error('SMS-Fehler:', smsErr); }
+
+                // E-Mail via EmailJS (Browser)
+                try {
+                    emailjs.init('fc6zzeTCmrKyrkxJ2');
+                    await emailjs.send('service_te0rxxz', 'template_qr2bxjn', {
+                        to_email: 'tristanhaupt01@gmail.com',
+                        name: leadData.name,
+                        phone: leadData.phone,
+                        service_type: leadData.service_type,
+                        description: leadData.description || '',
+                        dashboard_link: 'https://leadcall24.de/dashboard.html'
+                    });
+                } catch (emailErr) { console.error('Email-Fehler:', emailErr); }
 
                 // Erfolg
                 document.getElementById('formContainer').classList.add('hidden');
