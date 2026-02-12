@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ihre Anfrage – Hausmeisterservice Sykora</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; color: #111; }
+        .brand { font-size: 14px; color: #2563eb; font-weight: 500; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #666; margin-bottom: 24px; }
+
+        .form { display: flex; flex-direction: column; gap: 20px; }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+
+        label { font-size: 14px; font-weight: 500; color: #333; }
+        .optional { font-weight: 400; color: #999; }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            padding: 12px 14px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus { border-color: #2563eb; }
+        select { background: white; cursor: pointer; }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .hint { font-size: 12px; color: #999; margin-top: 2px; }
+
+        /* Kategorie-Karten */
+        .cat-grid { display: flex; flex-direction: column; gap: 8px; }
+
+        .cat-card { position: relative; }
+        .cat-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+        .cat-card label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .cat-card label:hover { border-color: #2563eb; }
+
+        .cat-card input:checked + label {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .cat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .cat-card input:checked + label .cat-icon {
+            background: #2563eb;
+            color: white;
+        }
+
+        .cat-info { display: flex; flex-direction: column; }
+        .cat-name { font-size: 15px; font-weight: 500; color: #111; }
+        .cat-desc { font-size: 12px; color: #999; }
+
+        /* Subkategorien */
+        .sub-options {
+            display: none;
+            padding: 12px 16px;
+            margin-top: -1px;
+            border: 1px solid #2563eb;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            background: #f8fafc;
+        }
+
+        .sub-options.show { display: block; }
+
+        .sub-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .sub-options input[type="checkbox"],
+        .sub-options input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            position: static;
+            opacity: 1;
+        }
+
+        .cat-card input:checked + label {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .cat-card input:not(:checked) + label {
+            border-radius: 8px;
+        }
+
+        /* QM Feld */
+        .qm-field {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .qm-field.show { display: block; }
+
+        .qm-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qm-row input {
+            width: 120px;
+        }
+
+        .qm-row span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Radio */
+        .radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 400;
+        }
+        input[type="radio"] { width: 18px; height: 18px; }
+
+        /* Checkbox */
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 400;
+        }
+        input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; }
+        .checkbox-text { font-size: 14px; color: #555; line-height: 1.4; }
+        .checkbox-text a { color: #2563eb; text-decoration: none; }
+
+        /* File upload */
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .file-upload:hover { border-color: #2563eb; }
+        .file-upload.dragging { border-color: #2563eb; background: #f0f7ff; }
+        .file-upload input { display: none; }
+        .file-upload-text { color: #666; font-size: 14px; }
+        .file-upload-text span { color: #2563eb; font-weight: 500; }
+        .image-preview { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .image-preview-item { position: relative; width: 80px; height: 80px; }
+        .image-preview-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .image-preview-item button {
+            position: absolute; top: -6px; right: -6px; width: 20px; height: 20px;
+            padding: 0; border-radius: 50%; background: #dc2626; color: white;
+            font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border: none;
+        }
+
+        button[type="submit"] {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background-color: #2563eb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background-color 0.2s;
+        }
+        button[type="submit"]:hover { background-color: #1d4ed8; }
+        button[type="submit"]:disabled { background-color: #93c5fd; cursor: not-allowed; }
+
+        .error {
+            padding: 12px 16px;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #dc2626;
+            font-size: 14px;
+            display: none;
+        }
+        .error.show { display: block; }
+
+        .success { display: none; text-align: center; }
+        .success.show { display: block; }
+        .success-icon {
+            width: 64px; height: 64px; border-radius: 50%;
+            background-color: #22c55e; color: white; font-size: 32px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .success h1 { text-align: center; margin-bottom: 12px; }
+        .success p { color: #333; margin-bottom: 8px; }
+        .success .subtext { color: #888; font-size: 14px; }
+
+        .form-container.hidden { display: none; }
+        .footer { text-align: center; font-size: 13px; color: #999; margin-top: 20px; }
+
+        /* Frequency grid */
+        .freq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+        .freq-option {
+            display: flex !important;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px !important;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px !important;
+            transition: all 0.15s;
+        }
+        .freq-option:hover { border-color: #2563eb; }
+        .freq-option:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Erfolg -->
+        <div class="success" id="success">
+            <div class="success-icon">✓</div>
+            <h1>Vielen Dank!</h1>
+            <p>Wir haben Ihre Anfrage erhalten und melden uns schnellstmöglich bei Ihnen.</p>
+            <p class="subtext">Sie können dieses Fenster jetzt schließen.</p>
+        </div>
+
+        <!-- Formular -->
+        <div class="form-container" id="formContainer">
+            <div style="text-align:center;margin-bottom:20px;">
+                <img src="logo.png" alt="Hausmeisterservice Sykora" style="max-height:70px;">
+            </div>
+            <h1>Ihre Anfrage</h1>
+            <p class="subtitle">Bitte teilen Sie uns kurz mit, wie wir Ihnen helfen können.</p>
+
+            <div class="error" id="error"></div>
+
+            <form class="form" id="leadForm">
+                <div class="field">
+                    <label>Name *</label>
+                    <input type="text" id="name" name="name" placeholder="Ihr Name" required>
+                </div>
+
+                <div class="field">
+                    <label>Telefonnummer *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+49 170 1234567" required>
+                </div>
+
+                <div class="field">
+                    <label>E-Mail <span class="optional">(optional)</span></label>
+                    <input type="email" id="email" name="email" placeholder="ihre@email.de">
+                </div>
+
+                <div class="field">
+                    <label>Firma <span class="optional">(optional)</span></label>
+                    <input type="text" id="company" name="company" placeholder="Firmenname">
+                </div>
+
+                <!-- Kategorie-Auswahl -->
+                <div class="field">
+                    <label>Um was geht es? *</label>
+                    <div class="cat-grid">
+                        <!-- Hausmeisterpflege -->
+                        <div class="cat-card">
+                            <input type="radio" name="service_type" value="hausmeisterpflege" id="cat1">
+                            <label for="cat1">
+                                <div class="cat-icon">🌿</div>
+                                <div class="cat-info">
+                                    <span class="cat-name">Hausmeisterpflege</span>
+                                    <span class="cat-desc">Grünflächenpflege & Winterdienst</span>
+                                </div>
+                            </label>
+                            <div class="sub-options" id="subCat1">
+                                <label><input type="radio" name="sub_service" value="gruenflachenpflege"> Grünflächenpflege</label>
+                                <label><input type="radio" name="sub_service" value="winterdienst"> Winterdienst</label>
+                                <div style="margin-top:12px">
+                                    <label style="font-weight:500;padding-bottom:6px;display:block">Wie oft? <span style="font-weight:400;color:#999">(optional)</span></label>
+                                    <div class="freq-grid">
+                                        <label class="freq-option"><input type="radio" name="frequency" value="1x_woche"> 1× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="2x_woche"> 2× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="3x_woche"> 3× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="4x_woche"> 4× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="1x_monat"> 1× pro Monat</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="einmalig"> Einmalig</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gebäudereinigung -->
+                        <div class="cat-card">
+                            <input type="radio" name="service_type" value="gebaeudereinigung" id="cat2">
+                            <label for="cat2">
+                                <div class="cat-icon">🏢</div>
+                                <div class="cat-info">
+                                    <span class="cat-name">Gebäudereinigung</span>
+                                    <span class="cat-desc">Grund-, Glas-, Baufein-, Solar- & Unterhaltsreinigung</span>
+                                </div>
+                            </label>
+                            <div class="sub-options" id="subCat2">
+                                <label><input type="radio" name="sub_service" value="grundreinigung"> Grundreinigung</label>
+                                <label><input type="radio" name="sub_service" value="glasreinigung"> Glasreinigung</label>
+                                <label><input type="radio" name="sub_service" value="baufeinreinigung"> Baufeinreinigung</label>
+                                <label><input type="radio" name="sub_service" value="solaranlagenreinigung"> Solaranlagenreinigung</label>
+                                <label><input type="radio" name="sub_service" value="unterhaltsreinigung"> Unterhaltsreinigung</label>
+                                <div class="qm-field show">
+                                    <label style="font-weight:500;padding-bottom:4px">Geschätzte Fläche</label>
+                                    <div class="qm-row">
+                                        <input type="number" name="flaeche_qm" placeholder="z.B. 150" min="0">
+                                        <span>m²</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top:12px">
+                                    <label style="font-weight:500;padding-bottom:6px;display:block">Wie oft? <span style="font-weight:400;color:#999">(optional)</span></label>
+                                    <div class="freq-grid">
+                                        <label class="freq-option"><input type="radio" name="frequency" value="1x_woche"> 1× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="2x_woche"> 2× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="3x_woche"> 3× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="4x_woche"> 4× pro Woche</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="1x_monat"> 1× pro Monat</label>
+                                        <label class="freq-option"><input type="radio" name="frequency" value="einmalig"> Einmalig</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sonstiges -->
+                        <div class="cat-card">
+                            <input type="radio" name="service_type" value="sonstiges" id="cat3">
+                            <label for="cat3">
+                                <div class="cat-icon">💬</div>
+                                <div class="cat-info">
+                                    <span class="cat-name">Sonstiges</span>
+                                    <span class="cat-desc">Allgemeine Anfrage</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Beschreiben Sie kurz Ihr Anliegen</label>
+                    <textarea id="description" name="description" placeholder="Was können wir für Sie tun?"></textarea>
+                </div>
+
+                <div class="field">
+                    <label>Wie dringend ist es?</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="urgency" value="today"> <span>Heute noch</span></label>
+                        <label class="radio-label"><input type="radio" name="urgency" value="this_week"> <span>Diese Woche</span></label>
+                        <label class="radio-label"><input type="radio" name="urgency" value="flexible" checked> <span>Flexibel</span></label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Geschätztes Budget <span class="optional">(optional)</span></label>
+                    <select id="budget" name="budget">
+                        <option value="">Bitte wählen...</option>
+                        <option value="under_500">Unter 500€</option>
+                        <option value="500_2000">500€ - 2.000€</option>
+                        <option value="2000_5000">2.000€ - 5.000€</option>
+                        <option value="over_5000">Über 5.000€</option>
+                        <option value="unknown">Weiß ich noch nicht</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Fotos <span class="optional">(optional, max. 3 Bilder)</span></label>
+                    <div class="file-upload" id="fileUpload">
+                        <input type="file" id="imageInput" accept="image/*" multiple>
+                        <div class="file-upload-text">
+                            <span>Bilder auswählen</span> oder hierher ziehen
+                        </div>
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+
+                <div class="field">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="privacy" name="privacy" required>
+                        <span class="checkbox-text">
+                            Ich akzeptiere die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> *
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" id="submitBtn">Anfrage absenden</button>
+            </form>
+        </div>
+    </div>
+
+    <p class="footer">Ihre Daten werden vertraulich behandelt.</p>
+
+    <script>
+        const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
+        const TENANT_ID = '754f32de-bf1c-412e-9c7b-c3c2ecdf1c4a';
+
+        // URL-Parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const prefillPhone = urlParams.get('p') || urlParams.get('phone') || '';
+        if (prefillPhone) document.getElementById('phone').value = prefillPhone;
+
+        // Kategorie-Logik
+        document.querySelectorAll('input[name="service_type"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Alle Sub-Options verstecken
+                document.querySelectorAll('.sub-options').forEach(el => el.classList.remove('show'));
+                // Sub-Service reset
+                document.querySelectorAll('input[name="sub_service"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="frequency"]').forEach(r => r.checked = false);
+
+                if (radio.value === 'hausmeisterpflege') {
+                    document.getElementById('subCat1').classList.add('show');
+                } else if (radio.value === 'gebaeudereinigung') {
+                    document.getElementById('subCat2').classList.add('show');
+                }
+            });
+        });
+
+        // Bild-Upload
+        const fileUpload = document.getElementById('fileUpload');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        let selectedFiles = [];
+
+        fileUpload.addEventListener('click', () => imageInput.click());
+        fileUpload.addEventListener('dragover', (e) => { e.preventDefault(); fileUpload.classList.add('dragging'); });
+        fileUpload.addEventListener('dragleave', () => fileUpload.classList.remove('dragging'));
+        fileUpload.addEventListener('drop', (e) => { e.preventDefault(); fileUpload.classList.remove('dragging'); handleFiles(e.dataTransfer.files); });
+        imageInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (selectedFiles.length >= 3) break;
+                if (!file.type.startsWith('image/')) continue;
+                selectedFiles.push(file);
+            }
+            updatePreview();
+        }
+
+        function updatePreview() {
+            imagePreview.innerHTML = '';
+            selectedFiles.forEach((file, i) => {
+                const div = document.createElement('div');
+                div.className = 'image-preview-item';
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = '×';
+                btn.onclick = () => { selectedFiles.splice(i, 1); updatePreview(); };
+                div.appendChild(img);
+                div.appendChild(btn);
+                imagePreview.appendChild(div);
+            });
+        }
+
+        async function uploadImages(leadId) {
+            const urls = [];
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const fileName = `${leadId}/${Date.now()}_${i}.${file.name.split('.').pop()}`;
+                const response = await fetch(`${SUPABASE_URL}/storage/v1/object/lead-images/${fileName}`, {
+                    method: 'POST',
+                    headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': file.type },
+                    body: file
+                });
+                if (response.ok) urls.push(`${SUPABASE_URL}/storage/v1/object/public/lead-images/${fileName}`);
+            }
+            return urls;
+        }
+
+        function showError(msg) { const e = document.getElementById('error'); e.textContent = msg; e.classList.add('show'); }
+        function hideError() { document.getElementById('error').classList.remove('show'); }
+
+        function formatPhone(phone) {
+            let c = phone.replace(/[\s\-\/\(\)]/g, '');
+            if (c.startsWith('0049')) c = '+49' + c.substring(4);
+            else if (c.startsWith('49') && !c.startsWith('+')) c = '+49' + c.substring(2);
+            else if (c.startsWith('0')) c = '+49' + c.substring(1);
+            else if (!c.startsWith('+')) c = '+49' + c;
+            return c;
+        }
+
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideError();
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Wird gesendet...';
+
+            try {
+                const f = new FormData(this);
+
+                if (!f.get('name').trim()) throw new Error('Bitte geben Sie Ihren Namen ein');
+                if (!f.get('phone').trim()) throw new Error('Bitte geben Sie Ihre Telefonnummer ein');
+                if (!f.get('service_type')) throw new Error('Bitte wählen Sie eine Kategorie');
+                if (!f.get('privacy')) throw new Error('Bitte akzeptieren Sie die Datenschutzerklärung');
+
+                // Service-String zusammenbauen
+                let serviceType = f.get('service_type');
+                const subService = f.get('sub_service');
+                if (subService) serviceType += ' / ' + subService;
+                const flaeche = f.get('flaeche_qm');
+                if (flaeche && f.get('service_type') === 'gebaeudereinigung') {
+                    serviceType += ' (' + flaeche + ' m²)';
+                }
+                const frequency = f.get('frequency');
+                if (frequency) {
+                    const freqMap = {
+                        '1x_woche': '1×/Woche', '2x_woche': '2×/Woche', '3x_woche': '3×/Woche',
+                        '4x_woche': '4×/Woche', '1x_monat': '1×/Monat', 'einmalig': 'Einmalig'
+                    };
+                    serviceType += ' – ' + (freqMap[frequency] || frequency);
+                }
+
+                const leadData = {
+                    tenant_id: TENANT_ID,
+                    name: f.get('name').trim(),
+                    phone: formatPhone(f.get('phone').trim()),
+                    email: f.get('email').trim() || null,
+                    company: f.get('company').trim() || null,
+                    service_type: serviceType,
+                    description: f.get('description').trim() || null,
+                    urgency: f.get('urgency') || 'flexible',
+                    budget: f.get('budget') || null,
+                    privacy_accepted: true,
+                    privacy_accepted_at: new Date().toISOString(),
+                    form_submitted_at: new Date().toISOString(),
+                    status: 'new'
+                };
+
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(leadData)
+                });
+
+                if (!response.ok) throw new Error(`Fehler ${response.status}: ${await response.text()}`);
+
+                const result = await response.json();
+
+                // Bilder hochladen
+                if (selectedFiles.length > 0 && result[0]?.id) {
+                    const imageUrls = await uploadImages(result[0].id);
+                    if (imageUrls.length > 0) {
+                        await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${result[0].id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+                            body: JSON.stringify({ image_urls: imageUrls })
+                        });
+                    }
+                }
+
+                // E-Mail-Benachrichtigung
+                try {
+                    emailjs.init('fc6zzeTCmrKyrkxJ2');
+                    await emailjs.send('service_te0rxxz', 'template_qr2bxjn', {
+                        name: leadData.name,
+                        phone: leadData.phone,
+                        email: leadData.email || '-',
+                        company: leadData.company || '-',
+                        service_type: leadData.service_type,
+                        urgency: leadData.urgency,
+                        description: leadData.description || '-',
+                        dashboard_link: 'https://leadcall24.de/dashboard.html'
+                    });
+                } catch (emailErr) { console.error('E-Mail-Fehler:', emailErr); }
+
+                // SMS-Bestätigung
+                try {
+                    const TWILIO_SID = 'AC69e8a043f6049873ad18f1a84fd46e42';
+                    const TWILIO_TOKEN = 'e449dee8480ba06b6bb98cad07a6f07e';
+                    const TWILIO_FROM = '+13135460107';
+
+                    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Basic ' + btoa(`${TWILIO_SID}:${TWILIO_TOKEN}`),
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            From: TWILIO_FROM,
+                            To: leadData.phone,
+                            Body: 'Vielen Dank für Ihre Anfrage bei Hausmeisterservice Sykora! Wir haben alles erhalten und melden uns schnellstmöglich bei Ihnen.'
+                        })
+                    });
+                } catch (smsErr) { console.error('SMS-Fehler:', smsErr); }
+
+                // Erfolg
+                document.getElementById('formContainer').classList.add('hidden');
+                document.getElementById('success').classList.add('show');
+
+            } catch (err) {
+                console.error('Fehler:', err);
+                showError(err.message);
+                btn.disabled = false;
+                btn.textContent = 'Anfrage absenden';
+            }
+        });
+    </script>
+</body>
+</html>
