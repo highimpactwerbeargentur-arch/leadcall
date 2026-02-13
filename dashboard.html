@@ -195,6 +195,43 @@
         .nl-cat input{display:none}
         .nl-cat:has(input:checked){border-color:#2563eb;background:#eff6ff}
         .nl-sub{margin-bottom:4px;padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
+
+        /* ANGEBOT */
+        .ang-overlay{display:none;position:fixed;inset:0;background:#f1f5f9;z-index:300;overflow-y:auto}
+        .ang-overlay.show{display:block}
+        .ang-header{background:white;border-bottom:1px solid #e2e8f0;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1}
+        .ang-header h2{font-size:18px}
+        .ang-body{max-width:900px;margin:24px auto;padding:0 24px}
+        .ang-section{background:white;border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+        .ang-section h3{font-size:14px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+        .ang-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+        .ang-full{margin-bottom:12px}
+        .ang-label{font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px}
+        .ang-input{width:100%;padding:10px 14px;font-size:14px;border:1px solid #e2e8f0;border-radius:8px;outline:none;font-family:inherit}
+        .ang-input:focus{border-color:#2563eb}
+        .ang-table{width:100%;border-collapse:collapse;margin-top:8px}
+        .ang-table th{text-align:left;padding:10px 12px;font-size:12px;font-weight:600;color:#64748b;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+        .ang-table td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
+        .ang-table input{width:100%;padding:8px 10px;font-size:14px;border:1px solid #e2e8f0;border-radius:6px;outline:none;font-family:inherit}
+        .ang-table input:focus{border-color:#2563eb}
+        .ang-table .col-pos{width:50px}
+        .ang-table .col-desc{min-width:200px}
+        .ang-table .col-num{width:80px}
+        .ang-table .col-price{width:100px}
+        .ang-table .col-total{width:100px;font-weight:600;text-align:right;padding-right:12px}
+        .ang-table .col-del{width:40px;text-align:center}
+        .ang-del{background:none;border:none;color:#dc2626;cursor:pointer;font-size:16px;padding:4px}
+        .ang-del:hover{color:#b91c1c}
+        .ang-add{margin-top:8px;padding:8px 16px;font-size:13px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;cursor:pointer;color:#64748b;width:100%}
+        .ang-add:hover{background:#eff6ff;border-color:#93c5fd;color:#2563eb}
+        .ang-totals{margin-top:16px;text-align:right}
+        .ang-totals div{margin-bottom:4px;font-size:14px;color:#64748b}
+        .ang-totals .ang-brutto{font-size:18px;font-weight:700;color:#1e293b}
+        .ang-actions{display:flex;gap:8px;flex-wrap:wrap}
+        .ang-status{margin-top:12px;padding:12px 16px;border-radius:8px;font-size:14px;display:none}
+        .ang-status.show{display:block}
+        .ang-status.ok{background:#dcfce7;color:#166534}
+        .ang-status.err{background:#fee2e2;color:#dc2626}
     </style>
 </head>
 <body>
@@ -328,6 +365,64 @@
     </div>
 </div>
 
+<!-- ANGEBOT EDITOR -->
+<div class="slo" id="angSlide" onclick="if(event.target===this)closeAng()">
+<div class="slp" style="width:700px">
+<div class="sl-top"><h2>📄 Angebot erstellen</h2><button class="cl-btn" onclick="closeAng()">✕</button></div>
+<div class="sl-body">
+<div class="dg">
+<div class="dg-t">Kundendaten</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><label class="il">Name</label><input class="mi" id="angName"></div>
+<div><label class="il">Firma</label><input class="mi" id="angFirma"></div>
+<div><label class="il">E-Mail</label><input class="mi" id="angEmail" type="email"></div>
+<div><label class="il">Telefon</label><input class="mi" id="angPhone"></div>
+</div>
+<div style="margin-top:8px"><label class="il">Adresse</label><input class="mi" id="angAddr" placeholder="Straße, PLZ Ort"></div>
+</div>
+<div class="dg">
+<div class="dg-t">Angebotsdaten</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div><label class="il">Angebots-Nr.</label><input class="mi" id="angNr"></div>
+<div><label class="il">Datum</label><input class="mi" id="angDatum" type="date"></div>
+<div><label class="il">Gültig bis</label><input class="mi" id="angGueltig" type="date"></div>
+<div><label class="il">Betreff</label><input class="mi" id="angBetreff" placeholder="z.B. Unterhaltsreinigung Bürogebäude"></div>
+</div>
+</div>
+<div class="dg">
+<div class="dg-t">Positionen</div>
+<table style="width:100%;font-size:13px;border-collapse:collapse" id="angTable">
+<thead><tr style="background:#f8fafc">
+<th style="padding:8px;text-align:left;width:40px">Pos</th>
+<th style="padding:8px;text-align:left">Beschreibung</th>
+<th style="padding:8px;text-align:right;width:60px">Menge</th>
+<th style="padding:8px;text-align:left;width:60px">Einheit</th>
+<th style="padding:8px;text-align:right;width:90px">Einzelpreis</th>
+<th style="padding:8px;text-align:right;width:90px">Gesamt</th>
+<th style="padding:8px;width:30px"></th>
+</tr></thead>
+<tbody id="angRows"></tbody>
+</table>
+<button class="btn sec" style="margin-top:8px;font-size:12px" onclick="addAngRow()">+ Position hinzufügen</button>
+<div style="margin-top:16px;text-align:right;font-size:14px">
+<div style="margin-bottom:4px">Netto: <strong id="angNetto">0,00 €</strong></div>
+<div style="margin-bottom:4px">MwSt. (19%): <span id="angMwst">0,00 €</span></div>
+<div style="font-size:18px;font-weight:700;color:#1e293b">Brutto: <span id="angBrutto">0,00 €</span></div>
+</div>
+</div>
+<div class="dg">
+<div class="dg-t">Anmerkungen (optional)</div>
+<textarea class="mt" id="angNotes" placeholder="z.B. Zahlungsbedingungen, Sonderkonditionen..."></textarea>
+</div>
+</div>
+<div class="sl-act" style="flex-wrap:wrap">
+<button class="btn" onclick="genAngPDF('download')">💾 PDF herunterladen</button>
+<button class="btn grn" onclick="genAngPDF('send')">📧 PDF per E-Mail senden</button>
+<button class="btn sec" onclick="closeAng()">Abbrechen</button>
+</div>
+</div>
+</div>
+
 <!-- Onboarding detail slide -->
 <div class="slo" id="obSlide" onclick="if(event.target===this)closeOB()"><div class="slp"><div class="sl-top"><h2 id="obSlTitle">Details</h2><button class="cl-btn" onclick="closeOB()">✕</button></div><div class="sl-body" id="obSlBody"></div><div class="sl-act" id="obSlAct"></div></div></div>
 
@@ -424,7 +519,81 @@
     </div>
 </div>
 
+<!-- ANGEBOT EDITOR -->
+<div class="ang-overlay" id="angOverlay">
+    <div class="ang-header">
+        <h2>📄 Angebot erstellen</h2>
+        <div class="ang-actions">
+            <button class="btn sec" onclick="closeAngebot()">← Zurück</button>
+            <button class="btn" onclick="previewPDF()">👁 Vorschau</button>
+            <button class="btn grn" onclick="downloadPDF()">⬇ PDF Download</button>
+            <button class="btn" onclick="sendAngebot()" id="angSendBtn">📧 Per E-Mail senden</button>
+        </div>
+    </div>
+    <div class="ang-body">
+        <div class="ang-status" id="angStatus"></div>
+        <div class="ang-section">
+            <h3>Absender</h3>
+            <div class="ang-row">
+                <div><div class="ang-label">Firma</div><input class="ang-input" id="angFirma" value="Hausmeisterservice Sykora"></div>
+                <div><div class="ang-label">Inhaber</div><input class="ang-input" id="angInhaber" value="Markus Sykora"></div>
+            </div>
+            <div class="ang-row">
+                <div><div class="ang-label">Adresse</div><input class="ang-input" id="angAdresse" value="Rosenheimer Str. 18, 85560 Ebersberg"></div>
+                <div><div class="ang-label">Telefon</div><input class="ang-input" id="angTel" value="080922504830"></div>
+            </div>
+            <div class="ang-row">
+                <div><div class="ang-label">E-Mail</div><input class="ang-input" id="angEmail" value="m.sykora@hausmeisterservicesykora.de"></div>
+                <div><div class="ang-label">Steuernummer / USt-IdNr.</div><input class="ang-input" id="angSteuer" placeholder="z.B. DE123456789"></div>
+            </div>
+        </div>
+        <div class="ang-section">
+            <h3>Empfänger</h3>
+            <div class="ang-row">
+                <div><div class="ang-label">Name / Firma</div><input class="ang-input" id="angKunde"></div>
+                <div><div class="ang-label">Ansprechpartner</div><input class="ang-input" id="angAnsprech"></div>
+            </div>
+            <div class="ang-row">
+                <div><div class="ang-label">Adresse</div><input class="ang-input" id="angKAdresse" placeholder="Straße, PLZ Ort"></div>
+                <div><div class="ang-label">E-Mail</div><input class="ang-input" id="angKEmail"></div>
+            </div>
+        </div>
+        <div class="ang-section">
+            <h3>Angebot</h3>
+            <div class="ang-row">
+                <div><div class="ang-label">Angebotsnummer</div><input class="ang-input" id="angNr"></div>
+                <div><div class="ang-label">Datum</div><input class="ang-input" id="angDatum" type="date"></div>
+            </div>
+            <div class="ang-row">
+                <div><div class="ang-label">Gültig bis</div><input class="ang-input" id="angGueltig" type="date"></div>
+                <div><div class="ang-label">Betreff</div><input class="ang-input" id="angBetreff" placeholder="z.B. Angebot Unterhaltsreinigung"></div>
+            </div>
+            <div class="ang-full"><div class="ang-label">Einleitungstext</div><textarea class="ang-input" id="angEinleitung" rows="2" style="resize:vertical">Vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:</textarea></div>
+        </div>
+        <div class="ang-section">
+            <h3>Positionen</h3>
+            <table class="ang-table">
+                <thead><tr><th class="col-pos">Pos.</th><th class="col-desc">Beschreibung</th><th class="col-num">Menge</th><th class="col-num">Einheit</th><th class="col-price">Einzelpreis</th><th class="col-total">Gesamt</th><th class="col-del"></th></tr></thead>
+                <tbody id="angPosTB"></tbody>
+            </table>
+            <button class="ang-add" onclick="addAngPos()">+ Position hinzufügen</button>
+            <div class="ang-totals" id="angTotals"></div>
+        </div>
+        <div class="ang-section">
+            <h3>Abschluss</h3>
+            <div class="ang-full"><div class="ang-label">Schlusstext</div><textarea class="ang-input" id="angSchluss" rows="2" style="resize:vertical">Wir freuen uns auf Ihren Auftrag und stehen für Rückfragen gerne zur Verfügung.</textarea></div>
+            <div class="ang-row">
+                <div><div class="ang-label">Zahlungsbedingung</div><input class="ang-input" id="angZahlung" value="Zahlbar innerhalb von 14 Tagen nach Rechnungsstellung"></div>
+                <div><div class="ang-label">MwSt. (%)</div><input class="ang-input" id="angMwst" type="number" value="19" min="0" max="100" onchange="calcAngTotals()"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 const SB='https://fbkkyzvumytipjtnrjrn.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
 const AU='admin',AP='leadcall2024';
@@ -533,8 +702,8 @@ async function loadLeads(){buildLF();try{leads=await sG('leads',isAdmin?'order=c
 function buildYF(){const yrs=[...new Set(leads.map(l=>new Date(l.created_at).getFullYear()))].sort((a,b)=>b-a);const sel=$('yearFilter');sel.innerHTML='<option value="all">Alle Jahre</option>'+yrs.map(y=>`<option value="${y}"${lyf==y?' selected':''}>${y}</option>`).join('');}
 function renderKpis(){const a=new Date(Date.now()-30*864e5),r=leads.filter(l=>new Date(l.created_at)>=a),nw=r.filter(l=>l.status==='new').length,of=r.filter(l=>l.offer_sent_at).length,wo=r.filter(l=>l.status==='won').length,lo=r.filter(l=>l.status==='lost').length,wO=r.filter(l=>l.offer_sent_at&&l.created_at);let avg='-';if(wO.length){const t=wO.reduce((s,l)=>s+(new Date(l.offer_sent_at)-new Date(l.created_at))/36e5,0)/wO.length;avg=t<24?`${Math.round(t)}h`:`${Math.round(t/24)}d`;}const cv=r.length?Math.round(wo/r.length*100):0;$('kpiGrid').innerHTML=`<div class="kpi-card hl"><div class="kpi-value">${nw}</div><div class="kpi-label">Neue Leads</div></div><div class="kpi-card"><div class="kpi-value">${of}</div><div class="kpi-label">Angebote</div></div><div class="kpi-card ok"><div class="kpi-value">${wo}</div><div class="kpi-label">Gewonnen</div></div><div class="kpi-card bad"><div class="kpi-value">${lo}</div><div class="kpi-label">Verloren</div></div><div class="kpi-card"><div class="kpi-value">${avg}</div><div class="kpi-label">⌀ Antwortzeit</div></div><div class="kpi-card"><div class="kpi-value">${cv}%</div><div class="kpi-label">Conversion</div></div>`;}
 function sortL(l){const s=[...l];switch(ls){case 'newest':s.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));break;case 'oldest':s.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));break;case 'budget_high':s.sort((a,b)=>(BV[b.budget]||0)-(BV[a.budget]||0));break;case 'budget_low':s.sort((a,b)=>(BV[a.budget]||0)-(BV[b.budget]||0));break;case 'urgency':const o={today:0,this_week:1,flexible:2};s.sort((a,b)=>(o[a.urgency]??3)-(o[b.urgency]??3));break;}return s;}
-function renderLeads(){const tb=$('leadsTB');let f=lf==='all'?leads:leads.filter(l=>l.status===lf);if(lyf!=='all')f=f.filter(l=>new Date(l.created_at).getFullYear()==lyf);f=sortL(f);if(!f.length){tb.innerHTML='<tr><td colspan="7" class="empty-state"><h3>Keine Anfragen</h3></td></tr>';return;}tb.innerHTML=f.map(l=>`<tr class="clickable" onclick="showLD('${l.id}')"><td><div style="font-weight:600">${esc(l.name||'Unbekannt')}${l.notes?'<span class="has-notes">📝</span>':''}</div><div style="font-size:13px;color:#64748b">${esc(l.phone||'-')}</div></td><td><div>${esc(l.service_type||'-')}</div>${l.company?`<div style="font-size:13px;color:#64748b">${esc(l.company)}</div>`:''}${l.offer_amount?`<div style="font-size:13px;color:#16a34a;font-weight:600">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</div>`:''}</td><td><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span></td><td><span class="time-ago">${timeAgo(l.created_at)}</span></td><td><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'Unbekannt'}</span></td><td><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></td><td onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');}
-function doLA(id,a){if(!a)return;curLead=id;if(a==='offer_sent'){$('offerAmt').value='';$('mOffer').classList.add('show');}else if(a==='notes'){const l=leads.find(x=>x.id===id);$('notesTxt').value=l?.notes||'';$('mNotes').classList.add('show');}else if(a==='delete')$('mDel').classList.add('show');else if(a==='termin'){const l=leads.find(x=>x.id===id);$('terminEmail').value=l?.email||'';$('terminMsg').value='';$('terminStatus').innerHTML='';$('terminSend').disabled=false;$('terminSend').textContent='📧 E-Mail senden';$('mTermin').classList.add('show');}else updLS(id,a);}
+function renderLeads(){const tb=$('leadsTB');let f=lf==='all'?leads:leads.filter(l=>l.status===lf);if(lyf!=='all')f=f.filter(l=>new Date(l.created_at).getFullYear()==lyf);f=sortL(f);if(!f.length){tb.innerHTML='<tr><td colspan="7" class="empty-state"><h3>Keine Anfragen</h3></td></tr>';return;}tb.innerHTML=f.map(l=>`<tr class="clickable" onclick="showLD('${l.id}')"><td><div style="font-weight:600">${esc(l.name||'Unbekannt')}${l.notes?'<span class="has-notes">📝</span>':''}</div><div style="font-size:13px;color:#64748b">${esc(l.phone||'-')}</div></td><td><div>${esc(l.service_type||'-')}</div>${l.company?`<div style="font-size:13px;color:#64748b">${esc(l.company)}</div>`:''}${l.offer_amount?`<div style="font-size:13px;color:#16a34a;font-weight:600">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</div>`:''}</td><td><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span></td><td><span class="time-ago">${timeAgo(l.created_at)}</span></td><td><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'Unbekannt'}</span></td><td><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></td><td onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="angebot">📄 Angebot schreiben</option><option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');}
+function doLA(id,a){if(!a)return;curLead=id;if(a==='offer_sent'){$('offerAmt').value='';$('mOffer').classList.add('show');}else if(a==='notes'){const l=leads.find(x=>x.id===id);$('notesTxt').value=l?.notes||'';$('mNotes').classList.add('show');}else if(a==='delete')$('mDel').classList.add('show');else if(a==='termin'){const l=leads.find(x=>x.id===id);$('terminEmail').value=l?.email||'';$('terminMsg').value='';$('terminStatus').innerHTML='';$('terminSend').disabled=false;$('terminSend').textContent='📧 E-Mail senden';$('mTermin').classList.add('show');}else if(a==='angebot'){openAngebot(id);}else updLS(id,a);}
 async function updLS(id,s,x={}){const d={status:s,updated_at:new Date().toISOString(),...x};if(s==='offer_sent'&&!x.offer_sent_at)d.offer_sent_at=new Date().toISOString();else if(s==='won'||s==='lost'||s==='bestandskunde')d.closed_at=new Date().toISOString();await sU('leads',id,d);loadLeads();}
 async function confirmOffer(){const a=$('offerAmt').value;await updLS(curLead,'offer_sent',{offer_amount:a?parseFloat(a):null,offer_sent_at:new Date().toISOString()});$('mOffer').classList.remove('show');}
 async function saveNotes(){await sU('leads',curLead,{notes:$('notesTxt').value,updated_at:new Date().toISOString()});loadLeads();$('mNotes').classList.remove('show');}
@@ -666,6 +835,259 @@ async function saveNewLead(){
         $('mNewLead').classList.remove('show');loadLeads();
     }catch(e){err.textContent='Fehler: '+e.message;err.classList.add('show');}
     b.disabled=false;b.textContent='Lead anlegen';
+}
+
+// ===== ANGEBOT =====
+let angRowCount=0;
+function openAngebot(id){
+    const l=leads.find(x=>x.id===id);
+    $('angName').value=l?.name||'';
+    $('angFirma').value=l?.company||'';
+    $('angEmail').value=l?.email||'';
+    $('angPhone').value=l?.phone||'';
+    $('angAddr').value='';
+    const today=new Date().toISOString().split('T')[0];
+    const in30=new Date(Date.now()+30*864e5).toISOString().split('T')[0];
+    $('angDatum').value=today;
+    $('angGueltig').value=in30;
+    $('angNr').value='ANG-'+Date.now().toString(36).toUpperCase();
+    $('angBetreff').value=l?.service_type||'';
+    $('angNotes').value='Zahlbar innerhalb von 14 Tagen nach Rechnungsstellung.\nDieses Angebot ist freibleibend.';
+    angRowCount=0;
+    $('angRows').innerHTML='';
+    addAngRow();
+    calcAng();
+    $('angSlide').classList.add('show');
+}
+function closeAng(){$('angSlide').classList.remove('show');}
+function addAngRow(){
+    angRowCount++;
+    const tr=document.createElement('tr');
+    tr.id='angR'+angRowCount;
+    tr.innerHTML='<td style="padding:6px"><span class="ang-pos">'+angRowCount+'</span></td><td style="padding:6px"><input style="width:100%;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:13px" class="ang-desc" placeholder="Beschreibung"></td><td style="padding:6px"><input type="number" style="width:100%;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:13px;text-align:right" class="ang-qty" value="1" min="0" step="any" oninput="calcAng()"></td><td style="padding:6px"><select style="padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px" class="ang-unit"><option>Stk.</option><option>Std.</option><option>m²</option><option>pauschal</option><option>Monat</option></select></td><td style="padding:6px"><input type="number" style="width:100%;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:13px;text-align:right" class="ang-price" value="0" min="0" step="0.01" oninput="calcAng()"></td><td style="padding:6px;text-align:right;font-weight:600" class="ang-total">0,00</td><td style="padding:6px"><button onclick="this.closest(\'tr\').remove();reNumAng();calcAng()" style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:16px">✕</button></td>';
+    $('angRows').appendChild(tr);
+}
+function reNumAng(){document.querySelectorAll('#angRows tr').forEach((tr,i)=>{tr.querySelector('.ang-pos').textContent=i+1;});}
+function calcAng(){
+    let total=0;
+    document.querySelectorAll('#angRows tr').forEach(tr=>{
+        const q=parseFloat(tr.querySelector('.ang-qty').value)||0;
+        const p=parseFloat(tr.querySelector('.ang-price').value)||0;
+        const t=q*p;total+=t;
+        tr.querySelector('.ang-total').textContent=t.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+    });
+    const mwst=total*0.19;
+    $('angNetto').textContent=total.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac';
+    $('angMwst').textContent=mwst.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac';
+    $('angBrutto').textContent=(total+mwst).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20ac';
+}
+async function genAngPDF(mode){
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF();
+    const blue=[37,99,235];
+    const gray=[100,116,139];
+    const dark=[30,41,59];
+    // Header
+    doc.setFontSize(20);doc.setTextColor(...blue);doc.setFont('helvetica','bold');
+    doc.text('Hausmeisterservice Sykora',14,22);
+    doc.setFontSize(9);doc.setTextColor(...gray);doc.setFont('helvetica','normal');
+    doc.text('Markus Sykora \u00b7 Rosenheimer Str. 18 \u00b7 85560 Ebersberg',14,28);
+    doc.text('Tel.: 08092 2504830 \u00b7 E-Mail: m.sykora@hausmeisterservicesykora.de',14,33);
+    doc.setDrawColor(226,232,240);doc.line(14,37,196,37);
+    // Angebot title
+    doc.setFontSize(16);doc.setTextColor(...dark);doc.setFont('helvetica','bold');
+    doc.text('ANGEBOT',14,48);
+    doc.setFontSize(10);doc.setFont('helvetica','normal');
+    doc.setTextColor(...gray);
+    doc.text('Nr.: '+$('angNr').value,14,54);
+    doc.text('Datum: '+formatDateDE($('angDatum').value),14,59);
+    doc.text('G\u00fcltig bis: '+formatDateDE($('angGueltig').value),14,64);
+    // Kunde
+    doc.setFontSize(10);doc.setTextColor(...dark);doc.setFont('helvetica','bold');
+    doc.text('Kunde:',120,48);doc.setFont('helvetica','normal');
+    let ky=53;
+    if($('angFirma').value){doc.text($('angFirma').value,120,ky);ky+=5;}
+    if($('angName').value){doc.text($('angName').value,120,ky);ky+=5;}
+    if($('angAddr').value){doc.text($('angAddr').value,120,ky);ky+=5;}
+    if($('angPhone').value){doc.text('Tel.: '+$('angPhone').value,120,ky);ky+=5;}
+    if($('angEmail').value){doc.text($('angEmail').value,120,ky);ky+=5;}
+    // Betreff
+    if($('angBetreff').value){doc.setFont('helvetica','bold');doc.setTextColor(...dark);doc.text('Betr.: '+$('angBetreff').value,14,78);doc.setFont('helvetica','normal');}
+    // Table
+    const rows=[];
+    document.querySelectorAll('#angRows tr').forEach((tr,i)=>{
+        const desc=tr.querySelector('.ang-desc').value||'';
+        const qty=tr.querySelector('.ang-qty').value||'0';
+        const unit=tr.querySelector('.ang-unit').value||'';
+        const price=parseFloat(tr.querySelector('.ang-price').value)||0;
+        const total=parseFloat(qty)*price;
+        rows.push([(i+1).toString(),desc,qty,unit,price.toLocaleString('de-DE',{minimumFractionDigits:2})+' \u20ac',total.toLocaleString('de-DE',{minimumFractionDigits:2})+' \u20ac']);
+    });
+    doc.autoTable({startY:84,head:[['Pos','Beschreibung','Menge','Einheit','Einzelpreis','Gesamt']],body:rows,styles:{fontSize:9,cellPadding:4},headStyles:{fillColor:blue,textColor:[255,255,255],fontStyle:'bold'},columnStyles:{0:{cellWidth:15},2:{halign:'right',cellWidth:18},3:{cellWidth:20},4:{halign:'right',cellWidth:28},5:{halign:'right',cellWidth:28}},alternateRowStyles:{fillColor:[248,250,252]}});
+    // Totals
+    let ty=doc.lastAutoTable.finalY+10;
+    let netto=0;
+    document.querySelectorAll('#angRows tr').forEach(tr=>{const q=parseFloat(tr.querySelector('.ang-qty').value)||0;const p=parseFloat(tr.querySelector('.ang-price').value)||0;netto+=q*p;});
+    const mwst=netto*0.19;const brutto=netto+mwst;
+    doc.setFontSize(10);doc.setTextColor(...dark);
+    doc.text('Netto:',150,ty,{align:'right'});doc.text(netto.toLocaleString('de-DE',{minimumFractionDigits:2})+' \u20ac',192,ty,{align:'right'});ty+=6;
+    doc.text('MwSt. (19%):',150,ty,{align:'right'});doc.text(mwst.toLocaleString('de-DE',{minimumFractionDigits:2})+' \u20ac',192,ty,{align:'right'});ty+=6;
+    doc.setDrawColor(226,232,240);doc.line(130,ty-2,196,ty-2);ty+=2;
+    doc.setFont('helvetica','bold');doc.setFontSize(12);
+    doc.text('Brutto:',150,ty,{align:'right'});doc.text(brutto.toLocaleString('de-DE',{minimumFractionDigits:2})+' \u20ac',192,ty,{align:'right'});
+    // Notes
+    if($('angNotes').value){ty+=14;doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(...gray);const lines=doc.splitTextToSize($('angNotes').value,170);doc.text(lines,14,ty);}
+    // Footer
+    doc.setFontSize(7);doc.setTextColor(...gray);doc.setFont('helvetica','normal');
+    doc.text('Hausmeisterservice Sykora \u00b7 Markus Sykora \u00b7 Rosenheimer Str. 18 \u00b7 85560 Ebersberg \u00b7 m.sykora@hausmeisterservicesykora.de',105,287,{align:'center'});
+    if(mode==='download'){
+        doc.save('Angebot_'+$('angNr').value+'.pdf');
+        if(curLead){await sU('leads',curLead,{offer_amount:netto,offer_sent_at:new Date().toISOString(),status:'offer_sent',updated_at:new Date().toISOString()});loadLeads();}
+    }else if(mode==='send'){
+        const email=$('angEmail').value.trim();
+        if(!email){alert('Bitte E-Mail-Adresse des Kunden eingeben.');return;}
+        try{
+            const blob=doc.output('blob');
+            const fname='Angebot_'+$('angNr').value+'_'+Date.now()+'.pdf';
+            const res=await fetch(SB+'/storage/v1/object/angebote/'+fname,{method:'POST',headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/pdf'},body:blob});
+            if(!res.ok)throw new Error('Upload fehlgeschlagen');
+            const pdfUrl=SB+'/storage/v1/object/public/angebote/'+fname;
+            emailjs.init('fc6zzeTCmrKyrkxJ2');
+            await emailjs.send('service_te0rxxz','template_oyi750j',{
+                to_email:email,
+                kunde_name:$('angName').value||'',
+                firma_name:'Hausmeisterservice Sykora',
+                nachricht:'Im Anhang finden Sie unser Angebot '+$('angNr').value+'. Sie k\u00f6nnen das Angebot hier herunterladen:\n\n'+pdfUrl+'\n\nBei Fragen stehen wir Ihnen gerne zur Verf\u00fcgung.',
+                booking_link:pdfUrl
+            });
+            alert('\u2705 Angebot wurde per E-Mail an '+email+' gesendet!');
+            if(curLead){await sU('leads',curLead,{offer_amount:netto,offer_sent_at:new Date().toISOString(),status:'offer_sent',updated_at:new Date().toISOString()});loadLeads();}
+            closeAng();
+        }catch(e){alert('Fehler: '+e.message);}
+    }
+}
+function formatDateDE(d){if(!d)return'-';const p=d.split('-');return p[2]+'.'+p[1]+'.'+p[0];}
+
+// ===== ANGEBOT =====
+let angPositionen=[];
+let angLeadId=null;
+function openAngebot(id){
+    const l=leads.find(x=>x.id===id);angLeadId=id;
+    $('angKunde').value=l?(l.company||l.name||''):'';
+    $('angAnsprech').value=l?l.name||'':'';
+    $('angKEmail').value=l?l.email||'':'';
+    $('angKAdresse').value='';
+    $('angBetreff').value=l?'Angebot '+((l.service_type||'').split(' / ')[0]||''):'';
+    const now=new Date();
+    $('angNr').value='ANG-'+now.getFullYear()+'-'+(Math.floor(Math.random()*9000)+1000);
+    $('angDatum').value=now.toISOString().split('T')[0];
+    const bis=new Date(now.getTime()+30*864e5);
+    $('angGueltig').value=bis.toISOString().split('T')[0];
+    angPositionen=[{pos:1,desc:'',menge:1,einheit:'Stk.',preis:0}];
+    renderAngPos();
+    $('angStatus').className='ang-status';$('angStatus').textContent='';
+    $('angOverlay').classList.add('show');
+}
+function closeAngebot(){$('angOverlay').classList.remove('show');}
+function addAngPos(){angPositionen.push({pos:angPositionen.length+1,desc:'',menge:1,einheit:'Stk.',preis:0});renderAngPos();}
+function delAngPos(i){angPositionen.splice(i,1);angPositionen.forEach((p,j)=>p.pos=j+1);renderAngPos();}
+function renderAngPos(){
+    const tb=$('angPosTB');
+    tb.innerHTML=angPositionen.map((p,i)=>'<tr><td class="col-pos"><input value="'+p.pos+'" readonly style="background:#f8fafc;text-align:center"></td><td class="col-desc"><input value="'+esc(p.desc)+'" oninput="angPositionen['+i+'].desc=this.value" placeholder="Beschreibung..."></td><td class="col-num"><input type="number" value="'+p.menge+'" min="0" step="0.01" oninput="angPositionen['+i+'].menge=parseFloat(this.value)||0;calcAngTotals()"></td><td class="col-num"><input value="'+esc(p.einheit)+'" oninput="angPositionen['+i+'].einheit=this.value"></td><td class="col-price"><input type="number" value="'+p.preis+'" min="0" step="0.01" oninput="angPositionen['+i+'].preis=parseFloat(this.value)||0;calcAngTotals()"></td><td class="col-total">'+((p.menge*p.preis).toFixed(2).replace('.',','))+' \u20ac</td><td class="col-del">'+(angPositionen.length>1?'<button class="ang-del" onclick="delAngPos('+i+')">\u2715</button>':'')+'</td></tr>').join('');
+    calcAngTotals();
+}
+function calcAngTotals(){
+    const netto=angPositionen.reduce((s,p)=>s+p.menge*p.preis,0);
+    const mwst=parseFloat($('angMwst').value)||19;
+    const steuer=netto*mwst/100;
+    const brutto=netto+steuer;
+    $('angTotals').innerHTML='<div>Netto: '+netto.toFixed(2).replace('.',',')+' \u20ac</div><div>MwSt. ('+mwst+'%): '+steuer.toFixed(2).replace('.',',')+' \u20ac</div><div class="ang-brutto">Brutto: '+brutto.toFixed(2).replace('.',',')+' \u20ac</div>';
+}
+function buildAngPDF(){
+    const{jsPDF}=window.jspdf;const doc=new jsPDF();const w=doc.internal.pageSize.getWidth();
+    const firma=$('angFirma').value,inhaber=$('angInhaber').value,adresse=$('angAdresse').value,tel=$('angTel').value,email=$('angEmail').value,steuer=$('angSteuer').value;
+    const kunde=$('angKunde').value,ansprech=$('angAnsprech').value,kadresse=$('angKAdresse').value;
+    const nr=$('angNr').value,datum=$('angDatum').value,gueltig=$('angGueltig').value,betreff=$('angBetreff').value;
+    const einleitung=$('angEinleitung').value,schluss=$('angSchluss').value,zahlung=$('angZahlung').value;
+    const mwstRate=parseFloat($('angMwst').value)||19;
+    // Header
+    doc.setFontSize(20);doc.setTextColor(37,99,235);doc.text(firma,20,25);
+    doc.setFontSize(9);doc.setTextColor(100);doc.text(inhaber+' | '+adresse,20,32);doc.text('Tel: '+tel+' | E-Mail: '+email+(steuer?' | '+steuer:''),20,37);
+    doc.setDrawColor(226,232,240);doc.line(20,42,w-20,42);
+    // Empfaenger
+    let y=52;doc.setFontSize(10);doc.setTextColor(100);doc.text('An:',20,y);
+    doc.setFontSize(11);doc.setTextColor(30);y+=6;doc.text(kunde,20,y);if(ansprech&&ansprech!==kunde){y+=5;doc.text(ansprech,20,y);}if(kadresse){y+=5;doc.text(kadresse,20,y);}
+    // Angebotsdaten rechts
+    doc.setFontSize(9);doc.setTextColor(100);
+    doc.text('Angebots-Nr:',w-80,52);doc.text(nr,w-40,52);
+    doc.text('Datum:',w-80,58);doc.text(datum?new Date(datum).toLocaleDateString('de-DE'):'',w-40,58);
+    doc.text('G\u00fcltig bis:',w-80,64);doc.text(gueltig?new Date(gueltig).toLocaleDateString('de-DE'):'',w-40,64);
+    // Betreff
+    y+=16;doc.setFontSize(13);doc.setTextColor(30);doc.setFont(undefined,'bold');doc.text(betreff||'Angebot',20,y);
+    doc.setFont(undefined,'normal');
+    // Einleitung
+    if(einleitung){y+=8;doc.setFontSize(10);doc.setTextColor(80);var lines=doc.splitTextToSize(einleitung,w-40);doc.text(lines,20,y);y+=lines.length*5;}
+    // Tabelle
+    y+=8;doc.setFillColor(248,250,252);doc.rect(20,y-4,w-40,8,'F');
+    doc.setFontSize(8);doc.setTextColor(100);doc.setFont(undefined,'bold');
+    doc.text('Pos.',22,y+1);doc.text('Beschreibung',38,y+1);doc.text('Menge',110,y+1);doc.text('Einheit',128,y+1);doc.text('Einzelpreis',150,y+1);doc.text('Gesamt',175,y+1);
+    doc.setFont(undefined,'normal');doc.setDrawColor(226,232,240);doc.line(20,y+4,w-20,y+4);y+=10;
+    doc.setFontSize(9);doc.setTextColor(30);
+    var netto=0;
+    angPositionen.forEach(function(p){
+        var total=p.menge*p.preis;netto+=total;
+        doc.text(String(p.pos),24,y);
+        var descLines=doc.splitTextToSize(p.desc||'',68);doc.text(descLines,38,y);
+        doc.text(String(p.menge),114,y);doc.text(p.einheit,128,y);
+        doc.text(p.preis.toFixed(2).replace('.',',')+' \u20ac',150,y);
+        doc.text(total.toFixed(2).replace('.',',')+' \u20ac',175,y);
+        y+=Math.max(descLines.length*5,7);
+        if(y>265){doc.addPage();y=20;}
+    });
+    // Summen
+    doc.line(20,y,w-20,y);y+=8;
+    doc.setFontSize(9);doc.setTextColor(100);doc.text('Netto:',150,y);doc.text(netto.toFixed(2).replace('.',',')+' \u20ac',175,y);
+    y+=6;var steuerBetrag=netto*mwstRate/100;doc.text('MwSt. ('+mwstRate+'%):',150,y);doc.text(steuerBetrag.toFixed(2).replace('.',',')+' \u20ac',175,y);
+    y+=7;doc.setFontSize(11);doc.setTextColor(30);doc.setFont(undefined,'bold');doc.text('Gesamt:',150,y);doc.text((netto+steuerBetrag).toFixed(2).replace('.',',')+' \u20ac',175,y);
+    doc.setFont(undefined,'normal');
+    // Schluss
+    if(schluss){y+=14;doc.setFontSize(10);doc.setTextColor(80);var sl=doc.splitTextToSize(schluss,w-40);doc.text(sl,20,y);y+=sl.length*5;}
+    if(zahlung){y+=8;doc.setFontSize(9);doc.setTextColor(100);doc.text(zahlung,20,y);}
+    // Footer
+    doc.setFontSize(7);doc.setTextColor(150);doc.text(firma+' | '+inhaber+' | '+adresse+' | Tel: '+tel+' | '+email,w/2,287,{align:'center'});
+    return doc;
+}
+function previewPDF(){var doc=buildAngPDF();window.open(doc.output('bloburl'),'_blank');}
+function downloadPDF(){var doc=buildAngPDF();doc.save(($('angNr').value||'Angebot')+'.pdf');}
+async function sendAngebot(){
+    var kemail=$('angKEmail').value.trim();
+    var st=$('angStatus');
+    if(!kemail){st.className='ang-status show err';st.textContent='Bitte E-Mail-Adresse des Kunden eintragen.';return;}
+    var b=$('angSendBtn');b.disabled=true;b.textContent='Wird gesendet...';st.className='ang-status';st.textContent='';
+    try{
+        var doc=buildAngPDF();
+        var blob=doc.output('blob');
+        var filename=($('angNr').value||'Angebot')+'.pdf';
+        var formData=new FormData();formData.append('',blob,filename);
+        var upRes=await fetch(SB+'/storage/v1/object/angebote/'+encodeURIComponent(filename),{method:'POST',headers:{'Authorization':'Bearer '+SK},body:blob});
+        if(!upRes.ok){var upBody=await upRes.json();if(upBody.error==='Duplicate'){await fetch(SB+'/storage/v1/object/angebote/'+encodeURIComponent(filename),{method:'PUT',headers:{'Authorization':'Bearer '+SK},body:blob});}}
+        var pdfUrl=SB+'/storage/v1/object/public/angebote/'+encodeURIComponent(filename);
+        emailjs.init('fc6zzeTCmrKyrkxJ2');
+        await emailjs.send('service_te0rxxz','template_oyi750j',{
+            to_email:kemail,
+            kunde_name:$('angAnsprech').value||$('angKunde').value,
+            firma_name:$('angFirma').value,
+            nachricht:'Anbei erhalten Sie unser Angebot '+($('angNr').value)+'. Sie k\u00f6nnen es hier herunterladen:',
+            booking_link:pdfUrl
+        });
+        if(angLeadId){
+            var netto=angPositionen.reduce(function(s,p){return s+p.menge*p.preis},0);
+            await sU('leads',angLeadId,{status:'offer_sent',offer_amount:netto,offer_sent_at:new Date().toISOString(),updated_at:new Date().toISOString()});
+        }
+        st.className='ang-status show ok';st.textContent='\u2713 Angebot erfolgreich an '+kemail+' gesendet!';
+        setTimeout(function(){closeAngebot();loadLeads();},2000);
+    }catch(e){st.className='ang-status show err';st.textContent='Fehler: '+e.message;}
+    b.disabled=false;b.textContent='\ud83d\udce7 Per E-Mail senden';
 }
 
 // ===== TERMIN =====
