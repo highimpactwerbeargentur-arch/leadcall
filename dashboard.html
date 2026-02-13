@@ -186,6 +186,14 @@
             .tc-row{flex-direction:column}
         }
         @media(min-width:769px){.mob-nav{display:none}}
+
+        /* NEW LEAD */
+        .nl-cats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .nl-cat{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:14px;transition:all .15s}
+        .nl-cat:hover{border-color:#93c5fd}
+        .nl-cat input{display:none}
+        .nl-cat:has(input:checked){border-color:#2563eb;background:#eff6ff}
+        .nl-sub{margin-bottom:4px;padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}
     </style>
 </head>
 <body>
@@ -241,7 +249,7 @@
         <!-- LEADS -->
         <div class="tab-view" id="tab-leads">
             <div class="kpi-grid" id="kpiGrid"></div>
-            <div class="section-header"><h2 class="section-title">Alle Anfragen</h2><div class="header-actions"><div class="filter-group" id="leadFG"></div><select class="sort-select" onchange="leadSort=this.value;renderLeads()"><option value="newest">Neueste zuerst</option><option value="oldest">Älteste zuerst</option><option value="budget_high">Budget ↓</option><option value="budget_low">Budget ↑</option><option value="urgency">Dringlichkeit</option></select><button class="refresh-btn" onclick="loadLeads()">↻ Aktualisieren</button></div></div>
+            <div class="section-header"><h2 class="section-title">Alle Anfragen</h2><div class="header-actions"><button class="btn" onclick="openNewLead()" style="font-size:13px;padding:8px 16px">+ Neuer Lead</button><div class="filter-group" id="leadFG"></div><select class="sort-select" onchange="leadSort=this.value;renderLeads()"><option value="newest">Neueste zuerst</option><option value="oldest">Älteste zuerst</option><option value="budget_high">Budget ↓</option><option value="budget_low">Budget ↑</option><option value="urgency">Dringlichkeit</option></select><button class="refresh-btn" onclick="loadLeads()">↻ Aktualisieren</button><button class="btn grn" id="btnNewLead" style="display:none" onclick="openNewLead()">+ Neuer Kunde</button></div></div>
             <div class="card"><table><thead><tr><th>Kontakt</th><th>Anfrage</th><th>Dringlichkeit</th><th>Eingang</th><th>Budget</th><th>Status</th><th>Aktion</th></tr></thead><tbody id="leadsTB"><tr><td colspan="7" class="loading">Lädt...</td></tr></tbody></table></div>
         </div>
         <!-- ONBOARDING -->
@@ -264,6 +272,53 @@
 <div class="mo" id="mNotes" onclick="if(event.target===this)this.classList.remove('show')"><div class="md"><h2>Notizen</h2><textarea class="mt" id="notesTxt" placeholder="Notizen..."></textarea><div><button class="btn" onclick="saveNotes()">Speichern</button><button class="btn sec" onclick="$('mNotes').classList.remove('show')">Abbrechen</button></div></div></div>
 <div class="mo" id="mDel" onclick="if(event.target===this)this.classList.remove('show')"><div class="md"><h2>Lead löschen?</h2><p style="color:#64748b;margin-bottom:16px">Wirklich löschen?</p><div><button class="btn red" onclick="confirmDel()">Ja, löschen</button><button class="btn sec" onclick="$('mDel').classList.remove('show')">Abbrechen</button></div></div></div>
 
+<!-- NEW LEAD MODAL -->
+<div class="mo" id="mNewLead" onclick="if(event.target===this)this.classList.remove('show')">
+    <div class="md" style="max-width:560px">
+        <h2>Neuer Lead anlegen</h2>
+        <div class="login-error" id="nlErr"></div>
+        <div class="mf"><label class="il">Name *</label><input type="text" class="mi" id="nlName" placeholder="Vor- und Nachname"></div>
+        <div class="mf"><label class="il">Telefon *</label><input type="tel" class="mi" id="nlPhone" placeholder="z.B. 0171 1234567"></div>
+        <div class="mf"><label class="il">E-Mail <span style="font-weight:400;color:#94a3b8">(optional)</span></label><input type="email" class="mi" id="nlEmail" placeholder="E-Mail-Adresse"></div>
+        <div class="mf"><label class="il">Firma <span style="font-weight:400;color:#94a3b8">(optional)</span></label><input type="text" class="mi" id="nlCompany" placeholder="Firmenname"></div>
+        <div class="mf">
+            <label class="il">Um was geht es? *</label>
+            <div class="nl-cats" id="nlCats">
+                <label class="nl-cat"><input type="radio" name="nl_cat" value="hausmeisterpflege" onchange="nlCatChange(this.value)"><span>🌿 Hausmeisterpflege</span></label>
+                <label class="nl-cat"><input type="radio" name="nl_cat" value="gebaeudereinigung" onchange="nlCatChange(this.value)"><span>🏢 Gebäudereinigung</span></label>
+                <label class="nl-cat"><input type="radio" name="nl_cat" value="hausmeisterdienste" onchange="nlCatChange(this.value)"><span>🔧 Hausmeisterdienste</span></label>
+                <label class="nl-cat"><input type="radio" name="nl_cat" value="sonstiges" onchange="nlCatChange(this.value)"><span>💬 Sonstiges</span></label>
+            </div>
+        </div>
+        <div class="nl-sub" id="nlSubHM" style="display:none">
+            <div class="mf"><label class="il">Bereich</label>
+                <select class="mi" id="nlSubHMSel" style="padding:10px 14px"><option value="">Bitte wählen</option><option value="gruenflachenpflege">Grünflächenpflege</option><option value="winterdienst">Winterdienst</option></select>
+            </div>
+            <div class="mf"><label class="il">Wie oft? <span style="font-weight:400;color:#94a3b8">(optional)</span></label>
+                <select class="mi" id="nlFreqHM" style="padding:10px 14px"><option value="">–</option><option value="1x_woche">1× pro Woche</option><option value="2x_woche">2× pro Woche</option><option value="3x_woche">3× pro Woche</option><option value="4x_woche">4× pro Woche</option><option value="1x_monat">1× pro Monat</option><option value="einmalig">Einmalig</option></select>
+            </div>
+        </div>
+        <div class="nl-sub" id="nlSubGR" style="display:none">
+            <div class="mf"><label class="il">Art der Reinigung</label>
+                <select class="mi" id="nlSubGRSel" style="padding:10px 14px"><option value="">Bitte wählen</option><option value="grundreinigung">Grundreinigung</option><option value="glasreinigung">Glasreinigung</option><option value="baufeinreinigung">Baufeinreinigung</option><option value="solaranlagenreinigung">Solaranlagenreinigung</option><option value="unterhaltsreinigung">Unterhaltsreinigung</option></select>
+            </div>
+            <div class="mf"><label class="il">Geschätzte Fläche <span style="font-weight:400;color:#94a3b8">(optional)</span></label><input type="number" class="mi" id="nlFlaeche" placeholder="z.B. 150 m²"></div>
+            <div class="mf"><label class="il">Wie oft? <span style="font-weight:400;color:#94a3b8">(optional)</span></label>
+                <select class="mi" id="nlFreqGR" style="padding:10px 14px"><option value="">–</option><option value="1x_woche">1× pro Woche</option><option value="2x_woche">2× pro Woche</option><option value="3x_woche">3× pro Woche</option><option value="4x_woche">4× pro Woche</option><option value="1x_monat">1× pro Monat</option><option value="einmalig">Einmalig</option></select>
+            </div>
+        </div>
+        <div class="nl-sub" id="nlSubHD" style="display:none">
+            <div class="mf"><label class="il">Anzahl der Wohneinheiten</label><input type="number" class="mi" id="nlWE" placeholder="z.B. 12"></div>
+            <div class="mf"><label class="il">Gesamtfläche ca. <span style="font-weight:400;color:#94a3b8">(optional)</span></label><input type="number" class="mi" id="nlFlaecheHD" placeholder="z.B. 800 m²"></div>
+            <div class="mf"><label class="il">Gewünschter Start</label>
+                <select class="mi" id="nlStart" style="padding:10px 14px"><option value="">–</option><option value="sofort">Sofort</option><option value="1_monat">Innerhalb 1 Monat</option><option value="3_monate">Innerhalb 3 Monate</option><option value="flexibel">Flexibel</option></select>
+            </div>
+        </div>
+        <div class="mf"><label class="il">Beschreibung <span style="font-weight:400;color:#94a3b8">(optional)</span></label><textarea class="mt" id="nlDesc" placeholder="Weitere Details..."></textarea></div>
+        <div><button class="btn" id="nlSave" onclick="saveNewLead()">Lead anlegen</button><button class="btn sec" onclick="$('mNewLead').classList.remove('show')">Abbrechen</button></div>
+    </div>
+</div>
+
 <!-- Onboarding detail slide -->
 <div class="slo" id="obSlide" onclick="if(event.target===this)closeOB()"><div class="slp"><div class="sl-top"><h2 id="obSlTitle">Details</h2><button class="cl-btn" onclick="closeOB()">✕</button></div><div class="sl-body" id="obSlBody"></div><div class="sl-act" id="obSlAct"></div></div></div>
 
@@ -271,6 +326,83 @@
 <div class="mo" id="mActivate" onclick="if(event.target===this)this.classList.remove('show')"><div class="md"><h2>Kunde aktivieren</h2><p style="color:#64748b;margin-bottom:16px">Lege einen Benutzernamen fest. Der Kunde erstellt sein Passwort beim ersten Login selbst.</p><div class="mf"><label class="il">Benutzername</label><input type="text" class="mi" id="actUser" placeholder="z.B. mueller-sanitaer" autocomplete="off"><div style="font-size:12px;color:#94a3b8;margin-top:-8px">Kleinbuchstaben, keine Leerzeichen</div></div><div><button class="btn grn" onclick="confirmActivate()">Aktivieren</button><button class="btn sec" onclick="$('mActivate').classList.remove('show')">Abbrechen</button></div></div></div>
 
 <!-- CHANGE PASSWORD (für eingeloggte Kunden) -->
+
+<!-- NEW LEAD MODAL -->
+<div class="mo" id="mNewLead" onclick="if(event.target===this)this.classList.remove('show')">
+    <div class="md" style="max-width:520px;max-height:90vh;overflow-y:auto">
+        <h2>Neuen Kunden eintragen</h2>
+        <div class="login-error" id="nlErr"></div>
+        <div class="mf"><label class="il">Name *</label><input type="text" class="mi" id="nlName" placeholder="Vor- und Nachname"></div>
+        <div class="mf"><label class="il">Telefon *</label><input type="tel" class="mi" id="nlPhone" placeholder="z.B. 0171 1234567"></div>
+        <div class="mf"><label class="il">E-Mail</label><input type="email" class="mi" id="nlEmail" placeholder="optional"></div>
+        <div class="mf"><label class="il">Firma</label><input type="text" class="mi" id="nlCompany" placeholder="optional"></div>
+        <div class="mf">
+            <label class="il">Kategorie *</label>
+            <select class="mi" id="nlCategory" onchange="nlCatChange()">
+                <option value="">Bitte wählen...</option>
+                <option value="hausmeisterpflege">🌿 Hausmeisterpflege</option>
+                <option value="gebaeudereinigung">🏢 Gebäudereinigung</option>
+                <option value="hausmeisterdienste">🔧 Hausmeisterdienste</option>
+                <option value="sonstiges">💬 Sonstiges</option>
+            </select>
+        </div>
+        <div id="nlSubHMP" style="display:none" class="mf">
+            <label class="il">Leistung</label>
+            <select class="mi" id="nlSubHMP_sel">
+                <option value="">Bitte wählen...</option>
+                <option value="gruenflachenpflege">Grünflächenpflege</option>
+                <option value="winterdienst">Winterdienst</option>
+            </select>
+        </div>
+        <div id="nlSubGR" style="display:none" class="mf">
+            <label class="il">Leistung</label>
+            <select class="mi" id="nlSubGR_sel">
+                <option value="">Bitte wählen...</option>
+                <option value="grundreinigung">Grundreinigung</option>
+                <option value="glasreinigung">Glasreinigung</option>
+                <option value="baufeinreinigung">Baufeinreinigung</option>
+                <option value="solaranlagenreinigung">Solaranlagenreinigung</option>
+                <option value="unterhaltsreinigung">Unterhaltsreinigung</option>
+            </select>
+        </div>
+        <div id="nlFlaeche" style="display:none" class="mf">
+            <label class="il">Fläche in m²</label>
+            <input type="number" class="mi" id="nlQm" placeholder="z.B. 150">
+        </div>
+        <div id="nlFreq" style="display:none" class="mf">
+            <label class="il">Frequenz</label>
+            <select class="mi" id="nlFreq_sel">
+                <option value="">Bitte wählen...</option>
+                <option value="1x_woche">1× pro Woche</option>
+                <option value="2x_woche">2× pro Woche</option>
+                <option value="3x_woche">3× pro Woche</option>
+                <option value="4x_woche">4× pro Woche</option>
+                <option value="1x_monat">1× pro Monat</option>
+                <option value="einmalig">Einmalig</option>
+            </select>
+        </div>
+        <div id="nlHMD" style="display:none">
+            <div class="mf"><label class="il">Anzahl Wohneinheiten</label><input type="number" class="mi" id="nlWE" placeholder="z.B. 12"></div>
+            <div class="mf"><label class="il">Gesamtfläche ca. in m²</label><input type="number" class="mi" id="nlHMDqm" placeholder="z.B. 800"></div>
+            <div class="mf">
+                <label class="il">Gewünschter Start</label>
+                <select class="mi" id="nlStart">
+                    <option value="">Bitte wählen...</option>
+                    <option value="sofort">Sofort</option>
+                    <option value="1_monat">Innerhalb 1 Monat</option>
+                    <option value="3_monate">Innerhalb 3 Monate</option>
+                    <option value="flexibel">Flexibel</option>
+                </select>
+            </div>
+        </div>
+        <div class="mf"><label class="il">Beschreibung</label><textarea class="mt" id="nlDesc" placeholder="Weitere Details..."></textarea></div>
+        <div>
+            <button class="btn grn" onclick="saveNewLead()">Kunde speichern</button>
+            <button class="btn sec" onclick="$('mNewLead').classList.remove('show')">Abbrechen</button>
+        </div>
+    </div>
+</div>
+
 <div class="mo" id="mChangePw" onclick="if(event.target===this)closeChangePw()">
     <div class="md" onclick="event.stopPropagation()">
         <h2>Passwort ändern</h2>
@@ -380,7 +512,7 @@ async function saveChangePw(){
 function showApp(){
     $('loginOverlay').classList.add('hidden');$('mainContent').classList.add('show');
     if(isAdmin){$('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';buildNav(['onboarding','leads','tenants'],['Onboarding','Alle Leads','Kunden']);switchTab('onboarding');loadOB();loadLeads();loadTenants();}
-    else{$('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();}
+    else{$('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';$('btnNewLead').style.display='';buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();}
 }
 function buildNav(tabs,labels){const n=$('headerNav'),m=$('mobNav');n.innerHTML='';m.innerHTML='';tabs.forEach((t,i)=>{const b=document.createElement('button');b.textContent=labels[i];b.dataset.tab=t;b.onclick=()=>switchTab(t);n.appendChild(b);const b2=b.cloneNode(true);b2.onclick=()=>switchTab(t);m.appendChild(b2);});}
 function switchTab(t){document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));$(`tab-${t}`).classList.add('active');document.querySelectorAll('.header-nav button,.mob-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));}
@@ -413,12 +545,107 @@ async function confirmActivate(){if(!curOb)return;const u=$('actUser').value.tri
 async function loadTenants(){try{tenants=await sG('tenants','order=created_at.desc');const lds=await sG('leads','select=tenant_id');const c={};lds.forEach(l=>{c[l.tenant_id]=(c[l.tenant_id]||0)+1;});const g=$('tenantGrid');if(!tenants.length){g.innerHTML='<div class="empty-state"><h3>Noch keine Kunden</h3></div>';return;}g.innerHTML=tenants.map(t=>`<div class="tc"><div class="tc-name">${esc(t.name)}</div><div class="tc-email">${esc(t.email||'-')}</div><div class="tc-meta"><span>📞 ${esc(t.phone||'-')}</span><span>📋 ${c[t.id]||0} Leads</span><span>📅 ${fmtD(t.created_at)}</span></div><div class="tc-id">ID: ${t.id}</div><div class="tc-login"><h4>Login-Daten</h4><div class="tc-row"><div class="fld"><label>Benutzername</label><input type="text" value="${esc(t.username||'')}" id="u-${t.id}"></div><div class="fld"><label>Passwort</label><input type="text" value="${esc(t.password||'')}" placeholder="${t.password?'':'Wird vom Kunden gesetzt'}" id="p-${t.id}"></div><button onclick="saveTL('${t.id}')">Speichern</button></div><div class="pw-st ${t.password?'set':'notset'}">${t.password?'✓ Passwort gesetzt':'⏳ Wartet auf ersten Login'}</div></div></div>`).join('');}catch(e){$('tenantGrid').innerHTML=`<div class="empty-state">Fehler: ${e.message}</div>`;}}
 async function saveTL(id){const u=$(`u-${id}`).value.trim().toLowerCase(),p=$(`p-${id}`).value.trim();if(!u){alert('Benutzername eingeben.');return;}const ex=await sG('tenants',`username=eq.${encodeURIComponent(u)}&id=neq.${id}`);if(ex.length){alert('Benutzername vergeben!');return;}const d={username:u};if(p)d.password=p;await sU('tenants',id,d);alert('Gespeichert!');loadTenants();}
 
+// ===== NEW LEAD =====
+function openNewLead(){
+    $('nlErr').classList.remove('show');
+    $('nlName').value='';$('nlPhone').value='';$('nlEmail').value='';$('nlCompany').value='';
+    $('nlCategory').value='';$('nlDesc').value='';
+    $('nlSubHMP').style.display='none';$('nlSubGR').style.display='none';
+    $('nlFlaeche').style.display='none';$('nlFreq').style.display='none';$('nlHMD').style.display='none';
+    $('mNewLead').classList.add('show');
+}
+function nlCatChange(){
+    var c=$('nlCategory').value;
+    $('nlSubHMP').style.display=c==='hausmeisterpflege'?'block':'none';
+    $('nlSubGR').style.display=c==='gebaeudereinigung'?'block':'none';
+    $('nlFlaeche').style.display=(c==='gebaeudereinigung')?'block':'none';
+    $('nlFreq').style.display=(c==='hausmeisterpflege'||c==='gebaeudereinigung')?'block':'none';
+    $('nlHMD').style.display=c==='hausmeisterdienste'?'block':'none';
+}
+async function saveNewLead(){
+    var nm=$('nlName').value.trim(),ph=$('nlPhone').value.trim(),cat=$('nlCategory').value;
+    if(!nm){$('nlErr').textContent='Bitte Name eingeben';$('nlErr').classList.add('show');return;}
+    if(!ph){$('nlErr').textContent='Bitte Telefon eingeben';$('nlErr').classList.add('show');return;}
+    if(!cat){$('nlErr').textContent='Bitte Kategorie wählen';$('nlErr').classList.add('show');return;}
+    var st=cat;
+    if(cat==='hausmeisterpflege'){var sub=$('nlSubHMP_sel').value;if(sub)st+=' / '+sub;}
+    if(cat==='gebaeudereinigung'){var sub=$('nlSubGR_sel').value;if(sub)st+=' / '+sub;var qm=$('nlQm').value;if(qm)st+=' ('+qm+' m²)';}
+    if(cat==='hausmeisterpflege'||cat==='gebaeudereinigung'){
+        var fr=$('nlFreq_sel').value;
+        if(fr){var fm={'1x_woche':'1×/Woche','2x_woche':'2×/Woche','3x_woche':'3×/Woche','4x_woche':'4×/Woche','1x_monat':'1×/Monat','einmalig':'Einmalig'};st+=' – '+(fm[fr]||fr);}
+    }
+    if(cat==='hausmeisterdienste'){
+        var we=$('nlWE').value,hqm=$('nlHMDqm').value,start=$('nlStart').value;
+        if(we)st+=' / '+we+' WE';if(hqm)st+=' ('+hqm+' m²)';
+        if(start){var sm={'sofort':'Sofort','1_monat':'Innerhalb 1 Monat','3_monate':'Innerhalb 3 Monate','flexibel':'Flexibel'};st+=' – Start: '+(sm[start]||start);}
+    }
+    var pf=ph.replace(/[\s\-\/\(\)]/g,'');
+    if(pf.startsWith('0049'))pf='+49'+pf.substring(4);
+    else if(pf.startsWith('49')&&!pf.startsWith('+'))pf='+49'+pf.substring(2);
+    else if(pf.startsWith('0'))pf='+49'+pf.substring(1);
+    else if(!pf.startsWith('+'))pf='+49'+pf;
+    var ld={tenant_id:tid,name:nm,phone:pf,email:$('nlEmail').value.trim()||null,company:$('nlCompany').value.trim()||null,service_type:st,description:$('nlDesc').value.trim()||null,urgency:'flexible',budget:null,privacy_accepted:true,privacy_accepted_at:new Date().toISOString(),form_submitted_at:new Date().toISOString(),status:'new'};
+    try{await sI('leads',ld);$('mNewLead').classList.remove('show');loadLeads();}catch(e){$('nlErr').textContent='Fehler: '+e.message;$('nlErr').classList.add('show');}
+}
+
 // ===== HELPERS =====
 function esc(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
 function timeAgo(d){if(!d)return'-';const s=Math.floor((Date.now()-new Date(d))/1000);if(s<60)return'Gerade eben';if(s<3600)return`vor ${Math.floor(s/60)} Min.`;if(s<86400)return`vor ${Math.floor(s/3600)} Std.`;if(s<604800)return`vor ${Math.floor(s/86400)} Tagen`;return new Date(d).toLocaleDateString('de-DE');}
 function fmtD(i){if(!i)return'–';return new Date(i).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'});}
 function fmtDT(i){if(!i)return'–';const d=new Date(i);return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'})+' · '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
 setInterval(()=>{if(sessionStorage.getItem('lc_r'))loadLeads();},30000);
+
+// ===== NEW LEAD =====
+function openNewLead(){
+    $('nlName').value='';$('nlPhone').value='';$('nlEmail').value='';$('nlCompany').value='';$('nlDesc').value='';
+    document.querySelectorAll('input[name="nl_cat"]').forEach(r=>r.checked=false);
+    document.querySelectorAll('.nl-sub').forEach(el=>el.style.display='none');
+    $('nlErr').classList.remove('show');$('nlSave').disabled=false;$('nlSave').textContent='Lead anlegen';
+    $('mNewLead').classList.add('show');
+}
+function nlCatChange(v){
+    document.querySelectorAll('.nl-sub').forEach(el=>el.style.display='none');
+    if(v==='hausmeisterpflege')$('nlSubHM').style.display='';
+    else if(v==='gebaeudereinigung')$('nlSubGR').style.display='';
+    else if(v==='hausmeisterdienste')$('nlSubHD').style.display='';
+}
+async function saveNewLead(){
+    const err=$('nlErr');err.classList.remove('show');
+    const name=$('nlName').value.trim(),phone=$('nlPhone').value.trim();
+    const cat=document.querySelector('input[name="nl_cat"]:checked');
+    if(!name){err.textContent='Bitte Name eingeben.';err.classList.add('show');return;}
+    if(!phone){err.textContent='Bitte Telefonnummer eingeben.';err.classList.add('show');return;}
+    if(!cat){err.textContent='Bitte Kategorie wählen.';err.classList.add('show');return;}
+    let svc=cat.value;
+    const freqMap={'1x_woche':'1×/Woche','2x_woche':'2×/Woche','3x_woche':'3×/Woche','4x_woche':'4×/Woche','1x_monat':'1×/Monat','einmalig':'Einmalig'};
+    const startMap={'sofort':'Sofort','1_monat':'Innerhalb 1 Monat','3_monate':'Innerhalb 3 Monate','flexibel':'Flexibel'};
+    if(cat.value==='hausmeisterpflege'){
+        const sub=$('nlSubHMSel').value;if(sub)svc+=' / '+sub;
+        const fr=$('nlFreqHM').value;if(fr)svc+=' – '+(freqMap[fr]||fr);
+    }else if(cat.value==='gebaeudereinigung'){
+        const sub=$('nlSubGRSel').value;if(sub)svc+=' / '+sub;
+        const fl=$('nlFlaeche').value;if(fl)svc+=' ('+fl+' m²)';
+        const fr=$('nlFreqGR').value;if(fr)svc+=' – '+(freqMap[fr]||fr);
+    }else if(cat.value==='hausmeisterdienste'){
+        const we=$('nlWE').value;if(we)svc+=' / '+we+' WE';
+        const fl=$('nlFlaecheHD').value;if(fl)svc+=' ('+fl+' m²)';
+        const st=$('nlStart').value;if(st)svc+=' – Start: '+(startMap[st]||st);
+    }
+    let fPhone=phone.replace(/[\s\-\/\(\)]/g,'');
+    if(fPhone.startsWith('0049'))fPhone='+49'+fPhone.substring(4);
+    else if(fPhone.startsWith('49')&&!fPhone.startsWith('+'))fPhone='+49'+fPhone.substring(2);
+    else if(fPhone.startsWith('0'))fPhone='+49'+fPhone.substring(1);
+    else if(!fPhone.startsWith('+'))fPhone='+49'+fPhone;
+    const b=$('nlSave');b.disabled=true;b.textContent='Wird gespeichert...';
+    try{
+        const tID=isAdmin?null:tid;
+        const d={tenant_id:tID||tid,name:name,phone:fPhone,email:$('nlEmail').value.trim()||null,company:$('nlCompany').value.trim()||null,service_type:svc,description:$('nlDesc').value.trim()||null,status:'new',privacy_accepted:true,privacy_accepted_at:new Date().toISOString()};
+        await sI('leads',d);
+        $('mNewLead').classList.remove('show');loadLeads();
+    }catch(e){err.textContent='Fehler: '+e.message;err.classList.add('show');}
+    b.disabled=false;b.textContent='Lead anlegen';
+}
+
 chkSession();
 </script>
 </body>
