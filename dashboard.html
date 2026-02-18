@@ -329,6 +329,18 @@
 </div>
 </div>
 
+<!-- BEWERTUNG MODAL -->
+<div class="mo" id="mBewertung" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="md" style="max-width:560px">
+<h2>⭐ Zufriedenheits-E-Mail</h2>
+<p style="color:#64748b;margin-bottom:16px">Bitten Sie den Kunden um eine Google-Bewertung.</p>
+<div class="mf"><label class="il">E-Mail des Kunden</label><input type="email" class="mi" id="bewEmail" placeholder="kunde@email.de"></div>
+<div class="mf"><label class="il">Nachricht</label><textarea class="mt" id="bewMsg" rows="8" style="min-height:160px"></textarea></div>
+<div id="bewStatus" style="margin-bottom:12px"></div>
+<div><button class="btn" id="bewSend" onclick="sendBewertung()">⭐ Bewertungs-E-Mail senden</button><button class="btn sec" onclick="$('mBewertung').classList.remove('show')">Abbrechen</button></div>
+</div>
+</div>
+
 <!-- NEW LEAD MODAL -->
 <div class="mo" id="mNewLead" onclick="if(event.target===this)this.classList.remove('show')">
     <div class="md" style="max-width:560px">
@@ -728,8 +740,8 @@ async function loadLeads(){buildLF();try{leads=await sG('leads',isAdmin?'order=c
 function buildYF(){const yrs=[...new Set(leads.map(l=>new Date(l.created_at).getFullYear()))].sort((a,b)=>b-a);const sel=$('yearFilter');sel.innerHTML='<option value="all">Alle Jahre</option>'+yrs.map(y=>`<option value="${y}"${lyf==y?' selected':''}>${y}</option>`).join('');}
 function renderKpis(){const a=new Date(Date.now()-30*864e5),r=leads.filter(l=>new Date(l.created_at)>=a),nw=r.filter(l=>l.status==='new').length,of=r.filter(l=>l.offer_sent_at).length,wo=r.filter(l=>l.status==='won').length,lo=r.filter(l=>l.status==='lost').length,wO=r.filter(l=>l.offer_sent_at&&l.created_at);let avg='-';if(wO.length){const t=wO.reduce((s,l)=>s+(new Date(l.offer_sent_at)-new Date(l.created_at))/36e5,0)/wO.length;avg=t<24?`${Math.round(t)}h`:`${Math.round(t/24)}d`;}const cv=r.length?Math.round(wo/r.length*100):0;$('kpiGrid').innerHTML=`<div class="kpi-card hl"><div class="kpi-value">${nw}</div><div class="kpi-label">Neue Leads</div></div><div class="kpi-card"><div class="kpi-value">${of}</div><div class="kpi-label">Angebote</div></div><div class="kpi-card ok"><div class="kpi-value">${wo}</div><div class="kpi-label">Gewonnen</div></div><div class="kpi-card bad"><div class="kpi-value">${lo}</div><div class="kpi-label">Verloren</div></div><div class="kpi-card"><div class="kpi-value">${avg}</div><div class="kpi-label">⌀ Antwortzeit</div></div><div class="kpi-card"><div class="kpi-value">${cv}%</div><div class="kpi-label">Conversion</div></div>`;}
 function sortL(l){const s=[...l];switch(ls){case 'newest':s.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));break;case 'oldest':s.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));break;case 'budget_high':s.sort((a,b)=>(BV[b.budget]||0)-(BV[a.budget]||0));break;case 'budget_low':s.sort((a,b)=>(BV[a.budget]||0)-(BV[b.budget]||0));break;case 'urgency':const o={today:0,this_week:1,flexible:2};s.sort((a,b)=>(o[a.urgency]??3)-(o[b.urgency]??3));break;}return s;}
-function renderLeads(){const tb=$('leadsTB');let f=lf==='all'?leads:leads.filter(l=>l.status===lf);if(lyf!=='all')f=f.filter(l=>new Date(l.created_at).getFullYear()==lyf);f=sortL(f);if(!f.length){tb.innerHTML='<tr><td colspan="7" class="empty-state"><h3>Keine Anfragen</h3></td></tr>';return;}tb.innerHTML=f.map(l=>`<tr class="clickable" onclick="showLD('${l.id}')"><td><div style="font-weight:600">${esc(l.name||'Unbekannt')}${l.notes?'<span class="has-notes">📝</span>':''}</div><div style="font-size:13px;color:#64748b">${esc(l.phone||'-')}</div></td><td><div>${esc(l.service_type||'-')}</div>${l.company?`<div style="font-size:13px;color:#64748b">${esc(l.company)}</div>`:''}${l.offer_amount?`<div style="font-size:13px;color:#16a34a;font-weight:600">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</div>`:''}</td><td><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span></td><td><span class="time-ago">${timeAgo(l.created_at)}</span></td><td><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'Unbekannt'}</span></td><td><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></td><td onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="angebot">📄 Angebot schreiben</option>${l.status==='offer_sent'?'<option value="followup">📧 Follow-Up senden</option>':''}<option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');}
-function doLA(id,a){if(!a)return;curLead=id;if(a==='offer_sent'){$('offerAmt').value='';$('mOffer').classList.add('show');}else if(a==='notes'){const l=leads.find(x=>x.id===id);$('notesTxt').value=l?.notes||'';$('mNotes').classList.add('show');}else if(a==='delete')$('mDel').classList.add('show');else if(a==='termin'){const l=leads.find(x=>x.id===id);$('terminEmail').value=l?.email||'';$('terminMsg').value='';$('terminStatus').innerHTML='';$('terminSend').disabled=false;$('terminSend').textContent='📧 E-Mail senden';$('mTermin').classList.add('show');}else if(a==='angebot'){openAngebot(id);}else if(a==='followup'){openFollowUp(id);}else updLS(id,a);}
+function renderLeads(){const tb=$('leadsTB');let f=lf==='all'?leads:leads.filter(l=>l.status===lf);if(lyf!=='all')f=f.filter(l=>new Date(l.created_at).getFullYear()==lyf);f=sortL(f);if(!f.length){tb.innerHTML='<tr><td colspan="7" class="empty-state"><h3>Keine Anfragen</h3></td></tr>';return;}tb.innerHTML=f.map(l=>`<tr class="clickable" onclick="showLD('${l.id}')"><td><div style="font-weight:600">${esc(l.name||'Unbekannt')}${l.notes?'<span class="has-notes">📝</span>':''}</div><div style="font-size:13px;color:#64748b">${esc(l.phone||'-')}</div></td><td><div>${esc(l.service_type||'-')}</div>${l.company?`<div style="font-size:13px;color:#64748b">${esc(l.company)}</div>`:''}${l.offer_amount?`<div style="font-size:13px;color:#16a34a;font-weight:600">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</div>`:''}</td><td><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span></td><td><span class="time-ago">${timeAgo(l.created_at)}</span></td><td><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'Unbekannt'}</span></td><td><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></td><td onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="angebot">📄 Angebot schreiben</option>${l.status==='offer_sent'?'<option value="followup">📧 Follow-Up senden</option>':''}<option value="bewertung">⭐ Bewertung anfragen</option><option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');}
+function doLA(id,a){if(!a)return;curLead=id;if(a==='offer_sent'){$('offerAmt').value='';$('mOffer').classList.add('show');}else if(a==='notes'){const l=leads.find(x=>x.id===id);$('notesTxt').value=l?.notes||'';$('mNotes').classList.add('show');}else if(a==='delete')$('mDel').classList.add('show');else if(a==='termin'){const l=leads.find(x=>x.id===id);$('terminEmail').value=l?.email||'';$('terminMsg').value='';$('terminStatus').innerHTML='';$('terminSend').disabled=false;$('terminSend').textContent='📧 E-Mail senden';$('mTermin').classList.add('show');}else if(a==='angebot'){openAngebot(id);}else if(a==='followup'){openFollowUp(id);}else if(a==='bewertung'){openBewertung(id);}else updLS(id,a);}
 async function updLS(id,s,x={}){const d={status:s,updated_at:new Date().toISOString(),...x};if(s==='offer_sent'&&!x.offer_sent_at)d.offer_sent_at=new Date().toISOString();else if(s==='won'||s==='lost'||s==='bestandskunde')d.closed_at=new Date().toISOString();await sU('leads',id,d);loadLeads();}
 async function confirmOffer(){const a=$('offerAmt').value;await updLS(curLead,'offer_sent',{offer_amount:a?parseFloat(a):null,offer_sent_at:new Date().toISOString()});$('mOffer').classList.remove('show');}
 async function saveNotes(){await sU('leads',curLead,{notes:$('notesTxt').value,updated_at:new Date().toISOString()});loadLeads();$('mNotes').classList.remove('show');}
@@ -1237,6 +1249,47 @@ async function sendTermin(){
         setTimeout(()=>{$('mTermin').classList.remove('show');loadLeads();},1500);
     }catch(e){st.innerHTML='<span style="color:#dc2626">Fehler: '+e.message+'</span>';}
     b.disabled=false;b.textContent='📧 E-Mail senden';
+}
+
+// ===== BEWERTUNG =====
+const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJZbNrxJk8fAURDeLejnl34FE';
+
+function openBewertung(id){
+    curLead=id;
+    const l=leads.find(x=>x.id===id);
+    $('bewEmail').value=l?.email||'';
+    var name=l?.name||'';
+    var anrede=name?('Sehr geehrte/r '+name+','):'Sehr geehrte Damen und Herren,';
+    $('bewMsg').value=anrede+'\n\nvielen Dank, dass Sie sich f\u00fcr den Hausmeisterservice Sykora entschieden haben!\n\nWir hoffen, dass Sie mit unserer Arbeit zufrieden sind. Ihre Meinung ist uns sehr wichtig und hilft uns, unseren Service stetig zu verbessern.\n\nWir w\u00fcrden uns sehr freuen, wenn Sie sich einen kurzen Moment Zeit nehmen und uns eine Google-Bewertung hinterlassen:\n\n'+GOOGLE_REVIEW_URL+'\n\nVielen Dank f\u00fcr Ihr Vertrauen!\n\nGl\u00e4nzende Gr\u00fc\u00dfe\n'+(tname||'Hausmeisterservice Sykora');
+    $('bewStatus').innerHTML='';
+    $('bewSend').disabled=false;
+    $('bewSend').textContent='\u2b50 Bewertungs-E-Mail senden';
+    $('mBewertung').classList.add('show');
+}
+
+async function sendBewertung(){
+    var email=$('bewEmail').value.trim();
+    var msg=$('bewMsg').value.trim();
+    var st=$('bewStatus');
+    if(!email){st.innerHTML='<span style="color:#dc2626">Bitte E-Mail-Adresse eingeben.</span>';return;}
+    if(!msg){st.innerHTML='<span style="color:#dc2626">Bitte Nachricht eingeben.</span>';return;}
+    var b=$('bewSend');b.disabled=true;b.textContent='Wird gesendet...';st.innerHTML='';
+    var l=leads.find(x=>x.id===curLead);
+    try{
+        emailjs.init('fc6zzeTCmrKyrkxJ2');
+        await emailjs.send('service_te0rxxz','template_oyi750j',{
+            to_email:email,
+            kunde_name:l?.name||'',
+            firma_name:tname||'Hausmeisterservice Sykora',
+            nachricht:msg,
+            booking_link:GOOGLE_REVIEW_URL
+        });
+        var noteEntry='['+new Date().toLocaleDateString('de-DE')+'] Bewertungs-E-Mail gesendet an '+email;
+        if(curLead){await sU('leads',curLead,{notes:(l?.notes?l.notes+'\n':'')+noteEntry,updated_at:new Date().toISOString()});}
+        st.innerHTML='<span style="color:#16a34a">\u2713 Bewertungs-E-Mail erfolgreich gesendet!</span>';
+        setTimeout(function(){$('mBewertung').classList.remove('show');loadLeads();},1500);
+    }catch(e){st.innerHTML='<span style="color:#dc2626">Fehler: '+e.message+'</span>';}
+    b.disabled=false;b.textContent='\u2b50 Bewertungs-E-Mail senden';
 }
 
 // ===== FOLLOW-UP =====
