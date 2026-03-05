@@ -175,17 +175,29 @@
         .pw-ok.show{display:block}
 
         @media(max-width:768px){
-            .container{padding:16px}
-            .kpi-grid{grid-template-columns:repeat(2,1fr)}
-            .header-nav{display:none}
-            .section-header{flex-direction:column;align-items:flex-start}
-            .slp{width:100%}
-            .header{padding:0 16px}
-            .mob-nav{display:flex;gap:2px;padding:8px 16px;background:white;border-bottom:1px solid #e2e8f0;overflow-x:auto}
-            .mob-nav button{padding:8px 14px;font-size:13px;font-weight:500;background:none;border:none;color:#64748b;cursor:pointer;border-radius:6px;white-space:nowrap}
-            .mob-nav button.active{background:#eff6ff;color:#2563eb;font-weight:600}
-            .tc-row{flex-direction:column}
-        }
+    .container{padding:12px}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+    .header-nav{display:none}
+    .section-header{flex-direction:column;align-items:flex-start}
+    .slp{width:100%}
+    .header{padding:0 12px;height:48px}
+    .logo{font-size:17px}
+    .header-right{gap:6px}
+    .header-user .user-name{font-size:13px}
+    .admin-badge{font-size:9px;padding:1px 6px}
+    .hdr-btn{padding:4px 8px;font-size:11px}
+    .filter-group{flex-wrap:wrap;border:none;background:none;padding:0;gap:4px}
+    .filter-btn{padding:6px 10px;font-size:12px;background:white;border:1px solid #e2e8f0;border-radius:6px}
+    .filter-btn.active{background:#2563eb;color:white;border-color:#2563eb}
+    .header-actions{width:100%}
+    .sort-select{font-size:12px;padding:6px 8px}
+    .refresh-btn{font-size:12px;padding:6px 10px}
+    .section-title{font-size:16px}
+    .mob-nav{display:flex;gap:2px;padding:8px 16px;background:white;border-bottom:1px solid #e2e8f0;overflow-x:auto}
+    .mob-nav button{padding:8px 14px;font-size:13px;font-weight:500;background:none;border:none;color:#64748b;cursor:pointer;border-radius:6px;white-space:nowrap}
+    .mob-nav button.active{background:#eff6ff;color:#2563eb;font-weight:600}
+    .tc-row{flex-direction:column}
+}
         @media(min-width:769px){.mob-nav{display:none}}
 
         /* MOBILE LEAD CARDS */
