@@ -188,6 +188,24 @@
         }
         @media(min-width:769px){.mob-nav{display:none}}
 
+        /* MOBILE LEAD CARDS */
+.lead-cards{display:none}
+@media(max-width:768px){
+    .lead-table{display:none}
+    .lead-cards{display:block}
+    .lc{background:white;border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid #e2e8f0}
+    .lc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+    .lc-name{font-weight:700;font-size:15px;color:#1e293b}
+    .lc-phone{font-size:13px;color:#64748b;margin-top:2px}
+    .lc-svc{font-size:13px;color:#475569;margin-bottom:8px}
+    .lc-company{font-size:12px;color:#94a3b8}
+    .lc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .lc-offer{font-size:13px;color:#16a34a;font-weight:600}
+    .lc-time{font-size:12px;color:#94a3b8}
+    .lc-actions{border-top:1px solid #f1f5f9;padding-top:10px;margin-top:4px}
+    .lc-actions select{width:100%;padding:10px 14px;font-size:14px;border:1px solid #e2e8f0;border-radius:8px;background:white}
+}
+
         /* NEW LEAD */
         .nl-cats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
         .nl-cat{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:14px;transition:all .15s}
