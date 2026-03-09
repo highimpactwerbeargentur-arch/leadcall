@@ -635,26 +635,15 @@
                     console.error('E-Mail-Fehler:', emailErr);
                 }
                 
-                // Bestätigungs-SMS über Twilio senden
+                // Bestätigungs-SMS über Edge Function senden
                 try {
-                    const TWILIO_ACCOUNT_SID = 'AC69e8a043f6049873ad18f1a84fd46e42';
-                    const TWILIO_AUTH_TOKEN = 'e449dee8480ba06b6bb98cad07a6f07e';
-                    const TWILIO_PHONE_NUMBER = '+13135460107';
-                    
-                    const smsText = 'Vielen Dank für Ihre Anfrage! Wir haben alles erhalten und melden uns schnellstmöglich bei Ihnen.';
-                    
-                    const twilioAuth = btoa(`${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`);
-                    
-                    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`, {
+                    await fetch(`${SUPABASE_URL}/functions/v1/lead-notification`, {
                         method: 'POST',
-                        headers: {
-                            'Authorization': `Basic ${twilioAuth}`,
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams({
-                            From: TWILIO_PHONE_NUMBER,
-                            To: leadData.phone,
-                            Body: smsText
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            phone: leadData.phone,
+                            name: leadData.name,
+                            tenant_name: 'LeadCall24'
                         })
                     });
                     console.log('Bestätigungs-SMS gesendet');
