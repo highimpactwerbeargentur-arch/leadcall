@@ -588,7 +588,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 const SB='https://fbkkyzvumytipjtnrjrn.supabase.co';
@@ -603,6 +602,7 @@ const BV={under_500:250,'500_2000':1250,'2000_5000':3500,over_5000:7500,unknown:
 const SVL={sanitaer:'Sanitär',heizung:'Heizung',elektro:'Elektro',klima:'Klima',solar:'Solar',bad:'Bad'};
 function bc(b){return(b==='over_5000'||b==='2000_5000')?'bg-h':b==='500_2000'?'bg-m':'bg-l';}
 function $(id){return document.getElementById(id);}
+function formatPhone(p){let c=p.replace(/[\s\-\/\(\)]/g,'');if(c.startsWith('0049'))c='+49'+c.substring(4);else if(c.startsWith('49')&&!c.startsWith('+'))c='+49'+c.substring(2);else if(c.startsWith('0'))c='+49'+c.substring(1);else if(!c.startsWith('+'))c='+49'+c;return c;}
 
 let isAdmin=false,tid=null,tname='';
 let leads=[],obReqs=[],tenants=[];
@@ -779,11 +779,7 @@ async function saveNewLead(){
         const fl=$('nlFlaecheHD').value;if(fl)svc+=' ('+fl+' m²)';
         const st=$('nlStart').value;if(st)svc+=' – Start: '+(startMap[st]||st);
     }
-    let fPhone=phone.replace(/[\s\-\/\(\)]/g,'');
-    if(fPhone.startsWith('0049'))fPhone='+49'+fPhone.substring(4);
-    else if(fPhone.startsWith('49')&&!fPhone.startsWith('+'))fPhone='+49'+fPhone.substring(2);
-    else if(fPhone.startsWith('0'))fPhone='+49'+fPhone.substring(1);
-    else if(!fPhone.startsWith('+'))fPhone='+49'+fPhone;
+    let fPhone=formatPhone(phone);
     const b=$('nlSave');b.disabled=true;b.textContent='Wird gespeichert...';
     try{
         const tID=isAdmin?null:tid;
