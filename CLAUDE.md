@@ -55,6 +55,23 @@ Multi-tenant customer table. Each tenant is a Handwerksbetrieb using the platfor
 | `sms_template_initial` | text | SMS template with `{{firma}}` and `{{link}}` placeholders |
 | `sms_template_confirmation` | text | Confirmation SMS template with `{{firma}}` placeholder |
 | `sms_template_followup_1/2/3` | text | Follow-up SMS templates with `{{name}}` and `{{firma}}` placeholders |
+| `owner_name` | text | nullable — Inhaber/owner name for PDF offers |
+| `address` | text | nullable — Full company address (e.g. "Straße 1, 12345 Stadt") |
+| `city` | text | nullable — City name for PDF date lines |
+| `website` | text | nullable — Company website URL |
+| `tax_id` | text | nullable — USt-IdNr for PDF footer |
+| `iban` | text | nullable — Bank IBAN for PDF footer |
+| `bic` | text | nullable — Bank BIC for PDF footer |
+| `bank_name` | text | nullable — Bank name for PDF footer |
+| `gerichtsstand` | text | nullable — Court jurisdiction for PDF footer |
+| `info_email` | text | nullable — Public-facing email (for PDFs/footer, may differ from `email`) |
+| `logo_base64` | text | nullable — Base64-encoded logo for PDF generation |
+| `google_review_url` | text | nullable — Google Review URL for review request emails |
+| `booking_link` | text | nullable — Calendar/booking link for appointment emails |
+| `offer_categories` | text[] | default `['Sonstiges']` — Offer type dropdown options |
+| `offer_category_map` | jsonb | default `{}` — Maps lead service_type to offer category |
+| `default_offer_conditions` | text | nullable — Default Auftragsbedingungen text |
+| `default_zusatz_text` | text | nullable — Default Zusatzleistungen text |
 | `created_at` / `updated_at` | timestamptz | auto |
 
 **RLS Policies:**
@@ -246,12 +263,12 @@ All edge functions have `verify_jwt: false` (publicly accessible).
 Displays: Total leads, New leads, Offer sent, Won, Lost, Bestandskunde, Conversion rate, Total offer amount (for won leads)
 
 ### Offer/PDF Generation
-- Full offer editor with sender info (pre-filled for Hausmeisterservice Sykora), recipient, line items, totals
-- Generates professional PDF with logo via jsPDF
+- Full offer editor with sender info (auto-populated from tenant config), recipient, line items, totals
+- Generates professional PDF with tenant-specific logo, footer, and branding via jsPDF
 - PDF can be: downloaded, previewed, or emailed via EmailJS
 - Sent PDFs uploaded to `angebote` storage bucket
 - Offer updates lead status to `offer_sent` with `offer_amount` and `offer_sent_at`
-- Angebotstypen: Hausmeistertätigkeiten, Gebäudereinigung, Grünflächenpflege, Winterdienst, Sonstiges
+- Angebotstypen: configurable per tenant via `offer_categories` column (default: Sonstiges)
 
 ### Follow-Up System
 - After offer is sent, manual follow-up emails can be sent via the dashboard
@@ -260,10 +277,10 @@ Displays: Total leads, New leads, Offer sent, Won, Lost, Bestandskunde, Conversi
 
 ### Review Requests
 - For won leads, a review request email can be sent
-- Links to Google Review: `https://search.google.com/local/writereview?placeid=ChIJZbNrxJk8fAURDeLejnl34FE`
+- Uses tenant-specific `google_review_url` from tenants table
 
 ### Booking/Appointment
-- Sends booking link via email: `https://calendar.app.google/h2duMnoPvg3dCjPNA`
+- Sends booking link via email using tenant-specific `booking_link` from tenants table
 
 ### Tenant Management (Admin only)
 - View all tenants as cards with lead counts
@@ -324,11 +341,11 @@ All user-facing content is in German. Code comments and variable names mix Germa
 3. ~~**`interessenten` table has no RLS**~~ — Fixed: RLS enabled with anon INSERT only.
 4. ~~**Duplicate jsPDF CDN includes**~~ — Fixed: Removed duplicate 2.5.1 include, keeping only 2.5.2.
 5. ~~**Phone number formatting duplicated**~~ — Fixed: Unified to `formatPhone()` function across all files.
+6. ~~**Dashboard hardcoded for Sykora**~~ — Fixed: All tenant-specific data (sender info, logo, PDF footer, review URL, booking link, offer categories) moved to `tenants` table columns. Dashboard dynamically loads tenant config. Admin auto-loads the correct tenant config when managing leads.
 
 ## Known Issues & Technical Debt
 
 1. **`activities` table unused** — Schema exists but no data, no code writes to it. Planned for future activity tracking.
 2. **`send_followup_notifications()` only sets timestamps** — Does not actually send SMS/emails. The actual sending must be triggered separately or is manual.
-3. **Dashboard is hardcoded for Sykora** — Offer editor defaults, logo, and review URL are specific to Hausmeisterservice Sykora. Multi-tenant offer generation needs per-tenant config.
-4. **No mobile nav for admin tabs** — Mobile nav is built dynamically but the header nav is hidden on mobile.
-5. **All pages are single monolithic HTML files** — No code splitting or shared components. Changes to common elements (nav, footer) must be replicated across files.
+3. **No mobile nav for admin tabs** — Mobile nav is built dynamically but the header nav is hidden on mobile.
+4. **All pages are single monolithic HTML files** — No code splitting or shared components. Changes to common elements (nav, footer) must be replicated across files.
