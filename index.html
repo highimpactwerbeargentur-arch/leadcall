@@ -44,9 +44,13 @@
         }
         
         .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: #2563eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 150px;
+            height: auto;
         }
         
         .nav-cta {
@@ -565,6 +569,10 @@
         }
         
         @media (max-width: 768px) {
+            .logo img {
+                width: 120px;
+            }
+
             .nav-cta {
                 display: none;
             }
@@ -594,7 +602,7 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo"><img src="/Leadcall24.png" alt="LeadCall24" style="height:45px"></div>
+            <div class="logo"><img src="/Leadcall24.png" alt="LeadCall24"></div>
             <a href="#kontakt" class="nav-cta">Kostenlose Demo</a>
         </div>
     </nav>
