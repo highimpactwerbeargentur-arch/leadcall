@@ -37,23 +37,36 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 12px 24px;
+            padding: 10px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 70px;
+            min-height: 64px;
+            position: relative;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
+            z-index: 2;
         }
 
         .logo img {
-            height: 90px;
+            height: 40px;
             width: auto;
-            margin: -15px 0;
-            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .nav-center img {
+            height: 50px;
+            width: auto;
         }
         
         .nav-cta {
@@ -573,12 +586,16 @@
         
         @media (max-width: 768px) {
             .logo img {
-                height: 70px;
-                margin: -10px 0;
+                height: 32px;
+            }
+
+            .nav-center {
+                display: none;
             }
 
             .nav-cta {
-                display: none;
+                font-size: 12px;
+                padding: 8px 14px;
             }
             
             .hero {
@@ -606,7 +623,8 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo"><img src="/Leadcall24.png" alt="LeadCall24" style="height:90px !important;width:auto !important;margin:-15px 0 !important"></div>
+            <div class="logo"><img src="/schriftzug.png" alt="LeadCall24"></div>
+            <div class="nav-center"><img src="/haende.png" alt=""></div>
             <a href="#kontakt" class="nav-cta">Kostenlose Demo</a>
         </div>
     </nav>
