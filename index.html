@@ -813,21 +813,23 @@
         <p>© 2026 LeadCall24 • <a href="/impressum.html">Impressum</a> • <a href="/datenschutz.html">Datenschutz</a></p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
+        emailjs.init('fc6zzeTCmrKyrkxJ2');
         const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
 
         document.getElementById('leadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const form = e.target;
             const submitBtn = form.querySelector('.form-submit');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Wird gesendet...';
-            
+
             try {
                 const formData = new FormData(form);
-                
+
                 const data = {
                     name: formData.get('name'),
                     firma: formData.get('firma'),
@@ -836,7 +838,7 @@
                     quelle: 'landingpage',
                     created_at: new Date().toISOString()
                 };
-                
+
                 await fetch(`${SUPABASE_URL}/rest/v1/interessenten`, {
                     method: 'POST',
                     headers: {
@@ -846,10 +848,18 @@
                     },
                     body: JSON.stringify(data)
                 });
-                
+
+                emailjs.send('service_te0rxxz', 'template_oyi750j', {
+                    to_email: 'tristanhaupt01@gmail.com',
+                    kunde_name: data.name,
+                    firma_name: data.firma || 'Nicht angegeben',
+                    nachricht: 'Neuer Interessent über die Landingpage:\n\nName: ' + data.name + '\nFirma: ' + (data.firma || '-') + '\nTelefon: ' + data.telefon + '\nE-Mail: ' + data.email,
+                    booking_link: ''
+                }).catch(function(err) { console.error('EmailJS error:', err); });
+
                 document.getElementById('contactForm').classList.add('hidden');
                 document.getElementById('formSuccess').classList.add('show');
-                
+
             } catch (err) {
                 console.error('Fehler:', err);
                 alert('Es gab einen Fehler. Bitte rufen Sie uns an.');

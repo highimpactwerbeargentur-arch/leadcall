@@ -97,6 +97,8 @@
         .b-won,.b-completed{background:#dcfce7;color:#16a34a}
         .b-lost,.b-rejected{background:#fee2e2;color:#dc2626}
         .b-bestandskunde{background:#f0fdf4;color:#166534;border:1px solid #86efac}
+        .b-converted{background:#dcfce7;color:#16a34a}
+        .b-rejected{background:#fee2e2;color:#dc2626}
         .budget-badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600}
         .bg-h{background:#dcfce7;color:#16a34a}
         .bg-m{background:#fef3c7;color:#b45309}
@@ -335,6 +337,12 @@
         <div class="tab-view" id="tab-tenants">
             <div class="section-header"><h2 class="section-title">Aktive Kunden</h2><button class="refresh-btn" onclick="loadTenants()">↻ Aktualisieren</button></div>
             <div class="tg" id="tenantGrid"><div class="loading">Lädt...</div></div>
+        </div>
+        <!-- INTERESSENTEN -->
+        <div class="tab-view" id="tab-interessenten">
+            <div class="kpi-grid" id="intKpi"></div>
+            <div class="section-header"><h2 class="section-title">Interessenten</h2><div class="header-actions"><div class="filter-group" id="intFG"></div><button class="refresh-btn" onclick="loadInt()">↻ Aktualisieren</button></div></div>
+            <div class="card"><table><thead><tr><th>Status</th><th>Name</th><th>Firma</th><th>Telefon</th><th>E-Mail</th><th>Branche</th><th>Nachricht</th><th>Eingegangen</th><th>Aktion</th></tr></thead><tbody id="intTB"><tr><td colspan="9" class="loading">Lädt...</td></tr></tbody></table></div>
         </div>
     </div>
 </div>
@@ -656,7 +664,7 @@ async function saveChangePw(){
 // ===== APP =====
 function showApp(){
     $('loginOverlay').classList.add('hidden');$('mainContent').classList.add('show');
-    if(isAdmin){$('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';buildNav(['onboarding','leads','tenants'],['Onboarding','Alle Leads','Kunden']);switchTab('onboarding');loadOB();loadLeads();loadTenants();}
+    if(isAdmin){$('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';buildNav(['onboarding','leads','tenants','interessenten'],['Onboarding','Alle Leads','Kunden','Interessenten']);switchTab('onboarding');loadOB();loadLeads();loadTenants();loadInt();}
     else{$('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';$('btnNewLead').style.display='';buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();}
 }
 function buildNav(tabs,labels){const n=$('headerNav'),m=$('mobNav');n.innerHTML='';m.innerHTML='';tabs.forEach((t,i)=>{const b=document.createElement('button');b.textContent=labels[i];b.dataset.tab=t;b.onclick=()=>switchTab(t);n.appendChild(b);const b2=b.cloneNode(true);b2.onclick=()=>switchTab(t);m.appendChild(b2);});}
@@ -696,6 +704,15 @@ async function confirmActivate(){if(!curOb)return;const u=$('actUser').value.tri
 // ===== TENANTS =====
 async function loadTenants(){try{tenants=await sG('tenants','order=created_at.desc');const lds=await sG('leads','select=tenant_id');const c={};lds.forEach(l=>{c[l.tenant_id]=(c[l.tenant_id]||0)+1;});const g=$('tenantGrid');if(!tenants.length){g.innerHTML='<div class="empty-state"><h3>Noch keine Kunden</h3></div>';return;}g.innerHTML=tenants.map(t=>`<div class="tc"><div class="tc-name">${esc(t.name)}</div><div class="tc-email">${esc(t.email||'-')}</div><div class="tc-meta"><span>📞 ${esc(t.phone||'-')}</span><span>📋 ${c[t.id]||0} Leads</span><span>📅 ${fmtD(t.created_at)}</span></div><div class="tc-id">ID: ${t.id}</div><div class="tc-login"><h4>Login-Daten</h4><div class="tc-row"><div class="fld"><label>Benutzername</label><input type="text" value="${esc(t.username||'')}" id="u-${t.id}"></div><div class="fld"><label>Passwort</label><input type="text" value="" placeholder="Wird über Supabase Auth verwaltet" id="p-${t.id}" disabled></div><button onclick="saveTL('${t.id}')">Speichern</button></div><div class="pw-st ${t.auth_user_id?'set':'notset'}">${t.auth_user_id?'✓ Auth-User verknüpft':'⏳ Noch nicht verknüpft'}</div></div></div>`).join('');}catch(e){$('tenantGrid').innerHTML=`<div class="empty-state">Fehler: ${e.message}</div>`;}}
 async function saveTL(id){const u=$(`u-${id}`).value.trim().toLowerCase();if(!u){alert('Benutzername eingeben.');return;}const ex=await sG('tenants',`username=eq.${encodeURIComponent(u)}&id=neq.${id}`);if(ex.length){alert('Benutzername vergeben!');return;}const d={username:u};await sU('tenants',id,d);alert('Gespeichert!');loadTenants();}
+
+// ===== INTERESSENTEN =====
+const IL={new:'Neu',contacted:'Kontaktiert',converted:'Konvertiert',rejected:'Abgelehnt'};
+let intList=[],intf='all';
+function buildIF(){$('intFG').innerHTML=[['all','Alle'],['new','Neu'],['contacted','Kontaktiert'],['converted','Konvertiert'],['rejected','Abgelehnt']].map(([v,l])=>`<button class="filter-btn${intf===v?' active':''}" onclick="intf='${v}';buildIF();renderInt()">${l}</button>`).join('');}
+async function loadInt(){buildIF();try{intList=await sG('interessenten','order=created_at.desc');renderIntKpi();renderInt();}catch(e){$('intTB').innerHTML=`<tr><td colspan="9" class="empty-state">Fehler: ${e.message}</td></tr>`;}}
+function renderIntKpi(){const t=intList.length,n=intList.filter(r=>r.status==='new').length,c=intList.filter(r=>r.status==='contacted').length,cv=intList.filter(r=>r.status==='converted').length;$('intKpi').innerHTML=`<div class="kpi-card hl"><div class="kpi-value">${t}</div><div class="kpi-label">Gesamt</div></div><div class="kpi-card warn"><div class="kpi-value">${n}</div><div class="kpi-label">Neu</div></div><div class="kpi-card"><div class="kpi-value">${c}</div><div class="kpi-label">Kontaktiert</div></div><div class="kpi-card ok"><div class="kpi-value">${cv}</div><div class="kpi-label">Konvertiert</div></div>`;}
+function renderInt(){const tb=$('intTB');let f=intf==='all'?intList:intList.filter(r=>r.status===intf);if(!f.length){tb.innerHTML='<tr><td colspan="9" class="empty-state"><h3>Keine Interessenten</h3></td></tr>';return;}tb.innerHTML=f.map(r=>`<tr><td><span class="badge b-${r.status||'new'}">${IL[r.status||'new']||r.status}</span></td><td style="font-weight:600">${esc(r.name)}</td><td>${esc(r.firma||'-')}</td><td style="font-size:13px;font-family:monospace"><a href="tel:${r.telefon}">${esc(r.telefon)}</a></td><td style="font-size:13px"><a href="mailto:${r.email}">${esc(r.email)}</a></td><td>${esc(r.branche||'-')}</td><td style="font-size:13px;color:#64748b;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.nachricht||'')}">${esc(r.nachricht||'-')}</td><td style="font-size:13px;color:#64748b">${fmtD(r.created_at)}</td><td onclick="event.stopPropagation()"><select class="action-select" onchange="updIntS('${r.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="converted">→ Konvertiert</option><option value="rejected">→ Abgelehnt</option><option value="new">→ Neu</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');}
+async function updIntS(id,s){if(!s)return;if(s==='delete'){if(!confirm('Interessent wirklich löschen?'))return;await sD('interessenten',id);}else{await sU('interessenten',id,{status:s});}loadInt();}
 
 // ===== NEW LEAD =====
 function openNewLead(){
