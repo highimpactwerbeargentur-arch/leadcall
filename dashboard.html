@@ -430,64 +430,6 @@
     </div>
 </div>
 
-<!-- ANGEBOT EDITOR -->
-<div class="slo" id="angSlide" onclick="if(event.target===this)closeAng()">
-<div class="slp" style="width:700px">
-<div class="sl-top"><h2>📄 Angebot erstellen</h2><button class="cl-btn" onclick="closeAng()">✕</button></div>
-<div class="sl-body">
-<div class="dg">
-<div class="dg-t">Kundendaten</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div><label class="il">Name</label><input class="mi" id="angName"></div>
-<div><label class="il">Firma</label><input class="mi" id="angFirma"></div>
-<div><label class="il">E-Mail</label><input class="mi" id="angEmail" type="email"></div>
-<div><label class="il">Telefon</label><input class="mi" id="angPhone"></div>
-</div>
-<div style="margin-top:8px"><label class="il">Adresse</label><input class="mi" id="angAddr" placeholder="Straße, PLZ Ort"></div>
-</div>
-<div class="dg">
-<div class="dg-t">Angebotsdaten</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div><label class="il">Angebots-Nr.</label><input class="mi" id="angNr"></div>
-<div><label class="il">Datum</label><input class="mi" id="angDatum" type="date"></div>
-<div><label class="il">Gültig bis</label><input class="mi" id="angGueltig" type="date"></div>
-<div><label class="il">Betreff</label><input class="mi" id="angBetreff" placeholder="z.B. Unterhaltsreinigung Bürogebäude"></div>
-</div>
-</div>
-<div class="dg">
-<div class="dg-t">Positionen</div>
-<table style="width:100%;font-size:13px;border-collapse:collapse" id="angTable">
-<thead><tr style="background:#f8fafc">
-<th style="padding:8px;text-align:left;width:40px">Pos</th>
-<th style="padding:8px;text-align:left">Beschreibung</th>
-<th style="padding:8px;text-align:right;width:60px">Menge</th>
-<th style="padding:8px;text-align:left;width:60px">Einheit</th>
-<th style="padding:8px;text-align:right;width:90px">Einzelpreis</th>
-<th style="padding:8px;text-align:right;width:90px">Gesamt</th>
-<th style="padding:8px;width:30px"></th>
-</tr></thead>
-<tbody id="angRows"></tbody>
-</table>
-<button class="btn sec" style="margin-top:8px;font-size:12px" onclick="addAngRow()">+ Position hinzufügen</button>
-<div style="margin-top:16px;text-align:right;font-size:14px">
-<div style="margin-bottom:4px">Netto: <strong id="angNetto">0,00 €</strong></div>
-<div style="margin-bottom:4px">MwSt. (19%): <span id="angMwst">0,00 €</span></div>
-<div style="font-size:18px;font-weight:700;color:#1e293b">Brutto: <span id="angBrutto">0,00 €</span></div>
-</div>
-</div>
-<div class="dg">
-<div class="dg-t">Anmerkungen (optional)</div>
-<textarea class="mt" id="angNotes" placeholder="z.B. Zahlungsbedingungen, Sonderkonditionen..."></textarea>
-</div>
-</div>
-<div class="sl-act" style="flex-wrap:wrap">
-<button class="btn" onclick="genAngPDF('download')">💾 PDF herunterladen</button>
-<button class="btn grn" onclick="genAngPDF('send')">📧 PDF per E-Mail senden</button>
-<button class="btn sec" onclick="closeAng()">Abbrechen</button>
-</div>
-</div>
-</div>
-
 <!-- Onboarding detail slide -->
 <div class="slo" id="obSlide" onclick="if(event.target===this)closeOB()"><div class="slp"><div class="sl-top"><h2 id="obSlTitle">Details</h2><button class="cl-btn" onclick="closeOB()">✕</button></div><div class="sl-body" id="obSlBody"></div><div class="sl-act" id="obSlAct"></div></div></div>
 
