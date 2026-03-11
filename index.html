@@ -873,6 +873,16 @@
                         <label for="email">E-Mail *</label>
                         <input type="email" id="email" name="email" required placeholder="max@firma.de">
                     </div>
+                    <div class="form-group">
+                        <label for="callback_time">Bevorzugte Rückrufzeit</label>
+                        <select id="callback_time" name="callback_time">
+                            <option value="">Bitte wählen...</option>
+                            <option value="vormittags">Vormittags (8-12 Uhr)</option>
+                            <option value="nachmittags">Nachmittags (12-17 Uhr)</option>
+                            <option value="abends">Abends (17-20 Uhr)</option>
+                            <option value="jederzeit">Jederzeit</option>
+                        </select>
+                    </div>
                     <button type="submit" class="form-submit">Demo vereinbaren</button>
                 </form>
                 <p class="form-note">Wir melden uns innerhalb von 24 Stunden.</p>
@@ -920,6 +930,7 @@
                     firma: formData.get('firma'),
                     telefon: formData.get('telefon'),
                     email: formData.get('email'),
+                    preferred_callback_time: formData.get('callback_time') || null,
                     quelle: 'landingpage',
                     created_at: new Date().toISOString()
                 };
