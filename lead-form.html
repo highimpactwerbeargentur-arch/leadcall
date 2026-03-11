@@ -382,6 +382,17 @@
                 </div>
                 
                 <div class="field">
+                    <label for="callback_time">Bevorzugte Rückrufzeit</label>
+                    <select id="callback_time" name="callback_time">
+                        <option value="">Bitte wählen...</option>
+                        <option value="vormittags">Vormittags (8-12 Uhr)</option>
+                        <option value="nachmittags">Nachmittags (12-17 Uhr)</option>
+                        <option value="abends">Abends (17-20 Uhr)</option>
+                        <option value="jederzeit">Jederzeit</option>
+                    </select>
+                </div>
+
+                <div class="field">
                     <label>Fotos <span class="optional">(optional, max. 3 Bilder)</span></label>
                     <div class="file-upload" id="fileUpload">
                         <input type="file" id="imageInput" accept="image/*" multiple>
@@ -565,6 +576,7 @@
                     description: formData.get('description').trim() || null,
                     urgency: formData.get('urgency') || 'flexible',
                     budget: formData.get('budget') || null,
+                    preferred_callback_time: formData.get('callback_time') || null,
                     privacy_accepted: true,
                     privacy_accepted_at: new Date().toISOString(),
                     form_submitted_at: new Date().toISOString(),
