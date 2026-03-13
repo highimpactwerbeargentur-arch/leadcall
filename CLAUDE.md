@@ -110,7 +110,7 @@ Core lead/inquiry table.
 | `created_at` / `updated_at` | timestamptz | auto |
 
 **RLS Policies:**
-- `anon`: INSERT allowed (for lead forms), UPDATE allowed only for `image_urls` column (for image URL patching), SELECT restricted to own `tenant_id`
+- `anon`: INSERT allowed (for lead forms), UPDATE allowed only for `image_urls` column (for image URL patching), SELECT allowed for recently created new leads only (`status='new' AND created_at > now() - interval '10 minutes'`) via `leads_select_anon` policy — needed for `Prefer: return=representation` on INSERT (returns lead ID for image upload)
 - `authenticated`: SELECT/UPDATE/DELETE own tenant or admin; INSERT always
 
 #### `onboarding_requests` (RLS enabled, 3 rows)
@@ -342,6 +342,8 @@ All user-facing content is in German. Code comments and variable names mix Germa
 4. ~~**Duplicate jsPDF CDN includes**~~ — Fixed: Removed duplicate 2.5.1 include, keeping only 2.5.2.
 5. ~~**Phone number formatting duplicated**~~ — Fixed: Unified to `formatPhone()` function across all files.
 6. ~~**Dashboard hardcoded for Sykora**~~ — Fixed: All tenant-specific data (sender info, logo, PDF footer, review URL, booking link, offer categories) moved to `tenants` table columns. Dashboard dynamically loads tenant config. Admin auto-loads the correct tenant config when managing leads.
+7. ~~**Sykora email notification sent to wrong address**~~ — Fixed (2026-03-13): `kunden/sykora/index.html` had `to_email` hardcoded to `tristanhaupt01@gmail.com`, changed to `markussykora8@gmail.com`.
+8. ~~**INSERT with RETURNING failed on `leads` table for anon role**~~ — Fixed (2026-03-13): Supabase RLS required a SELECT policy for `Prefer: return=representation` to work. Added `leads_select_anon` policy allowing anon SELECT on leads where `status='new' AND created_at > now() - interval '10 minutes'`. Needed by Sykora form for image upload (requires lead ID back from INSERT).
 
 ## Known Issues & Technical Debt
 
