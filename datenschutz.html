@@ -9,34 +9,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root{--a:#f59e0b;--ah:#d97706;--d1:#09090b;--d2:#111114;--d3:#18181b;--d4:#27272a;--w:#fafafa;--g1:#a1a1aa;--g2:#71717a;--g3:#3f3f46}
+        :root{--a:#2563eb;--ah:#1d4ed8;--bg:#ffffff;--bg2:#f8fafc;--br:#e2e8f0;--tx:#0f172a;--tx2:#334155;--tx3:#64748b;--tx4:#94a3b8;--w:#ffffff}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--d1);color:var(--g1);line-height:1.7;-webkit-font-smoothing:antialiased}
-        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(9,9,11,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
-        .nl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-.03em;text-decoration:none;color:var(--w)}.nl span{color:var(--a)}
-        .nb{display:inline-flex;align-items:center;gap:6px;background:var(--a);color:var(--d1);font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;transition:all .2s}.nb:hover{background:var(--ah)}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx2);line-height:1.7;-webkit-font-smoothing:antialiased}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--br)}
+        .nl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-.03em;text-decoration:none;color:var(--tx)}.nl span{color:var(--a)}
+        .nb{display:inline-flex;align-items:center;gap:6px;background:var(--a);color:var(--w);font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;transition:all .2s}.nb:hover{background:var(--ah)}
         .container{max-width:680px;margin:0 auto;padding:100px 24px 80px}
         .back{display:inline-flex;align-items:center;gap:6px;color:var(--a);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:28px;transition:color .2s}.back:hover{color:var(--ah)}
-        h1{font-family:'Outfit',sans-serif;font-size:32px;font-weight:900;color:var(--w);margin-bottom:8px;letter-spacing:-.02em}
-        .stand{font-size:13px;color:var(--g3);margin-bottom:36px}
-        h2{font-size:18px;font-weight:700;color:var(--w);margin-top:36px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--d4)}
-        h3{font-size:15px;font-weight:700;color:var(--w);margin-top:20px;margin-bottom:8px}
-        p{margin-bottom:12px;font-size:15px;color:var(--g1)}
-        ul{margin:0 0 12px 20px;font-size:15px;color:var(--g1)}li{margin-bottom:4px}
+        h1{font-family:'Outfit',sans-serif;font-size:32px;font-weight:900;color:var(--tx);margin-bottom:8px;letter-spacing:-.02em}
+        .stand{font-size:13px;color:var(--tx4);margin-bottom:36px}
+        h2{font-size:18px;font-weight:700;color:var(--tx);margin-top:36px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--br)}
+        h3{font-size:15px;font-weight:700;color:var(--tx);margin-top:20px;margin-bottom:8px}
+        p{margin-bottom:12px;font-size:15px;color:var(--tx2)}
+        ul{margin:0 0 12px 20px;font-size:15px;color:var(--tx2)}li{margin-bottom:4px}
         a{color:var(--a);transition:color .2s}a:hover{color:var(--ah)}
         table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:14px}
-        th,td{text-align:left;padding:10px 12px;border:1px solid var(--d4)}
-        th{background:var(--d2);font-weight:600;color:var(--w)}
-        td{color:var(--g1)}
-        .foot{border-top:1px solid var(--d3);padding:24px;text-align:center;margin-top:48px}
-        .foot a{color:var(--g2);font-size:13px;text-decoration:none}.foot a:hover{color:var(--g1)}
+        th,td{text-align:left;padding:10px 12px;border:1px solid var(--br)}
+        th{background:var(--bg2);font-weight:600;color:var(--tx)}td{color:var(--tx2)}
+        .foot{border-top:1px solid var(--br);padding:24px;text-align:center;margin-top:48px}.foot a{color:var(--tx4);font-size:13px;text-decoration:none}.foot a:hover{color:var(--tx3)}
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <a href="/" class="nl">LEAD<span>CALL</span>24</a>
-        <a href="/#kontakt" class="nb">Jetzt anfragen →</a>
-    </nav>
+    <nav class="nav"><a href="/" class="nl">LEAD<span>CALL</span>24</a><a href="/#kontakt" class="nb">Jetzt anfragen →</a></nav>
     <div class="container">
         <a href="/" class="back">← Zurück zur Startseite</a>
         <h1>Datenschutzerklärung</h1>
@@ -50,14 +45,7 @@
 
         <h2>2. Hosting</h2>
         <p>Diese Website wird bei Vercel Inc. gehostet. Beim Aufruf dieser Website werden automatisch Daten in Server-Logfiles gespeichert, die Ihr Browser übermittelt:</p>
-        <ul>
-            <li>Browsertyp und Browserversion</li>
-            <li>Verwendetes Betriebssystem</li>
-            <li>Referrer URL</li>
-            <li>Hostname des zugreifenden Rechners</li>
-            <li>Uhrzeit der Serveranfrage</li>
-            <li>IP-Adresse</li>
-        </ul>
+        <ul><li>Browsertyp und Browserversion</li><li>Verwendetes Betriebssystem</li><li>Referrer URL</li><li>Hostname des zugreifenden Rechners</li><li>Uhrzeit der Serveranfrage</li><li>IP-Adresse</li></ul>
         <p>Anbieter: Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA. Die Datenübertragung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework. Weitere Informationen: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a></p>
         <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der technisch fehlerfreien Darstellung der Website).</p>
 
@@ -70,15 +58,7 @@
         <h2>5. Kontaktformular / Lead-Erfassung</h2>
         <h3>5.1 Welche Daten wir erfassen</h3>
         <p>Wenn Sie als Endkunde eines Handwerksbetriebs das Lead-Formular ausfüllen, werden folgende Daten erfasst:</p>
-        <ul>
-            <li>Name (Pflichtfeld)</li>
-            <li>Telefonnummer (Pflichtfeld)</li>
-            <li>E-Mail-Adresse (optional)</li>
-            <li>Firmenname (optional)</li>
-            <li>Art der Anfrage / Kategorie (Pflichtfeld)</li>
-            <li>Beschreibung des Anliegens (optional)</li>
-            <li>Fotos (optional, max. 3 Stück)</li>
-        </ul>
+        <ul><li>Name (Pflichtfeld)</li><li>Telefonnummer (Pflichtfeld)</li><li>E-Mail-Adresse (optional)</li><li>Firmenname (optional)</li><li>Art der Anfrage / Kategorie (Pflichtfeld)</li><li>Beschreibung des Anliegens (optional)</li><li>Fotos (optional, max. 3 Stück)</li></ul>
         <h3>5.2 Zweck und Rechtsgrundlage</h3>
         <p>Die Daten werden im Auftrag des jeweiligen Handwerksbetriebs verarbeitet, um Ihre Anfrage zu bearbeiten und ggf. ein Angebot zu erstellen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse des Handwerksbetriebs an der Bearbeitung von Kundenanfragen).</p>
         <h3>5.3 Speicherdauer</h3>
@@ -90,11 +70,7 @@
         <h2>6. Telefonservice (Twilio Voice)</h2>
         <h3>6.1 Anrufannahme und Weiterleitung</h3>
         <p>Wir nutzen den Dienst Twilio für die Annahme, Weiterleitung und Verarbeitung von Telefonanrufen im Auftrag unserer Kunden (Handwerksbetriebe). Wenn Sie die Telefonnummer eines unserer Kunden anrufen, werden folgende Daten durch Twilio verarbeitet:</p>
-        <ul>
-            <li>Ihre Telefonnummer (Caller ID)</li>
-            <li>Datum, Uhrzeit und Dauer des Anrufs</li>
-            <li>Anrufstatus (angenommen, nicht angenommen, etc.)</li>
-        </ul>
+        <ul><li>Ihre Telefonnummer (Caller ID)</li><li>Datum, Uhrzeit und Dauer des Anrufs</li><li>Anrufstatus (angenommen, nicht angenommen, etc.)</li></ul>
         <h3>6.2 SMS-Versand</h3>
         <p>Wenn ein Anruf nicht entgegengenommen werden kann, erhalten Sie eine automatische SMS mit einem Link zu einem Kontaktformular. Dabei wird Ihre Telefonnummer an Twilio übermittelt. In der Telefonansage werden Sie vorab darauf hingewiesen, dass Sie eine SMS erhalten werden.</p>
         <p>Anbieter: Twilio Inc., 375 Beale Street, Suite 300, San Francisco, CA 94105, USA. Die Datenübertragung in die USA erfolgt auf Grundlage von Standardvertragsklauseln (SCCs) gemäß Art. 46 Abs. 2 lit. c DSGVO. Ein Auftragsverarbeitungsvertrag (Twilio Data Protection Addendum) liegt vor.</p>
@@ -110,27 +86,11 @@
         <h2>8. Auftragsverarbeitung</h2>
         <p>LeadCall24 verarbeitet personenbezogene Daten im Auftrag der jeweiligen Handwerksbetriebe (unserer Kunden). Mit jedem Kunden wird ein Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO geschlossen.</p>
         <p>Folgende Unterauftragsverarbeiter werden eingesetzt:</p>
-        <table>
-            <thead><tr><th>Dienst</th><th>Anbieter</th><th>Standort</th><th>Zweck</th></tr></thead>
-            <tbody>
-                <tr><td>Datenbank &amp; Storage</td><td>Supabase Inc.</td><td>Frankfurt, DE</td><td>Speicherung von Leads und Formulardaten</td></tr>
-                <tr><td>Telefonie &amp; SMS</td><td>Twilio Inc.</td><td>USA</td><td>Anrufannahme, Weiterleitung, SMS-Versand</td></tr>
-                <tr><td>E-Mail</td><td>EmailJS Pte. Ltd.</td><td>USA (AWS)</td><td>E-Mail-Benachrichtigungen</td></tr>
-                <tr><td>Hosting</td><td>Vercel Inc.</td><td>USA</td><td>Bereitstellung der Website und Formulare</td></tr>
-            </tbody>
-        </table>
+        <table><thead><tr><th>Dienst</th><th>Anbieter</th><th>Standort</th><th>Zweck</th></tr></thead><tbody><tr><td>Datenbank &amp; Storage</td><td>Supabase Inc.</td><td>Frankfurt, DE</td><td>Speicherung von Leads und Formulardaten</td></tr><tr><td>Telefonie &amp; SMS</td><td>Twilio Inc.</td><td>USA</td><td>Anrufannahme, Weiterleitung, SMS-Versand</td></tr><tr><td>E-Mail</td><td>EmailJS Pte. Ltd.</td><td>USA (AWS)</td><td>E-Mail-Benachrichtigungen</td></tr><tr><td>Hosting</td><td>Vercel Inc.</td><td>USA</td><td>Bereitstellung der Website und Formulare</td></tr></tbody></table>
 
         <h2>9. Ihre Rechte</h2>
         <p>Sie haben jederzeit folgende Rechte bezüglich Ihrer personenbezogenen Daten:</p>
-        <ul>
-            <li><strong>Auskunft</strong> (Art. 15 DSGVO): Sie können Auskunft über Ihre bei uns gespeicherten Daten verlangen.</li>
-            <li><strong>Berichtigung</strong> (Art. 16 DSGVO): Sie können die Berichtigung unrichtiger Daten verlangen.</li>
-            <li><strong>Löschung</strong> (Art. 17 DSGVO): Sie können die Löschung Ihrer Daten verlangen, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</li>
-            <li><strong>Einschränkung</strong> (Art. 18 DSGVO): Sie können die Einschränkung der Verarbeitung verlangen.</li>
-            <li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO): Sie können Ihre Daten in einem gängigen Format erhalten.</li>
-            <li><strong>Widerspruch</strong> (Art. 21 DSGVO): Sie können der Verarbeitung Ihrer Daten widersprechen.</li>
-            <li><strong>Widerruf der Einwilligung</strong> (Art. 7 Abs. 3 DSGVO): Eine erteilte Einwilligung können Sie jederzeit widerrufen.</li>
-        </ul>
+        <ul><li><strong>Auskunft</strong> (Art. 15 DSGVO): Sie können Auskunft über Ihre bei uns gespeicherten Daten verlangen.</li><li><strong>Berichtigung</strong> (Art. 16 DSGVO): Sie können die Berichtigung unrichtiger Daten verlangen.</li><li><strong>Löschung</strong> (Art. 17 DSGVO): Sie können die Löschung Ihrer Daten verlangen, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</li><li><strong>Einschränkung</strong> (Art. 18 DSGVO): Sie können die Einschränkung der Verarbeitung verlangen.</li><li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO): Sie können Ihre Daten in einem gängigen Format erhalten.</li><li><strong>Widerspruch</strong> (Art. 21 DSGVO): Sie können der Verarbeitung Ihrer Daten widersprechen.</li><li><strong>Widerruf der Einwilligung</strong> (Art. 7 Abs. 3 DSGVO): Eine erteilte Einwilligung können Sie jederzeit widerrufen.</li></ul>
         <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte an: <a href="mailto:tristanhaupt01@gmail.com">tristanhaupt01@gmail.com</a></p>
 
         <h2>10. Beschwerderecht bei der Aufsichtsbehörde</h2>

@@ -8,532 +8,176 @@
     <link rel="icon" type="image/png" href="/Leadcall24.png">
     <meta name="robots" content="noindex, nofollow">
 
-    <!-- Meta Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '2378685585976335');
-    fbq('track', 'PageView');
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','2378685585976335');fbq('track','PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=2378685585976335&ev=PageView&noscript=1"
-    /></noscript>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2378685585976335&ev=PageView&noscript=1"/></noscript>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --accent: #f59e0b;
-            --accent-hover: #d97706;
-            --accent-glow: rgba(245, 158, 11, 0.25);
-            --dark-1: #09090b;
-            --dark-2: #111114;
-            --dark-3: #18181b;
-            --dark-4: #27272a;
-            --white: #fafafa;
-            --gray-1: #a1a1aa;
-            --gray-2: #71717a;
-            --gray-3: #3f3f46;
-            --green: #22c55e;
-            --red: #ef4444;
-        }
+        :root{--a:#2563eb;--ah:#1d4ed8;--ag:rgba(37,99,235,.15);--al:#eff6ff;--bg:#ffffff;--bg2:#f8fafc;--br:#e2e8f0;--br2:#cbd5e1;--tx:#0f172a;--tx2:#334155;--tx3:#64748b;--tx4:#94a3b8;--gn:#16a34a;--rd:#dc2626;--w:#ffffff}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+        .c{max-width:680px;margin:0 auto;padding:0 24px}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--br)}
+        .nl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-.03em;text-decoration:none;color:var(--tx)}.nl span{color:var(--a)}
+        .nb{display:inline-flex;align-items:center;gap:6px;background:var(--a);color:var(--w);font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;transition:all .2s}.nb:hover{background:var(--ah);transform:translateY(-1px)}
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--dark-1);
-            color: var(--white);
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
+        .hero{position:relative;padding:120px 0 80px;text-align:center;background:linear-gradient(180deg,var(--al) 0%,var(--bg) 100%)}
+        .hero::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%232563eb' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;opacity:.6}
+        .hi{position:relative;z-index:1}
+        .he{display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.15);color:var(--a);font-size:13px;font-weight:700;padding:8px 16px;border-radius:100px;margin-bottom:28px;animation:fd .6s ease-out both}
+        .he .p{width:8px;height:8px;background:var(--gn);border-radius:50%;animation:pu 2s infinite}
+        .hero h1{font-family:'Outfit',sans-serif;font-size:clamp(36px,8vw,64px);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:20px;animation:fu .7s ease-out .1s both}
+        .hl{position:relative;white-space:nowrap}.hl::after{content:'';position:absolute;bottom:2px;left:0;right:0;height:6px;background:var(--a);border-radius:3px;opacity:.2}
+        .hd{font-size:18px;line-height:1.6;color:var(--tx2);max-width:520px;margin:0 auto 36px;animation:fu .7s ease-out .2s both}
+        .ha{display:flex;flex-direction:column;align-items:center;gap:14px;animation:fu .7s ease-out .3s both}
+        .bh{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:360px;background:var(--a);color:var(--w);font-family:inherit;font-size:16px;font-weight:800;padding:18px 32px;border:none;border-radius:12px;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 4px 14px var(--ag)}.bh:hover{background:var(--ah);transform:translateY(-2px);box-shadow:0 12px 40px var(--ag)}
+        .bp{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:360px;background:var(--w);color:var(--tx2);font-family:inherit;font-size:15px;font-weight:600;padding:16px 32px;border:1px solid var(--br);border-radius:12px;text-decoration:none;transition:all .25s}.bp:hover{color:var(--tx);border-color:var(--br2);background:var(--bg2)}
+        .hs{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:48px;padding-top:32px;border-top:1px solid var(--br);animation:fu .7s ease-out .5s both}
+        .hst{text-align:center}.hsn{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900}.hsl{font-size:12px;color:var(--tx4);margin-top:2px}.sd{width:1px;height:36px;background:var(--br)}
 
-        .container { width: 100%; max-width: 680px; margin: 0 auto; padding: 0 24px; }
+        .se{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--a);margin-bottom:12px}
+        .sh{font-family:'Outfit',sans-serif;font-size:clamp(26px,5vw,38px);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:12px;color:var(--tx)}
+        .ss{font-size:16px;color:var(--tx3);margin-bottom:44px;line-height:1.5}
 
-        /* NAV */
-        .nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            padding: 16px 24px;
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(9,9,11,0.8);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .nav-logo { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; letter-spacing: -0.03em; }
-        .nav-logo span { color: var(--accent); }
-        .nav-cta {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: var(--accent); color: var(--dark-1);
-            font-family: inherit; font-size: 13px; font-weight: 700;
-            padding: 10px 18px; border-radius: 8px; text-decoration: none; transition: all 0.2s;
-        }
-        .nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .loss{padding:64px 0}
+        .lc{background:linear-gradient(135deg,#fef2f2,#fff7ed);border:1px solid #fecaca;border-radius:20px;padding:40px 28px;text-align:center;position:relative;overflow:hidden}
+        .lc::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,transparent,var(--rd),transparent)}
+        .li{font-size:40px;margin-bottom:16px}.lt{font-family:'Outfit',sans-serif;font-size:clamp(22px,5vw,32px);font-weight:800;line-height:1.2;margin-bottom:16px;color:var(--tx)}.lt span{color:var(--rd)}
+        .lk{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:24px 0;font-size:15px;color:var(--tx3)}
+        .ln{font-family:'Outfit',sans-serif;font-weight:800;font-size:20px;color:var(--tx);background:var(--w);border:1px solid var(--br);padding:8px 14px;border-radius:8px}
+        .lr{margin-top:20px;padding:16px;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.15);border-radius:12px}
+        .lrn{font-family:'Outfit',sans-serif;font-size:36px;font-weight:900;color:var(--rd)}.lrl{font-size:14px;color:var(--tx3);margin-top:4px}
+        .lv{margin-top:20px;font-size:14px;color:var(--tx3)}.lv strong{color:var(--gn);font-size:18px}
 
-        /* HERO */
-        .hero { position: relative; padding: 120px 0 80px; overflow: hidden; }
-        .hero::before {
-            content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .hero::after {
-            content: ''; position: absolute; inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none; opacity: 0.5;
-        }
-        .hero-content { position: relative; z-index: 1; text-align: center; }
-        .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2);
-            color: var(--accent); font-size: 13px; font-weight: 700;
-            padding: 8px 16px; border-radius: 100px; margin-bottom: 28px;
-            animation: fadeDown 0.6s ease-out both;
-        }
-        .hero-eyebrow .pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-        .hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(36px, 8vw, 64px); font-weight: 900;
-            line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px;
-            animation: fadeUp 0.7s ease-out 0.1s both;
-        }
-        .hero h1 .highlight { position: relative; white-space: nowrap; }
-        .hero h1 .highlight::after {
-            content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
-            height: 6px; background: var(--accent); border-radius: 3px; opacity: 0.5;
-        }
-        .hero-desc {
-            font-size: 18px; line-height: 1.6; color: var(--gray-1);
-            max-width: 520px; margin: 0 auto 36px;
-            animation: fadeUp 0.7s ease-out 0.2s both;
-        }
-        .hero-actions {
-            display: flex; flex-direction: column; align-items: center; gap: 14px;
-            animation: fadeUp 0.7s ease-out 0.3s both;
-        }
-        .btn-hero {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; max-width: 360px;
-            background: var(--accent); color: var(--dark-1);
-            font-family: inherit; font-size: 16px; font-weight: 800;
-            padding: 18px 32px; border: none; border-radius: 12px;
-            cursor: pointer; text-decoration: none; transition: all 0.25s;
-            box-shadow: 0 0 0 0 var(--accent-glow);
-        }
-        .btn-hero:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
-        .btn-phone {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; max-width: 360px;
-            background: transparent; color: var(--gray-1);
-            font-family: inherit; font-size: 15px; font-weight: 600;
-            padding: 16px 32px; border: 1px solid var(--dark-4); border-radius: 12px;
-            text-decoration: none; transition: all 0.25s;
-        }
-        .btn-phone:hover { color: var(--white); border-color: var(--gray-3); background: var(--dark-3); }
-        .hero-proof {
-            display: flex; align-items: center; justify-content: center; gap: 24px;
-            margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
-            animation: fadeUp 0.7s ease-out 0.5s both;
-        }
-        .proof-stat { text-align: center; }
-        .proof-num { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; letter-spacing: -0.02em; }
-        .proof-label { font-size: 12px; color: var(--gray-2); margin-top: 2px; }
-        .proof-divider { width: 1px; height: 36px; background: var(--dark-4); }
+        .how{padding:80px 0 64px}
+        .steps{display:flex;flex-direction:column}
+        .st{display:flex;gap:20px;padding:28px 0}.st:not(:last-child){border-bottom:1px solid var(--br)}
+        .sn{width:52px;height:52px;min-width:52px;background:var(--al);border:2px solid rgba(37,99,235,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;color:var(--a);transition:all .3s}.st:hover .sn{background:var(--a);color:var(--w);border-color:var(--a)}
+        .sb h3{font-family:'Outfit',sans-serif;font-size:19px;font-weight:800;margin-bottom:6px;color:var(--tx)}.sb p{font-size:15px;color:var(--tx3);line-height:1.6}.sem{font-size:28px;margin-bottom:4px}
 
-        /* LOSS CALCULATOR */
-        .loss-section { padding: 64px 0; }
-        .loss-card {
-            background: linear-gradient(135deg, #1c1206 0%, #18120a 100%);
-            border: 1px solid rgba(245,158,11,0.15); border-radius: 20px;
-            padding: 40px 28px; text-align: center; position: relative; overflow: hidden;
-        }
-        .loss-card::before {
-            content: ''; position: absolute; top: -1px; left: 20%; right: 20%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-        .loss-icon { font-size: 40px; margin-bottom: 16px; }
-        .loss-title { font-family: 'Outfit', sans-serif; font-size: clamp(22px, 5vw, 32px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.02em; }
-        .loss-title span { color: var(--red); }
-        .loss-calc { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0; font-size: 15px; color: var(--gray-1); }
-        .loss-num { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 20px; color: var(--white); background: var(--dark-4); padding: 8px 14px; border-radius: 8px; }
-        .loss-result { margin-top: 20px; padding: 16px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); border-radius: 12px; }
-        .loss-result-num { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 900; color: var(--red); }
-        .loss-result-label { font-size: 14px; color: var(--gray-1); margin-top: 4px; }
-        .loss-vs { margin-top: 20px; font-size: 14px; color: var(--gray-2); }
-        .loss-vs strong { color: var(--green); font-size: 18px; }
+        .pri{padding:64px 0;background:var(--bg2)}
+        .pc{background:var(--w);border:2px solid var(--a);border-radius:24px;padding:40px 28px;position:relative;overflow:hidden;box-shadow:0 4px 20px var(--ag)}
+        .pc::before{content:'';position:absolute;top:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--a),var(--ah),var(--a))}
+        .pb{display:inline-block;background:var(--a);color:var(--w);font-size:11px;font-weight:800;padding:5px 12px;border-radius:6px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+        .pa{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}.pac{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;color:var(--tx3)}.pan{font-family:'Outfit',sans-serif;font-size:64px;font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--tx)}
+        .pp{font-size:14px;color:var(--tx4);margin-bottom:24px}
+        .pf{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+        .pf li{display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--tx2)}
+        .ck{width:22px;height:22px;min-width:22px;background:rgba(22,163,74,.08);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-top:1px}.ck svg{width:14px;height:14px;stroke:var(--gn)}
+        .pca{display:block;width:100%;background:var(--a);color:var(--w);font-family:inherit;font-size:16px;font-weight:800;padding:18px;border:none;border-radius:12px;cursor:pointer;text-decoration:none;text-align:center;transition:all .25s}.pca:hover{background:var(--ah);box-shadow:0 8px 30px var(--ag)}
+        .pg{margin-top:16px;font-size:13px;color:var(--tx4);text-align:center}
 
-        /* SECTIONS */
-        .section-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
-        .section-heading { font-family: 'Outfit', sans-serif; font-size: clamp(26px, 5vw, 38px); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 12px; }
-        .section-sub { font-size: 16px; color: var(--gray-1); margin-bottom: 44px; line-height: 1.5; }
+        .soc{padding:64px 0}
+        .tms{display:flex;flex-direction:column;gap:16px}
+        .tm{background:var(--w);border:1px solid var(--br);border-radius:16px;padding:24px;transition:all .3s}.tm:hover{border-color:var(--a);box-shadow:0 4px 16px var(--ag)}
+        .tmh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+        .tma{display:flex;align-items:center;gap:12px}
+        .tmav{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--ah));display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:16px;color:var(--w)}
+        .tmn{font-weight:700;font-size:15px;color:var(--tx)}.tmr{font-size:13px;color:var(--tx4)}
+        .tms2{color:#f59e0b;font-size:14px;letter-spacing:2px}
+        .tmt{font-size:15px;line-height:1.65;color:var(--tx3)}.tmt strong{color:var(--tx);font-weight:700}
 
-        /* HOW IT WORKS */
-        .how-section { padding: 80px 0 64px; }
-        .steps { display: flex; flex-direction: column; }
-        .step { display: flex; gap: 20px; padding: 28px 0; }
-        .step:not(:last-child) { border-bottom: 1px solid var(--dark-3); }
-        .step-num {
-            width: 52px; height: 52px; min-width: 52px;
-            background: var(--dark-3); border: 2px solid var(--dark-4); border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: var(--accent);
-            transition: all 0.3s;
-        }
-        .step:hover .step-num { background: rgba(245,158,11,0.1); border-color: var(--accent); }
-        .step-body h3 { font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 800; margin-bottom: 6px; }
-        .step-body p { font-size: 15px; color: var(--gray-1); line-height: 1.6; }
-        .step-emoji { font-size: 28px; margin-bottom: 4px; }
+        .faq{padding:64px 0;background:var(--bg2)}
+        .fl{display:flex;flex-direction:column;gap:2px}
+        .fqi{background:var(--w);border-radius:12px;overflow:hidden;border:1px solid var(--br)}
+        .fqq{width:100%;background:0;border:0;color:var(--tx);font-family:inherit;font-size:15px;font-weight:700;padding:20px 24px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:color .2s}.fqq:hover{color:var(--a)}
+        .fqq svg{width:18px;height:18px;min-width:18px;stroke:var(--tx4);transition:transform .3s}
+        .fqi.open .fqq svg{transform:rotate(45deg);stroke:var(--a)}
+        .fqa{max-height:0;overflow:hidden;transition:max-height .3s ease}
+        .fqai{padding:0 24px 20px;font-size:14px;line-height:1.65;color:var(--tx3)}
 
-        /* PRICING */
-        .price-section { padding: 64px 0; }
-        .price-card {
-            background: var(--dark-2); border: 1px solid var(--dark-4); border-radius: 24px;
-            padding: 40px 28px; position: relative; overflow: hidden;
-        }
-        .price-card::before { content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-hover), var(--accent)); }
-        .price-badge { display: inline-block; background: var(--accent); color: var(--dark-1); font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
-        .price-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px; }
-        .price-currency { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--gray-1); }
-        .price-number { font-family: 'Outfit', sans-serif; font-size: 64px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
-        .price-period { font-size: 14px; color: var(--gray-2); margin-bottom: 28px; }
-        .price-features { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
-        .price-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: var(--gray-1); }
-        .check { width: 22px; height: 22px; min-width: 22px; background: rgba(34,197,94,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-        .check svg { width: 14px; height: 14px; stroke: var(--green); }
-        .price-cta { display: block; width: 100%; background: var(--accent); color: var(--dark-1); font-family: inherit; font-size: 16px; font-weight: 800; padding: 18px; border: none; border-radius: 12px; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s; }
-        .price-cta:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 30px var(--accent-glow); }
-        .price-guarantee { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-size: 13px; color: var(--gray-2); text-align: center; line-height: 1.4; }
+        .cta{padding:80px 0;background:var(--tx);color:var(--w)}
+        .ctac{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:40px 28px;text-align:center}
+        .cta .se{color:rgba(255,255,255,.4)}.cta .sh{color:var(--w)}.cta .ss{color:rgba(255,255,255,.55);margin-bottom:28px}
+        .lf{display:flex;flex-direction:column;gap:14px;text-align:left}
+        .fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .ff label{display:block;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px}
+        .ff input{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--w);font-family:inherit;font-size:15px;padding:14px 16px;border-radius:10px;outline:0;transition:all .2s}.ff input::placeholder{color:rgba(255,255,255,.25)}.ff input:focus{border-color:var(--a);box-shadow:0 0 0 3px var(--ag)}
+        .fs{width:100%;background:var(--a);color:var(--w);font-family:inherit;font-size:16px;font-weight:800;padding:18px;border:0;border-radius:12px;cursor:pointer;transition:all .25s;margin-top:4px}.fs:hover{background:var(--ah);box-shadow:0 8px 30px var(--ag)}.fs:disabled{opacity:.5;cursor:not-allowed}
+        .fn{font-size:13px;color:rgba(255,255,255,.3);text-align:center;margin-top:10px}
+        .fdiv{display:flex;align-items:center;gap:16px;margin:24px 0}.fdiv span{font-size:13px;color:rgba(255,255,255,.3);white-space:nowrap}.fdiv::before,.fdiv::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+        .pl{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--w);text-decoration:none;font-size:20px;font-family:'Outfit',sans-serif;font-weight:800;padding:16px;border:1px solid rgba(255,255,255,.15);border-radius:12px;transition:all .2s}.pl:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06)}
+        .fsu{display:none;text-align:center;padding:32px 0}.fsu.show{display:block}.fco.hidden{display:none}
+        .sui{width:64px;height:64px;background:rgba(22,163,74,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+        .fsu h3{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;margin-bottom:8px}.fsu p{color:rgba(255,255,255,.6);font-size:16px}
 
-        /* TESTIMONIALS */
-        .social-section { padding: 64px 0; }
-        .testimonials { display: flex; flex-direction: column; gap: 16px; }
-        .testimonial { background: var(--dark-2); border: 1px solid var(--dark-4); border-radius: 16px; padding: 24px; transition: border-color 0.3s; }
-        .testimonial:hover { border-color: var(--gray-3); }
-        .testimonial-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-        .testimonial-author { display: flex; align-items: center; gap: 12px; }
-        .testimonial-avatar { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-hover)); display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 16px; color: var(--dark-1); }
-        .testimonial-name { font-weight: 700; font-size: 15px; }
-        .testimonial-role { font-size: 13px; color: var(--gray-2); }
-        .testimonial-stars { color: var(--accent); font-size: 14px; letter-spacing: 2px; }
-        .testimonial-text { font-size: 15px; line-height: 1.65; color: var(--gray-1); }
-        .testimonial-text strong { color: var(--white); font-weight: 700; }
+        .foot{background:var(--tx);border-top:1px solid rgba(255,255,255,.08);padding:24px;text-align:center}
+        .foot p{font-size:13px;color:rgba(255,255,255,.25)}.foot a{color:rgba(255,255,255,.4);text-decoration:none}.foot a:hover{color:rgba(255,255,255,.7)}
 
-        /* FAQ */
-        .faq-section { padding: 64px 0; }
-        .faq-list { display: flex; flex-direction: column; gap: 2px; }
-        .faq-item { background: var(--dark-2); border-radius: 12px; overflow: hidden; }
-        .faq-question { width: 100%; background: none; border: none; color: var(--white); font-family: inherit; font-size: 15px; font-weight: 700; padding: 20px 24px; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: color 0.2s; }
-        .faq-question:hover { color: var(--accent); }
-        .faq-question svg { width: 18px; height: 18px; min-width: 18px; stroke: var(--gray-2); transition: transform 0.3s; }
-        .faq-item.open .faq-question svg { transform: rotate(45deg); stroke: var(--accent); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-        .faq-answer-inner { padding: 0 24px 20px; font-size: 14px; line-height: 1.65; color: var(--gray-1); }
+        .stk{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--w);border-top:1px solid var(--br);padding:12px 20px;z-index:999;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+        .stk a{display:block;background:var(--a);color:var(--w);text-align:center;font-family:inherit;font-size:15px;font-weight:800;padding:14px;border-radius:10px;text-decoration:none}
 
-        /* CTA / FORM */
-        .cta-section { padding: 80px 0; position: relative; }
-        .cta-section::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 800px; height: 500px; background: radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 60%); pointer-events: none; }
-        .cta-card { position: relative; z-index: 1; background: var(--dark-2); border: 1px solid var(--dark-4); border-radius: 24px; padding: 40px 28px; text-align: center; }
-        .cta-card .section-heading { margin-bottom: 8px; }
-        .cta-card .section-sub { margin-bottom: 32px; }
-        .lead-form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .form-field label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-2); margin-bottom: 6px; }
-        .form-field input { width: 100%; background: var(--dark-1); border: 1px solid var(--dark-4); color: var(--white); font-family: inherit; font-size: 15px; padding: 14px 16px; border-radius: 10px; outline: none; transition: all 0.2s; }
-        .form-field input::placeholder { color: var(--gray-3); }
-        .form-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-        .form-submit { width: 100%; background: var(--accent); color: var(--dark-1); font-family: inherit; font-size: 16px; font-weight: 800; padding: 18px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.25s; margin-top: 4px; }
-        .form-submit:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 30px var(--accent-glow); }
-        .form-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-        .form-note { font-size: 13px; color: var(--gray-3); text-align: center; margin-top: 10px; }
-        .form-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
-        .form-divider span { font-size: 13px; color: var(--gray-3); white-space: nowrap; }
-        .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--dark-4); }
-        .phone-link { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--white); text-decoration: none; font-size: 20px; font-family: 'Outfit', sans-serif; font-weight: 800; padding: 16px; border: 1px solid var(--dark-4); border-radius: 12px; transition: all 0.2s; letter-spacing: -0.01em; }
-        .phone-link:hover { border-color: var(--gray-3); background: var(--dark-3); }
-        .form-success { display: none; text-align: center; padding: 32px 0; }
-        .form-success.show { display: block; }
-        .form-container.hidden { display: none; }
-        .success-icon { width: 64px; height: 64px; background: rgba(34,197,94,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-        .form-success h3 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; margin-bottom: 8px; }
-        .form-success p { color: var(--gray-1); font-size: 16px; }
+        @media(max-width:560px){.fr{grid-template-columns:1fr}.hs{gap:16px}.hsn{font-size:22px}.stk{display:block}.foot{padding-bottom:80px}.cta{padding-bottom:100px}}
+        @media(min-width:768px){.hero{padding:140px 0 100px}.ha{flex-direction:row;justify-content:center}.bh,.bp{width:auto;max-width:none}}
 
-        /* FOOTER */
-        .footer { border-top: 1px solid var(--dark-3); padding: 24px; text-align: center; }
-        .footer p { font-size: 13px; color: var(--gray-3); }
-        .footer a { color: var(--gray-2); text-decoration: none; }
-        .footer a:hover { color: var(--gray-1); }
-
-        /* STICKY BAR */
-        .sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--dark-1); border-top: 1px solid var(--dark-4); padding: 12px 20px; z-index: 999; }
-        .sticky-bar a { display: block; background: var(--accent); color: var(--dark-1); text-align: center; font-family: inherit; font-size: 15px; font-weight: 800; padding: 14px; border-radius: 10px; text-decoration: none; }
-
-        /* RESPONSIVE */
-        @media (max-width: 560px) {
-            .form-row { grid-template-columns: 1fr; }
-            .hero-proof { gap: 16px; }
-            .proof-num { font-size: 22px; }
-            .sticky-bar { display: block; }
-            .footer { padding-bottom: 80px; }
-            .cta-section { padding-bottom: 100px; }
-        }
-        @media (min-width: 768px) {
-            .hero { padding: 140px 0 100px; }
-            .hero-actions { flex-direction: row; justify-content: center; }
-            .btn-hero, .btn-phone { width: auto; max-width: none; }
-        }
-
-        /* ANIMATIONS */
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        @keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes pu{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+        .rv{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}.rv.v{opacity:1;transform:translateY(0)}
     </style>
 </head>
 <body>
+<nav class="nav"><div class="nl">LEAD<span>CALL</span>24</div><a href="#kontakt" class="nb">Jetzt anfragen →</a></nav>
 
-    <nav class="nav">
-        <div class="nav-logo">LEAD<span>CALL</span>24</div>
-        <a href="#kontakt" class="nav-cta">Jetzt anfragen →</a>
-    </nav>
+<section class="hero"><div class="c hi">
+    <div class="he"><span class="p"></span> Bereits im Einsatz bei Handwerksbetrieben</div>
+    <h1>Kein Anruf mehr<br>ohne <span class="hl">Auftrag</span>.</h1>
+    <p class="hd">Dein Handy klingelt – du bist auf der Baustelle. LeadCall24 nimmt den Anruf entgegen und erfasst den Auftrag automatisch. Mit Fotos, Budget und allen Details.</p>
+    <div class="ha">
+        <a href="#kontakt" class="bh">Kostenlos anfragen <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="tel:+491631692010" class="bp"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 0163 169 2010</a>
+    </div>
+    <div class="hs"><div class="hst"><div class="hsn">24h</div><div class="hsl">Setup-Zeit</div></div><div class="sd"></div><div class="hst"><div class="hsn">149€</div><div class="hsl">pro Monat</div></div><div class="sd"></div><div class="hst"><div class="hsn">0€</div><div class="hsl">Einrichtung</div></div></div>
+</div></section>
 
-    <section class="hero">
-        <div class="container hero-content">
-            <div class="hero-eyebrow"><span class="pulse"></span> Bereits im Einsatz bei Handwerksbetrieben</div>
-            <h1>Kein Anruf mehr<br>ohne <span class="highlight">Auftrag</span>.</h1>
-            <p class="hero-desc">Dein Handy klingelt – du bist auf der Baustelle. LeadCall24 nimmt den Anruf entgegen und erfasst den Auftrag automatisch. Mit Fotos, Budget und allen Details.</p>
-            <div class="hero-actions">
-                <a href="#kontakt" class="btn-hero">Kostenlos anfragen <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="tel:+491631692010" class="btn-phone"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 0163 169 2010</a>
-            </div>
-            <div class="hero-proof">
-                <div class="proof-stat"><div class="proof-num">24h</div><div class="proof-label">Setup-Zeit</div></div>
-                <div class="proof-divider"></div>
-                <div class="proof-stat"><div class="proof-num">149€</div><div class="proof-label">pro Monat</div></div>
-                <div class="proof-divider"></div>
-                <div class="proof-stat"><div class="proof-num">0€</div><div class="proof-label">Einrichtung</div></div>
-            </div>
-        </div>
-    </section>
+<section class="loss"><div class="c rv"><div class="lc"><div class="li">📉</div><h2 class="lt">Weißt du, was dich<br><span>verpasste Anrufe kosten?</span></h2><div class="lk"><span class="ln">3</span> verpasste Anrufe/Woche <span>×</span> <span class="ln">800€</span> Ø Auftragswert</div><div class="lr"><div class="lrn">9.600€</div><div class="lrl">entgangener Umsatz pro Monat</div></div><p class="lv">LeadCall24 kostet dich <strong>149€/Monat</strong> — das ist 1 Auftrag.</p></div></div></section>
 
-    <section class="loss-section">
-        <div class="container reveal">
-            <div class="loss-card">
-                <div class="loss-icon">📉</div>
-                <h2 class="loss-title">Weißt du, was dich<br><span>verpasste Anrufe kosten?</span></h2>
-                <div class="loss-calc">
-                    <span class="loss-num">3</span> verpasste Anrufe/Woche
-                    <span>×</span>
-                    <span class="loss-num">800€</span> Ø Auftragswert
-                </div>
-                <div class="loss-result">
-                    <div class="loss-result-num">9.600€</div>
-                    <div class="loss-result-label">entgangener Umsatz pro Monat</div>
-                </div>
-                <p class="loss-vs">LeadCall24 kostet dich <strong>149€/Monat</strong> — das ist 1 Auftrag.</p>
-            </div>
-        </div>
-    </section>
+<section class="how"><div class="c"><p class="se rv">So funktioniert's</p><h2 class="sh rv">Drei Schritte. Null Aufwand.</h2><p class="ss rv">Wir richten alles ein. Du musst nichts installieren.</p><div class="steps rv">
+    <div class="st"><div class="sn">1</div><div class="sb"><div class="sem">📱</div><h3>Anruf kommt rein</h3><p>Du bist auf der Baustelle und kannst nicht ran? Kein Problem. Oder du gehst ran, merkst es ist ein Auftrag und leitest einfach weiter.</p></div></div>
+    <div class="st"><div class="sn">2</div><div class="sb"><div class="sem">💬</div><h3>Kunde bekommt SMS</h3><p>Der Anrufer erhält sofort eine SMS mit einem Formular-Link. Dort hinterlässt er Fotos, Budget, Projektdetails — alles was du brauchst.</p></div></div>
+    <div class="st"><div class="sn">3</div><div class="sb"><div class="sem">✅</div><h3>Auftrag im Dashboard</h3><p>Nach Feierabend öffnest du dein Dashboard — alle Anfragen übersichtlich mit Details. Angebot erstellen, abschicken, fertig.</p></div></div>
+</div></div></section>
 
-    <section class="how-section">
-        <div class="container">
-            <p class="section-eyebrow reveal">So funktioniert's</p>
-            <h2 class="section-heading reveal">Drei Schritte. Null Aufwand.</h2>
-            <p class="section-sub reveal">Wir richten alles ein. Du musst nichts installieren.</p>
-            <div class="steps reveal">
-                <div class="step">
-                    <div class="step-num">1</div>
-                    <div class="step-body">
-                        <div class="step-emoji">📱</div>
-                        <h3>Anruf kommt rein</h3>
-                        <p>Du bist auf der Baustelle und kannst nicht ran? Kein Problem. Oder du gehst ran, merkst es ist ein Auftrag und leitest einfach weiter.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-num">2</div>
-                    <div class="step-body">
-                        <div class="step-emoji">💬</div>
-                        <h3>Kunde bekommt SMS</h3>
-                        <p>Der Anrufer erhält sofort eine SMS mit einem Formular-Link. Dort hinterlässt er Fotos, Budget, Projektdetails — alles was du brauchst.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-num">3</div>
-                    <div class="step-body">
-                        <div class="step-emoji">✅</div>
-                        <h3>Auftrag im Dashboard</h3>
-                        <p>Nach Feierabend öffnest du dein Dashboard — alle Anfragen übersichtlich mit Details. Angebot erstellen, abschicken, fertig.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="pri"><div class="c rv"><p class="se">Preis</p><h2 class="sh">Ein Preis. Alles drin.</h2><p class="ss">Keine versteckten Kosten. Kein Kleingedrucktes.</p><div class="pc"><div class="pb">Komplett-Paket</div><div class="pa"><span class="pac">€</span><span class="pan">149</span></div><p class="pp">pro Monat · zzgl. MwSt. · monatlich kündbar</p><ul class="pf"><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Automatische SMS bei verpassten Anrufen</li><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Kundenformular mit Foto-Upload</li><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Eigenes Dashboard mit Lead-Übersicht</li><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>PDF-Angebote per Klick erstellen</li><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Eigene Nummer · eigenes Branding</li><li><span class="ck"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>Setup & Einrichtung komplett inklusive</li></ul><a href="#kontakt" class="pca">Jetzt kostenlos anfragen →</a><div class="pg">🛡️ Keine Einrichtungsgebühr · Keine Vertragslaufzeit · DSGVO-konform</div></div></div></section>
 
-    <section class="price-section">
-        <div class="container reveal">
-            <p class="section-eyebrow">Preis</p>
-            <h2 class="section-heading">Ein Preis. Alles drin.</h2>
-            <p class="section-sub">Keine versteckten Kosten. Kein Kleingedrucktes.</p>
-            <div class="price-card">
-                <div class="price-badge">Komplett-Paket</div>
-                <div class="price-amount"><span class="price-currency">€</span><span class="price-number">149</span></div>
-                <p class="price-period">pro Monat · zzgl. MwSt. · monatlich kündbar</p>
-                <ul class="price-features">
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Automatische SMS bei verpassten Anrufen</li>
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Kundenformular mit Foto-Upload</li>
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Eigenes Dashboard mit Lead-Übersicht</li>
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> PDF-Angebote per Klick erstellen</li>
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Eigene Nummer · eigenes Branding</li>
-                    <li><span class="check"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Setup & Einrichtung komplett inklusive</li>
-                </ul>
-                <a href="#kontakt" class="price-cta">Jetzt kostenlos anfragen →</a>
-                <div class="price-guarantee">🛡️ Keine Einrichtungsgebühr · Keine Vertragslaufzeit · DSGVO-konform</div>
-            </div>
-        </div>
-    </section>
+<section class="soc"><div class="c"><p class="se rv">Kundenstimmen</p><h2 class="sh rv">Das sagen Handwerker.</h2><p class="ss rv">Echte Erfahrungen aus dem Handwerk.</p><div class="tms rv">
+    <div class="tm"><div class="tmh"><div class="tma"><div class="tmav">MS</div><div><div class="tmn">Markus S.</div><div class="tmr">Hausmeisterservice · Brandenburg</div></div></div><div class="tms2">★★★★★</div></div><p class="tmt">„Früher sind mir locker <strong>3-4 Anfragen pro Woche</strong> durchgerutscht. Seit LeadCall24 verpasse ich keinen Auftrag mehr. Hat sich am ersten Tag gerechnet."</p></div>
+    <div class="tm"><div class="tmh"><div class="tma"><div class="tmav">TK</div><div><div class="tmn">Thomas K.</div><div class="tmr">Elektroinstallation · Berlin</div></div></div><div class="tms2">★★★★★</div></div><p class="tmt">„Ich bin den ganzen Tag auf Baustellen. Jetzt kriegen meine Kunden <strong>sofort eine SMS</strong> und ich hab abends alles ordentlich im Dashboard. Genial einfach."</p></div>
+</div></div></section>
 
-    <section class="social-section">
-        <div class="container">
-            <p class="section-eyebrow reveal">Kundenstimmen</p>
-            <h2 class="section-heading reveal">Das sagen Handwerker.</h2>
-            <p class="section-sub reveal">Echte Erfahrungen aus dem Handwerk.</p>
-            <div class="testimonials reveal">
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-author">
-                            <div class="testimonial-avatar">MS</div>
-                            <div><div class="testimonial-name">Markus S.</div><div class="testimonial-role">Hausmeisterservice · Brandenburg</div></div>
-                        </div>
-                        <div class="testimonial-stars">★★★★★</div>
-                    </div>
-                    <p class="testimonial-text">„Früher sind mir locker <strong>3-4 Anfragen pro Woche</strong> durchgerutscht. Seit LeadCall24 verpasse ich keinen Auftrag mehr. Hat sich am ersten Tag gerechnet."</p>
-                </div>
-                <div class="testimonial">
-                    <div class="testimonial-header">
-                        <div class="testimonial-author">
-                            <div class="testimonial-avatar">TK</div>
-                            <div><div class="testimonial-name">Thomas K.</div><div class="testimonial-role">Elektroinstallation · Berlin</div></div>
-                        </div>
-                        <div class="testimonial-stars">★★★★★</div>
-                    </div>
-                    <p class="testimonial-text">„Ich bin den ganzen Tag auf Baustellen. Jetzt kriegen meine Kunden <strong>sofort eine SMS</strong> und ich hab abends alles ordentlich im Dashboard. Genial einfach."</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="faq"><div class="c"><p class="se rv">Häufige Fragen</p><h2 class="sh rv">Noch unsicher?</h2><p class="ss rv">Die wichtigsten Antworten auf einen Blick.</p><div class="fl rv">
+    <div class="fqi"><button class="fqq" onclick="tfq(this)">Muss ich etwas installieren?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><div class="fqai">Nein. Wir richten alles für dich ein. Dein Dashboard läuft im Browser — auf Handy, Tablet oder PC.</div></div></div>
+    <div class="fqi"><button class="fqq" onclick="tfq(this)">Was passiert wenn ich selbst rangehe?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><div class="fqai">Kein Problem — einfach weiterleiten. LeadCall24 erfasst dann alles automatisch.</div></div></div>
+    <div class="fqi"><button class="fqq" onclick="tfq(this)">Bin ich an einen Vertrag gebunden?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><div class="fqai">Nein. Monatlich kündbar, keine Mindestlaufzeit, keine Einrichtungsgebühr.</div></div></div>
+    <div class="fqi"><button class="fqq" onclick="tfq(this)">Funktioniert das mit meiner Handynummer?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><div class="fqa"><div class="fqai">Ja. Du bekommst eine eigene Geschäftsnummer. Deine private Nummer bleibt privat.</div></div></div>
+</div></div></section>
 
-    <section class="faq-section">
-        <div class="container">
-            <p class="section-eyebrow reveal">Häufige Fragen</p>
-            <h2 class="section-heading reveal">Noch unsicher?</h2>
-            <p class="section-sub reveal">Die wichtigsten Antworten auf einen Blick.</p>
-            <div class="faq-list reveal">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Muss ich etwas installieren?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-                    <div class="faq-answer"><div class="faq-answer-inner">Nein. Wir richten alles für dich ein. Du brauchst kein IT-Wissen und musst keine App installieren. Dein Dashboard läuft im Browser — auf Handy, Tablet oder PC.</div></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Was passiert wenn ich selbst rangehe?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-                    <div class="faq-answer"><div class="faq-answer-inner">Kein Problem — wenn du merkst, dass es ein Auftrag ist, leitest du den Anruf einfach weiter. LeadCall24 erfasst dann alles automatisch und du kannst dich wieder deiner Baustelle widmen.</div></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Bin ich an einen Vertrag gebunden?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-                    <div class="faq-answer"><div class="faq-answer-inner">Nein. Monatlich kündbar, keine Mindestlaufzeit, keine Einrichtungsgebühr. Wenn es nicht passt, gehst du einfach wieder.</div></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">Funktioniert das mit meiner Handynummer?<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-                    <div class="faq-answer"><div class="faq-answer-inner">Ja. Du bekommst eine eigene Geschäftsnummer. Wenn dort keiner rangeht, wird der Anruf automatisch erfasst und der Kunde bekommt die SMS. Deine private Nummer bleibt privat.</div></div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="cta" id="kontakt"><div class="c"><div class="ctac rv">
+    <p class="se">Loslegen</p><h2 class="sh">Bereit, keinen Auftrag<br>mehr zu verpassen?</h2><p class="ss">Schick uns eine Anfrage — wir richten alles innerhalb von 24 Stunden für dich ein.</p>
+    <div id="fC" class="fco"><form class="lf" id="leadForm"><div class="fr"><div class="ff"><label for="name">Dein Name</label><input type="text" id="name" name="name" required placeholder="Max Mustermann"></div><div class="ff"><label for="firma">Firma</label><input type="text" id="firma" name="firma" required placeholder="Mustermann Sanitär"></div></div><div class="fr"><div class="ff"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" required placeholder="0170 1234567"></div><div class="ff"><label for="email">E-Mail</label><input type="email" id="email" name="email" required placeholder="max@firma.de"></div></div><button type="submit" class="fs" id="sB">Anfrage absenden →</button></form><p class="fn">Wir melden uns innerhalb von 24 Stunden.</p></div>
+    <div class="fsu" id="fS"><div class="sui"><svg width="32" height="32" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Anfrage erhalten!</h3><p>Wir melden uns schnellstmöglich bei dir.</p></div>
+    <div class="fdiv"><span>oder direkt anrufen</span></div>
+    <a href="tel:+491631692010" class="pl"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 0163 169 2010</a>
+</div></div></section>
 
-    <section class="cta-section" id="kontakt">
-        <div class="container">
-            <div class="cta-card reveal">
-                <p class="section-eyebrow">Loslegen</p>
-                <h2 class="section-heading">Bereit, keinen Auftrag<br>mehr zu verpassen?</h2>
-                <p class="section-sub">Schick uns eine Anfrage — wir richten alles innerhalb von 24 Stunden für dich ein.</p>
-                <div id="formContainer" class="form-container">
-                    <form class="lead-form" id="leadForm">
-                        <div class="form-row">
-                            <div class="form-field"><label for="name">Dein Name</label><input type="text" id="name" name="name" required placeholder="Max Mustermann"></div>
-                            <div class="form-field"><label for="firma">Firma</label><input type="text" id="firma" name="firma" required placeholder="Mustermann Sanitär"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-field"><label for="telefon">Telefon</label><input type="tel" id="telefon" name="telefon" required placeholder="0170 1234567"></div>
-                            <div class="form-field"><label for="email">E-Mail</label><input type="email" id="email" name="email" required placeholder="max@firma.de"></div>
-                        </div>
-                        <button type="submit" class="form-submit" id="submitBtn">Anfrage absenden →</button>
-                    </form>
-                    <p class="form-note">Wir melden uns innerhalb von 24 Stunden.</p>
-                </div>
-                <div class="form-success" id="formSuccess">
-                    <div class="success-icon"><svg width="32" height="32" fill="none" stroke="#22c55e" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    <h3>Anfrage erhalten!</h3>
-                    <p>Wir melden uns schnellstmöglich bei dir.</p>
-                </div>
-                <div class="form-divider"><span>oder direkt anrufen</span></div>
-                <a href="tel:+491631692010" class="phone-link"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 0163 169 2010</a>
-            </div>
-        </div>
-    </section>
+<footer class="foot"><p>© 2026 LeadCall24 · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></p></footer>
+<div class="stk" id="stk"><a href="#kontakt">Jetzt kostenlos anfragen →</a></div>
 
-    <footer class="footer"><p>© 2026 LeadCall24 · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></p></footer>
-
-    <div class="sticky-bar" id="stickyBar"><a href="#kontakt">Jetzt kostenlos anfragen →</a></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        emailjs.init('fc6zzeTCmrKyrkxJ2');
-        const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
-
-        document.getElementById('leadForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Wird gesendet...';
-            try {
-                const fd = new FormData(form);
-                const data = { name: fd.get('name'), firma: fd.get('firma'), telefon: fd.get('telefon'), email: fd.get('email'), quelle: 'ads-landingpage', created_at: new Date().toISOString() };
-                await fetch(`${SUPABASE_URL}/rest/v1/interessenten`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify(data) });
-                emailjs.send('service_te0rxxz', 'template_oyi750j', { to_email: 'tristanhaupt01@gmail.com', kunde_name: data.name, firma_name: data.firma || 'Nicht angegeben', nachricht: 'Neuer Interessent (Ads-LP):\n\nName: ' + data.name + '\nFirma: ' + (data.firma || '-') + '\nTelefon: ' + data.telefon + '\nE-Mail: ' + data.email, booking_link: '' }).catch(err => console.error('EmailJS:', err));
-                fbq('track', 'Lead');
-                document.getElementById('formContainer').classList.add('hidden');
-                document.getElementById('formSuccess').classList.add('show');
-            } catch (err) {
-                console.error('Error:', err);
-                alert('Fehler – bitte ruf uns an: 0163 1692010');
-                btn.disabled = false;
-                btn.textContent = 'Anfrage absenden →';
-            }
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', function(e) { e.preventDefault(); const t = document.querySelector(this.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
-
-        function toggleFaq(btn) {
-            const item = btn.closest('.faq-item'), answer = item.querySelector('.faq-answer'), isOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight = '0'; });
-            if (!isOpen) { item.classList.add('open'); answer.style.maxHeight = answer.scrollHeight + 'px'; }
-        }
-
-        const reveals = document.querySelectorAll('.reveal');
-        const ro = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } }); }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-        reveals.forEach(el => ro.observe(el));
-
-        const stickyBar = document.getElementById('stickyBar'), heroEl = document.querySelector('.hero');
-        if (stickyBar && heroEl) { const obs = new IntersectionObserver(([e]) => { stickyBar.style.display = e.isIntersecting ? 'none' : 'block'; }, { threshold: 0 }); obs.observe(heroEl); }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init('fc6zzeTCmrKyrkxJ2');const SU='https://fbkkyzvumytipjtnrjrn.supabase.co',SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
+document.getElementById('leadForm').addEventListener('submit',async function(e){e.preventDefault();const f=e.target,b=document.getElementById('sB');b.disabled=true;b.textContent='Wird gesendet...';try{const d=new FormData(f),o={name:d.get('name'),firma:d.get('firma'),telefon:d.get('telefon'),email:d.get('email'),quelle:'ads-landingpage',created_at:new Date().toISOString()};await fetch(SU+'/rest/v1/interessenten',{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK},body:JSON.stringify(o)});emailjs.send('service_te0rxxz','template_oyi750j',{to_email:'tristanhaupt01@gmail.com',kunde_name:o.name,firma_name:o.firma||'Nicht angegeben',nachricht:'Neuer Interessent (Ads-LP):\n\nName: '+o.name+'\nFirma: '+(o.firma||'-')+'\nTelefon: '+o.telefon+'\nE-Mail: '+o.email,booking_link:''}).catch(e=>console.error('EmailJS:',e));fbq('track','Lead');document.getElementById('fC').classList.add('hidden');document.getElementById('fS').classList.add('show');}catch(er){console.error(er);alert('Fehler – bitte ruf uns an: 0163 1692010');b.disabled=false;b.textContent='Anfrage absenden →';}});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+function tfq(b){const i=b.closest('.fqi'),a=i.querySelector('.fqa'),o=i.classList.contains('open');document.querySelectorAll('.fqi.open').forEach(x=>{x.classList.remove('open');x.querySelector('.fqa').style.maxHeight='0';});if(!o){i.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}}
+const rvs=document.querySelectorAll('.rv'),ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');ro.unobserve(e.target);}});},{threshold:.15,rootMargin:'0px 0px -40px 0px'});rvs.forEach(e=>ro.observe(e));
+const stk=document.getElementById('stk'),he=document.querySelector('.hero');if(stk&&he){const o=new IntersectionObserver(([e])=>{stk.style.display=e.isIntersecting?'none':'block';},{threshold:0});o.observe(he);}
+</script>
 </body>
 </html>

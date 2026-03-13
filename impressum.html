@@ -9,51 +9,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root{--a:#f59e0b;--ah:#d97706;--d1:#09090b;--d2:#111114;--d3:#18181b;--d4:#27272a;--w:#fafafa;--g1:#a1a1aa;--g2:#71717a;--g3:#3f3f46}
+        :root{--a:#2563eb;--ah:#1d4ed8;--bg:#ffffff;--bg2:#f8fafc;--br:#e2e8f0;--tx:#0f172a;--tx2:#334155;--tx3:#64748b;--tx4:#94a3b8;--w:#ffffff}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--d1);color:var(--g1);line-height:1.7;-webkit-font-smoothing:antialiased}
-        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(9,9,11,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)}
-        .nl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-.03em;text-decoration:none;color:var(--w)}.nl span{color:var(--a)}
-        .nb{display:inline-flex;align-items:center;gap:6px;background:var(--a);color:var(--d1);font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;transition:all .2s}.nb:hover{background:var(--ah)}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx2);line-height:1.7;-webkit-font-smoothing:antialiased}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--br)}
+        .nl{font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-.03em;text-decoration:none;color:var(--tx)}.nl span{color:var(--a)}
+        .nb{display:inline-flex;align-items:center;gap:6px;background:var(--a);color:var(--w);font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;transition:all .2s}.nb:hover{background:var(--ah)}
         .container{max-width:680px;margin:0 auto;padding:100px 24px 80px}
         .back{display:inline-flex;align-items:center;gap:6px;color:var(--a);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:28px;transition:color .2s}.back:hover{color:var(--ah)}
-        h1{font-family:'Outfit',sans-serif;font-size:32px;font-weight:900;color:var(--w);margin-bottom:36px;letter-spacing:-.02em}
-        h2{font-size:18px;font-weight:700;color:var(--w);margin-top:32px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--d4)}
-        p{margin-bottom:14px;font-size:15px;color:var(--g1)}
+        h1{font-family:'Outfit',sans-serif;font-size:32px;font-weight:900;color:var(--tx);margin-bottom:36px;letter-spacing:-.02em}
+        h2{font-size:18px;font-weight:700;color:var(--tx);margin-top:32px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--br)}
+        p{margin-bottom:14px;font-size:15px;color:var(--tx2)}
         a{color:var(--a);transition:color .2s}a:hover{color:var(--ah)}
-        .foot{border-top:1px solid var(--d3);padding:24px;text-align:center;margin-top:48px}
-        .foot a{color:var(--g2);font-size:13px;text-decoration:none}.foot a:hover{color:var(--g1)}
+        .foot{border-top:1px solid var(--br);padding:24px;text-align:center;margin-top:48px}.foot a{color:var(--tx4);font-size:13px;text-decoration:none}.foot a:hover{color:var(--tx3)}
     </style>
 </head>
 <body>
-    <nav class="nav">
-        <a href="/" class="nl">LEAD<span>CALL</span>24</a>
-        <a href="/#kontakt" class="nb">Jetzt anfragen →</a>
-    </nav>
+    <nav class="nav"><a href="/" class="nl">LEAD<span>CALL</span>24</a><a href="/#kontakt" class="nb">Jetzt anfragen →</a></nav>
     <div class="container">
         <a href="/" class="back">← Zurück zur Startseite</a>
         <h1>Impressum</h1>
-
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>Tristan Haupt<br>Unter den Linden 9<br>14542 Werder (Havel)<br>Deutschland</p>
         <p>Einzelunternehmer</p>
-
         <h2>Kontakt</h2>
         <p>Telefon: 0163 1692010<br>E-Mail: <a href="mailto:tristanhaupt01@gmail.com">tristanhaupt01@gmail.com</a></p>
-
         <h2>Umsatzsteuer</h2>
         <p>Gemäß § 19 UStG wird keine Umsatzsteuer erhoben (Kleinunternehmerregelung).</p>
-
         <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
         <p>Tristan Haupt<br>Unter den Linden 9<br>14542 Werder (Havel)</p>
-
         <h2>EU-Streitschlichtung</h2>
         <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a></p>
         <p>Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
-
         <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
         <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
-
         <div class="foot"><a href="/datenschutz.html">Datenschutzerklärung</a></div>
     </div>
 </body>
