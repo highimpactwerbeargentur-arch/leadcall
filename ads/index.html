@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadCall24 – Nie wieder Aufträge verpassen</title>
+    <meta name="description" content="LeadCall24 – Dein digitaler Innendienst. Verpasste Anrufe automatisch erfassen, Kunden-SMS mit Auftragsformular. Ab 149€/Monat.">
+    <link rel="icon" type="image/png" href="/Leadcall24.png">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2378685585976335');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2378685585976335&ev=PageView&noscript=1"
+    /></noscript>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #e8f0fe;
+            --dark: #0f1923;
+            --dark-mid: #1a2a3a;
+            --text: #2d3748;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --green: #22c55e;
+            --orange: #f59e0b;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(165deg, var(--dark) 0%, var(--dark-mid) 100%);
+            color: var(--white);
+            padding: 32px 20px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(26,115,232,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-logo {
+            height: 28px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 6vw, 42px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 28px;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px 28px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 24px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+        /* ── TRUST BAR ── */
+        .trust-bar {
+            background: var(--primary-light);
+            padding: 16px 20px;
+            text-align: center;
+        }
+
+        .trust-bar-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .trust-item svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ── SECTIONS ── */
+        .section {
+            padding: 56px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: clamp(22px, 5vw, 30px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-desc {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+
+        /* ── PROBLEM / PAIN ── */
+        .pain-section {
+            background: #fef9f0;
+            border-top: 3px solid var(--orange);
+        }
+
+        .pain-section .section { padding-top: 40px; padding-bottom: 40px; }
+
+        .pain-quote {
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--dark);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .pain-result {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .pain-result strong {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .step-content h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* ── PRICING ── */
+        .pricing-card {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-popular {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--white);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 16px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1;
+            margin: 16px 0 4px;
+        }
+
+        .pricing-price span {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .pricing-period {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .pricing-features li:last-child { border: none; }
+
+        .pricing-features li svg {
+            color: var(--green);
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            margin-top: 1px;
+        }
+
+        .pricing-note {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 12px;
+        }
+
+        /* ── TESTIMONIALS ── */
+        .testimonials {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .testimonial {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .testimonial-stars {
+            color: var(--orange);
+            font-size: 16px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .testimonial-role {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* ── CTA / FORM SECTION ── */
+        .form-section {
+            background: var(--dark);
+            color: var(--white);
+            padding: 56px 20px;
+        }
+
+        .form-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section .section-label { color: rgba(255,255,255,0.5); }
+
+        .form-section .section-title {
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .form-section .section-desc {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 28px;
+        }
+
+        .lead-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+        .form-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .form-field input {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 15px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .form-field input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .form-field input:focus {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .form-submit-btn {
+            background: var(--primary);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .form-submit-btn:hover { background: var(--primary-dark); }
+        .form-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .form-note {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .form-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .form-divider span {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            white-space: nowrap;
+        }
+
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .phone-cta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius);
+            transition: all 0.2s;
+        }
+
+        .phone-cta:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 32px 0;
+        }
+
+        .form-success.show { display: block; }
+        .form-container.hidden { display: none; }
+
+        .form-success h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .form-success p {
+            color: rgba(255,255,255,0.7);
+            font-size: 16px;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+        }
+
+        .footer a:hover { color: rgba(255,255,255,0.7); }
+
+        /* ── STICKY CTA (mobile) ── */
+        .sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 12px 20px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .sticky-cta a {
+            display: block;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 500px) {
+            .form-row { grid-template-columns: 1fr; }
+            .trust-bar-inner { gap: 16px; }
+            .sticky-cta { display: block; }
+            .footer { padding-bottom: 80px; }
+            .form-section { padding-bottom: 80px; }
+        }
+
+        @media (min-width: 768px) {
+            .hero { padding: 48px 20px 64px; }
+            .hero-cta { flex-direction: row; }
+            .section { padding: 72px 20px; }
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-inner > * {
+            animation: fadeUp 0.6s ease-out both;
+        }
+
+        .hero-badge { animation-delay: 0.1s; }
+        .hero h1 { animation-delay: 0.2s; }
+        .hero-sub { animation-delay: 0.3s; }
+        .hero-cta { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+        <div class="hero-inner">
+            <img src="/Leadcall24.png" alt="LeadCall24" class="hero-logo">
+            <div class="hero-badge">✓ Bereits im Einsatz bei Handwerksbetrieben</div>
+            <h1>Dein Handy klingelt.<br><span>Du bist auf der Baustelle.</span></h1>
+            <p class="hero-sub">LeadCall24 nimmt den Anruf entgegen und erfasst den Auftrag automatisch – mit Fotos, Budget und Projektdetails. Kein Büro nötig.</p>
+            <div class="hero-cta">
+                <a href="#kontakt" class="btn-primary">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Jetzt Anfrage senden
+                </a>
+                <a href="tel:+491631692010" class="btn-secondary">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    0163 1692010
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── TRUST BAR ── -->
+    <div class="trust-bar">
+        <div class="trust-bar-inner">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                DSGVO-konform
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Setup in 24h
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                Keine Vertragsbindung
+            </div>
+        </div>
+    </div>
+
+    <!-- ── PAIN POINT ── -->
+    <div class="pain-section">
+        <div class="section">
+            <p class="pain-quote">„Ich war auf der Baustelle, konnte nicht rangehen – und der Kunde hat einfach den nächsten angerufen."</p>
+            <p class="pain-result">Laut Studien gehen <strong>bis zu 85% der Anrufer nicht nochmal ran</strong>, wenn sie beim ersten Mal niemanden erreichen. Jeder verpasste Anruf ist ein verlorener Auftrag.</p>
+        </div>
+    </div>
+
+    <!-- ── SO FUNKTIONIERT'S ── -->
+    <div class="section">
+        <p class="section-label">So funktioniert's</p>
+        <h2 class="section-title">In 3 Schritten zum Auftrag</h2>
+        <p class="section-desc">Kein IT-Wissen nötig. Wir richten alles für dich ein.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Anruf verpasst oder weitergeleitet</h3>
+                    <p>Du bist auf der Baustelle und kannst nicht ran? Oder du gehst ran, merkst es ist ein Auftrag und leitest weiter? Beides funktioniert.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Kunde bekommt SMS mit Formular</h3>
+                    <p>Der Anrufer erhält automatisch eine SMS mit einem Link. Dort kann er Fotos, Budget und Projektdetails hinterlassen – alles digital.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Auftrag liegt fertig in deinem Dashboard</h3>
+                    <p>Nach Feierabend öffnest du dein Dashboard und hast alle Anfragen übersichtlich mit allen Details. Angebote mit einem Klick erstellen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── PREIS ── -->
+    <div style="background:#f8fafc; padding: 1px 0;">
+        <div class="section">
+            <p class="section-label">Transparent & fair</p>
+            <h2 class="section-title">Ein Preis. Alles drin.</h2>
+            <p class="section-desc">Keine versteckten Kosten. Monatlich kündbar.</p>
+
+            <div class="pricing-card">
+                <div class="pricing-popular">Beliebtestes Paket</div>
+                <div class="pricing-price">149€ <span>/ Monat</span></div>
+                <p class="pricing-period">zzgl. MwSt. · monatlich kündbar</p>
+                <ul class="pricing-features">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        Automatische SMS an verpasste Anrufer
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        Kundenformular mit Foto-Upload
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        Dashboard mit Lead-Übersicht
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        PDF-Angebote direkt erstellen
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        Eigene Nummer · eigenes Branding
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                        Setup & Einrichtung inklusive
+                    </li>
+                </ul>
+                <a href="#kontakt" class="btn-primary" style="width:100%;">Jetzt anfragen</a>
+                <p class="pricing-note">Keine Einrichtungsgebühr · Keine Vertragslaufzeit</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TESTIMONIALS ── -->
+    <div class="section">
+        <p class="section-label">Das sagen Kunden</p>
+        <h2 class="section-title">Handwerker vertrauen auf LeadCall24</h2>
+        <p class="section-desc">Echte Erfahrungen aus dem Handwerk.</p>
+
+        <div class="testimonials">
+            <div class="testimonial">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">„Seit wir LeadCall24 nutzen, verpassen wir keinen Auftrag mehr. Früher sind mir locker 3-4 Anfragen pro Woche durchgerutscht. Das Geld hat sich am ersten Tag gerechnet."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MS</div>
+                    <div>
+                        <div class="testimonial-name">Markus S.</div>
+                        <div class="testimonial-role">Hausmeisterservice · Brandenburg</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">„Ich bin den ganzen Tag auf Baustellen und hatte kein Büro für die Anrufe. Jetzt kriegen meine Kunden sofort eine SMS und ich hab abends alles ordentlich im Dashboard."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">TK</div>
+                    <div>
+                        <div class="testimonial-name">Thomas K.</div>
+                        <div class="testimonial-role">Elektroinstallation · Berlin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FORM / CTA ── -->
+    <section class="form-section" id="kontakt">
+        <div class="form-inner">
+            <p class="section-label">Loslegen</p>
+            <h2 class="section-title">Kein Auftrag mehr verpassen.</h2>
+            <p class="section-desc">Schreib uns und wir richten LeadCall24 für deinen Betrieb ein. Innerhalb von 24 Stunden einsatzbereit.</p>
+
+            <div id="formContainer" class="form-container">
+                <form class="lead-form" id="leadForm">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="name">Dein Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="Max Mustermann">
+                        </div>
+                        <div class="form-field">
+                            <label for="firma">Firma *</label>
+                            <input type="text" id="firma" name="firma" required placeholder="Mustermann Sanitär">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="telefon">Telefon *</label>
+                            <input type="tel" id="telefon" name="telefon" required placeholder="0170 1234567">
+                        </div>
+                        <div class="form-field">
+                            <label for="email">E-Mail *</label>
+                            <input type="email" id="email" name="email" required placeholder="max@firma.de">
+                        </div>
+                    </div>
+                    <button type="submit" class="form-submit-btn" id="submitBtn">Anfrage absenden →</button>
+                </form>
+                <p class="form-note">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+            </div>
+
+            <div class="form-success" id="formSuccess">
+                <h3>✓ Anfrage erhalten!</h3>
+                <p>Wir melden uns schnellstmöglich bei dir.</p>
+            </div>
+
+            <div class="form-divider"><span>oder direkt anrufen</span></div>
+
+            <a href="tel:+491631692010" class="phone-cta">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                0163 1692010
+            </a>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer class="footer">
+        <p>© 2026 LeadCall24 · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></p>
+    </footer>
+
+    <!-- ── STICKY CTA (mobile) ── -->
+    <div class="sticky-cta" id="stickyCta">
+        <a href="#kontakt">Jetzt anfragen →</a>
+    </div>
+
+    <!-- ── SCRIPTS ── -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        emailjs.init('fc6zzeTCmrKyrkxJ2');
+        const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
+
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Wird gesendet...';
+
+            try {
+                const formData = new FormData(form);
+                const data = {
+                    name: formData.get('name'),
+                    firma: formData.get('firma'),
+                    telefon: formData.get('telefon'),
+                    email: formData.get('email'),
+                    quelle: 'ads-landingpage',
+                    created_at: new Date().toISOString()
+                };
+
+                await fetch(`${SUPABASE_URL}/rest/v1/interessenten`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                emailjs.send('service_te0rxxz', 'template_oyi750j', {
+                    to_email: 'tristanhaupt01@gmail.com',
+                    kunde_name: data.name,
+                    firma_name: data.firma || 'Nicht angegeben',
+                    nachricht: 'Neuer Interessent über Ads-Landingpage:\n\nName: ' + data.name + '\nFirma: ' + (data.firma || '-') + '\nTelefon: ' + data.telefon + '\nE-Mail: ' + data.email,
+                    booking_link: ''
+                }).catch(function(err) { console.error('EmailJS error:', err); });
+
+                fbq('track', 'Lead');
+                document.getElementById('formContainer').classList.add('hidden');
+                document.getElementById('formSuccess').classList.add('show');
+
+            } catch (err) {
+                console.error('Fehler:', err);
+                alert('Es gab einen Fehler. Bitte ruf uns an: 0163 1692010');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Anfrage absenden →';
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Show sticky CTA only after scrolling past hero
+        const stickyCta = document.getElementById('stickyCta');
+        const hero = document.querySelector('.hero');
+        if (stickyCta && hero) {
+            const observer = new IntersectionObserver(([entry]) => {
+                stickyCta.style.display = entry.isIntersecting ? 'none' : 'block';
+            }, { threshold: 0 });
+            observer.observe(hero);
+        }
+    </script>
+</body>
+</html>
