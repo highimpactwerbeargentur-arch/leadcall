@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bewerbung - Hausmeisterservice Sykora</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #1a1a1a; line-height: 1.6; }
+        
+        .header { background: #0F1B2D; padding: 20px 0; text-align: center; }
+        .header h1 { color: #fff; font-size: 20px; font-weight: 700; }
+        .header p { color: #94A3B8; font-size: 13px; margin-top: 4px; }
+        
+        .container { max-width: 640px; margin: 0 auto; padding: 24px 16px 40px; }
+        
+        .info-box { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 10px; padding: 16px; margin-bottom: 24px; }
+        .info-box p { font-size: 14px; color: #1E40AF; }
+        
+        h2 { font-size: 18px; color: #0F1B2D; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #2563EB; display: inline-block; }
+        
+        .section { margin-bottom: 28px; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.full { grid-template-columns: 1fr; }
+        
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #374151; }
+        .form-group label .req { color: #DC2626; }
+        
+        input, select, textarea {
+            padding: 10px 12px; border: 1px solid #D1D5DB; border-radius: 8px;
+            font-size: 15px; font-family: inherit; background: #fff;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        textarea { resize: vertical; min-height: 80px; }
+        
+        .checkbox-group { margin-bottom: 12px; }
+        .checkbox-group label.group-label { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; display: block; }
+        .checkbox-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .chip { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid #D1D5DB; border-radius: 20px; cursor: pointer; font-size: 13px; transition: all 0.2s; user-select: none; background: #fff; }
+        .chip:hover { border-color: #2563EB; }
+        .chip input { display: none; }
+        .chip.selected { background: #2563EB; color: #fff; border-color: #2563EB; }
+        
+        .radio-row { display: flex; gap: 12px; }
+        .radio-chip { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid #D1D5DB; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all 0.2s; background: #fff; }
+        .radio-chip:hover { border-color: #2563EB; }
+        .radio-chip input { display: none; }
+        .radio-chip.selected { background: #2563EB; color: #fff; border-color: #2563EB; }
+        
+        .file-upload { border: 2px dashed #D1D5DB; border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .file-upload:hover { border-color: #2563EB; background: #F8FAFC; }
+        .file-upload p { font-size: 13px; color: #6B7280; }
+        .file-upload input { display: none; }
+        
+        .privacy { display: flex; gap: 10px; align-items: flex-start; margin: 20px 0; }
+        .privacy input[type="checkbox"] { margin-top: 3px; width: 18px; height: 18px; accent-color: #2563EB; flex-shrink: 0; }
+        .privacy label { font-size: 12px; color: #6B7280; line-height: 1.5; }
+        .privacy a { color: #2563EB; }
+        
+        .submit-btn {
+            width: 100%; padding: 14px; background: #2563EB; color: #fff;
+            border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .submit-btn:hover { background: #1D4ED8; transform: translateY(-1px); }
+        .submit-btn:disabled { background: #94A3B8; cursor: not-allowed; transform: none; }
+        
+        .success { display: none; text-align: center; padding: 60px 20px; }
+        .success h2 { font-size: 24px; color: #0F1B2D; border: none; display: block; margin-bottom: 12px; }
+        .success p { color: #6B7280; font-size: 16px; }
+        .success .check { font-size: 48px; margin-bottom: 16px; }
+        
+        .error-msg { color: #DC2626; font-size: 12px; margin-top: 2px; display: none; }
+        
+        @media (max-width: 500px) {
+            .form-row, .form-row.three { grid-template-columns: 1fr; }
+            .container { padding: 16px 12px 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Hausmeisterservice Sykora</h1>
+    <p>Bewerbungsformular</p>
+</div>
+
+<div class="container" id="formContainer">
+    <div class="info-box">
+        <p>Vielen Dank fuer Ihr Interesse an einer Stelle bei uns! Bitte fuellen Sie das Formular vollstaendig aus. Wir melden uns zeitnah bei Ihnen.</p>
+    </div>
+
+    <form id="bewerbungForm" novalidate>
+        <!-- PERSOENLICHE DATEN -->
+        <div class="section">
+            <h2>Persoenliche Daten</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Anrede <span class="req">*</span></label>
+                    <select name="anrede" required>
+                        <option value="">Bitte auswaehlen</option>
+                        <option value="Herr">Herr</option>
+                        <option value="Frau">Frau</option>
+                        <option value="Divers">Divers</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Telefon <span class="req">*</span></label>
+                    <input type="tel" name="telefon" required>
+                </div>
+            </div>
+
+            <div class="form-row three">
+                <div class="form-group">
+                    <label>Vorname <span class="req">*</span></label>
+                    <input type="text" name="vorname" required>
+                </div>
+                <div class="form-group">
+                    <label>Nachname <span class="req">*</span></label>
+                    <input type="text" name="nachname" required>
+                </div>
+                <div class="form-group">
+                    <label>E-Mail <span class="req">*</span></label>
+                    <input type="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Strasse und Hausnummer <span class="req">*</span></label>
+                    <input type="text" name="strasse" required>
+                </div>
+                <div class="form-group">
+                    <label>Stellennummer(n)</label>
+                    <input type="text" name="stellennummer">
+                </div>
+            </div>
+
+            <div class="form-row three">
+                <div class="form-group">
+                    <label>PLZ <span class="req">*</span></label>
+                    <input type="text" name="plz" required maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label>Ort <span class="req">*</span></label>
+                    <input type="text" name="ort" required>
+                </div>
+                <div class="form-group">
+                    <label>Personalnummer</label>
+                    <input type="text" name="personalnummer">
+                </div>
+            </div>
+        </div>
+
+        <!-- JOB PRAEFERENZEN -->
+        <div class="section">
+            <h2>Zur Stelle</h2>
+
+            <div class="checkbox-group">
+                <label class="group-label">Hauptjob vorhanden? <span class="req">*</span></label>
+                <div class="radio-row" id="hauptjob">
+                    <label class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden')">
+                        <input type="radio" name="hauptjob_vorhanden" value="nein"> Nein
+                    </label>
+                    <label class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden')">
+                        <input type="radio" name="hauptjob_vorhanden" value="ja"> Ja
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Gewuenschter Verdienst <span class="req">*</span></label>
+                    <select name="gewuenschter_verdienst" required>
+                        <option value="">Bitte auswaehlen</option>
+                        <option value="Mindestlohn">Mindestlohn</option>
+                        <option value="13-15 Euro/h">13-15 Euro/h</option>
+                        <option value="15-18 Euro/h">15-18 Euro/h</option>
+                        <option value="18+ Euro/h">18+ Euro/h</option>
+                        <option value="Nach Vereinbarung">Nach Vereinbarung</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gewuenschte Art der Beschaeftigung <span class="req">*</span></label>
+                    <select name="beschaeftigungsart" required>
+                        <option value="">Bitte auswaehlen</option>
+                        <option value="Minijob">Minijob (520 Euro)</option>
+                        <option value="Teilzeit">Teilzeit</option>
+                        <option value="Vollzeit">Vollzeit</option>
+                        <option value="Selbststaendig">Selbststaendig / Subunternehmer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="group-label">Moegliche Arbeitstage <span class="req">*</span></label>
+                <div class="checkbox-row" id="arbeitstage">
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Mo"> Mo</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Di"> Di</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Mi"> Mi</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Do"> Do</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Fr"> Fr</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Sa"> Sa</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="So"> So</label>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="group-label">Moegliche Arbeitszeiten <span class="req">*</span></label>
+                <div class="checkbox-row" id="arbeitszeiten">
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="5-7 Uhr"> 5-7 Uhr</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="8-12 Uhr"> 8-12 Uhr</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="12-18 Uhr"> 12-18 Uhr</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="18-22 Uhr"> 18-22 Uhr</label>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="group-label">Moegliche Einsatzorte in Muenchen <span class="req">*</span></label>
+                <div class="checkbox-row" id="einsatzorte">
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Zentrum"> Zentrum</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Nord"> Nord</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Ost"> Ost</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Sued"> Sued</label>
+                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="West"> West</label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Auto vorhanden? <span class="req">*</span></label>
+                    <select name="auto_vorhanden" required>
+                        <option value="">Bitte auswaehlen</option>
+                        <option value="Ja">Ja</option>
+                        <option value="Nein">Nein</option>
+                        <option value="Fuehrerschein vorhanden">Fuehrerschein vorhanden, kein Auto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Verfuegbar ab</label>
+                    <input type="date" name="verfuegbar_ab">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Urlaub geplant?</label>
+                    <input type="text" name="urlaub_geplant" placeholder="z.B. 15.04. - 30.04.2026">
+                </div>
+                <div class="form-group">
+                    <label>Wann telefonisch erreichbar?</label>
+                    <input type="text" name="erreichbarkeit" placeholder="z.B. Mo-Fr 8-17 Uhr">
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="group-label">EU-Buerger? <span class="req">*</span></label>
+                <div class="radio-row" id="eu_buerger">
+                    <label class="radio-chip selected" onclick="selectRadio(this, 'eu_buerger')">
+                        <input type="radio" name="eu_buerger" value="ja" checked> Ja
+                    </label>
+                    <label class="radio-chip" onclick="selectRadio(this, 'eu_buerger')">
+                        <input type="radio" name="eu_buerger" value="nein"> Nein
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOKUMENTE & HINWEIS -->
+        <div class="section">
+            <h2>Dokumente & Hinweis</h2>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label>Lebenslauf / Zeugnisse hochladen (optional, max. 5 MB)</label>
+                <label class="file-upload" id="fileUploadLabel">
+                    <input type="file" name="dokumente" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
+                    <p id="fileText">Tippen Sie hier um Dateien auszuwaehlen</p>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>Hinweis / Mitteilung</label>
+                <textarea name="hinweis" rows="4" placeholder="Moechten Sie uns noch etwas mitteilen?"></textarea>
+            </div>
+        </div>
+
+        <!-- DATENSCHUTZ & ABSENDEN -->
+        <div class="privacy">
+            <input type="checkbox" id="privacy" name="privacy" required>
+            <label for="privacy">Ich habe die Datenschutzerklaerung zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Bewerbung benutzt.</label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Bewerbung absenden</button>
+    </form>
+</div>
+
+<div class="success" id="successMsg">
+    <div class="check">&#10003;</div>
+    <h2>Bewerbung eingegangen!</h2>
+    <p>Vielen Dank! Wir haben Ihre Bewerbung erhalten und melden uns zeitnah bei Ihnen.</p>
+</div>
+
+<script>
+    // Config
+    const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MTgxMzQsImV4cCI6MjA4NTI5NDEzNH0.3bTn4GKOV8O0MH0JmY2aaNMVFVp2DpKMog0bYJp4fSk';
+    
+    // Sykora config - fallback if no tenant_id in URL
+    const SYKORA_TENANT_ID = '754f32de-bf1c-412e-9c7b-c3c2ecdf1c4a';
+    const SYKORA_EMAIL = 'markussykora8@gmail.com';
+    
+    // EmailJS config (same as existing forms)
+    const EMAILJS_SERVICE = 'service_uqfqyer';
+    const EMAILJS_TEMPLATE = 'template_7jtzic7';
+    const EMAILJS_PUBLIC_KEY = '5zGMq6JJb4t2DB64R';
+
+    // Get URL params
+    const params = new URLSearchParams(window.location.search);
+    const tenantId = params.get('tenant_id') || SYKORA_TENANT_ID;
+    const leadId = params.get('lead_id') || null;
+
+    // Pre-fill phone from lead if available
+    if (params.get('phone')) {
+        document.querySelector('[name="telefon"]').value = params.get('phone');
+    }
+    if (params.get('name')) {
+        const parts = params.get('name').split(' ');
+        if (parts.length >= 2) {
+            document.querySelector('[name="vorname"]').value = parts[0];
+            document.querySelector('[name="nachname"]').value = parts.slice(1).join(' ');
+        } else {
+            document.querySelector('[name="vorname"]').value = params.get('name');
+        }
+    }
+
+    // Chip toggle
+    function toggleChip(el) {
+        el.classList.toggle('selected');
+        el.querySelector('input').checked = el.classList.contains('selected');
+    }
+
+    // Radio select
+    function selectRadio(el, name) {
+        el.parentElement.querySelectorAll('.radio-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        el.querySelector('input').checked = true;
+    }
+
+    // File upload label
+    document.getElementById('fileInput').addEventListener('change', function() {
+        const names = Array.from(this.files).map(f => f.name).join(', ');
+        document.getElementById('fileText').textContent = names || 'Tippen Sie hier um Dateien auszuwaehlen';
+    });
+
+    // Get checked values from checkbox group
+    function getCheckedValues(name) {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+    }
+
+    // Form submit
+    document.getElementById('bewerbungForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Wird gesendet...';
+
+        const form = this;
+
+        try {
+            // Build data object
+            const data = {
+                tenant_id: tenantId,
+                lead_id: leadId,
+                anrede: form.anrede.value,
+                vorname: form.vorname.value,
+                nachname: form.nachname.value,
+                email: form.email.value,
+                telefon: form.telefon.value,
+                strasse: form.strasse.value,
+                plz: form.plz.value,
+                ort: form.ort.value,
+                stellennummer: form.stellennummer.value || null,
+                personalnummer: form.personalnummer.value || null,
+                hauptjob_vorhanden: form.hauptjob_vorhanden?.value === 'ja',
+                gewuenschter_verdienst: form.gewuenschter_verdienst.value,
+                beschaeftigungsart: form.beschaeftigungsart.value,
+                arbeitstage: getCheckedValues('arbeitstage'),
+                arbeitszeiten: getCheckedValues('arbeitszeiten'),
+                einsatzorte: getCheckedValues('einsatzorte'),
+                auto_vorhanden: form.auto_vorhanden.value,
+                verfuegbar_ab: form.verfuegbar_ab.value || null,
+                urlaub_geplant: form.urlaub_geplant.value || null,
+                erreichbarkeit: form.erreichbarkeit.value || null,
+                eu_buerger: form.eu_buerger?.value === 'ja',
+                hinweis: form.hinweis.value || null,
+                privacy_accepted: form.privacy.checked,
+                privacy_accepted_at: new Date().toISOString(),
+                status: 'new'
+            };
+
+            // Save to Supabase
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/bewerbungen`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!res.ok) {
+                const err = await res.text();
+                console.error('Supabase error:', err);
+                throw new Error('Speichern fehlgeschlagen');
+            }
+
+            // Send email notification to Sykora via EmailJS
+            try {
+                const emailData = {
+                    service_id: EMAILJS_SERVICE,
+                    template_id: EMAILJS_TEMPLATE,
+                    user_id: EMAILJS_PUBLIC_KEY,
+                    template_params: {
+                        to_email: SYKORA_EMAIL,
+                        from_name: `${data.vorname} ${data.nachname}`,
+                        subject: `Neue Bewerbung: ${data.vorname} ${data.nachname}`,
+                        message: `NEUE BEWERBUNG\n\nName: ${data.anrede} ${data.vorname} ${data.nachname}\nTelefon: ${data.telefon}\nEmail: ${data.email}\nAdresse: ${data.strasse}, ${data.plz} ${data.ort}\n\nBeschaeftigung: ${data.beschaeftigungsart}\nVerdienst: ${data.gewuenschter_verdienst}\nArbeitstage: ${data.arbeitstage.join(', ')}\nArbeitszeiten: ${data.arbeitszeiten.join(', ')}\nEinsatzorte: ${data.einsatzorte.join(', ')}\nAuto: ${data.auto_vorhanden}\nVerfuegbar ab: ${data.verfuegbar_ab || 'Sofort'}\nEU-Buerger: ${data.eu_buerger ? 'Ja' : 'Nein'}\nHauptjob: ${data.hauptjob_vorhanden ? 'Ja' : 'Nein'}\n\nHinweis: ${data.hinweis || '-'}\n\n---\nBewerbung eingegangen ueber LeadCall24`
+                    }
+                };
+
+                await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(emailData)
+                });
+            } catch (emailErr) {
+                console.error('Email error (non-critical):', emailErr);
+            }
+
+            // Show success
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+            window.scrollTo(0, 0);
+
+        } catch (err) {
+            console.error('Submit error:', err);
+            alert('Es gab ein Problem beim Senden. Bitte versuchen Sie es erneut.');
+            btn.disabled = false;
+            btn.textContent = 'Bewerbung absenden';
+        }
+    });
+</script>
+</body>
+</html>
