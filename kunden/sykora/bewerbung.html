@@ -164,12 +164,8 @@
             <div class="checkbox-group">
                 <label class="group-label">Hauptjob vorhanden? <span class="req">*</span></label>
                 <div class="radio-row" id="hauptjob">
-                    <label class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden')">
-                        <input type="radio" name="hauptjob_vorhanden" value="nein"> Nein
-                    </label>
-                    <label class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden')">
-                        <input type="radio" name="hauptjob_vorhanden" value="ja"> Ja
-                    </label>
+                    <div class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden', 'nein')">Nein</div>
+                    <div class="radio-chip" onclick="selectRadio(this, 'hauptjob_vorhanden', 'ja')">Ja</div>
                 </div>
             </div>
 
@@ -200,34 +196,34 @@
             <div class="checkbox-group">
                 <label class="group-label">Moegliche Arbeitstage <span class="req">*</span></label>
                 <div class="checkbox-row" id="arbeitstage">
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Mo"> Mo</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Di"> Di</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Mi"> Mi</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Do"> Do</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Fr"> Fr</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="Sa"> Sa</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitstage" value="So"> So</label>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Mo">Mo</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Di">Di</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Mi">Mi</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Do">Do</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Fr">Fr</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="Sa">Sa</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitstage" data-value="So">So</div>
                 </div>
             </div>
 
             <div class="checkbox-group">
                 <label class="group-label">Moegliche Arbeitszeiten <span class="req">*</span></label>
                 <div class="checkbox-row" id="arbeitszeiten">
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="5-7 Uhr"> 5-7 Uhr</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="8-12 Uhr"> 8-12 Uhr</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="12-18 Uhr"> 12-18 Uhr</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="arbeitszeiten" value="18-22 Uhr"> 18-22 Uhr</label>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitszeiten" data-value="5-7 Uhr">5-7 Uhr</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitszeiten" data-value="8-12 Uhr">8-12 Uhr</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitszeiten" data-value="12-18 Uhr">12-18 Uhr</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="arbeitszeiten" data-value="18-22 Uhr">18-22 Uhr</div>
                 </div>
             </div>
 
             <div class="checkbox-group">
                 <label class="group-label">Moegliche Einsatzorte in Muenchen <span class="req">*</span></label>
                 <div class="checkbox-row" id="einsatzorte">
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Zentrum"> Zentrum</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Nord"> Nord</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Ost"> Ost</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="Sued"> Sued</label>
-                    <label class="chip" onclick="toggleChip(this)"><input type="checkbox" name="einsatzorte" value="West"> West</label>
+                    <div class="chip" onclick="toggleChip(this)" data-name="einsatzorte" data-value="Zentrum">Zentrum</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="einsatzorte" data-value="Nord">Nord</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="einsatzorte" data-value="Ost">Ost</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="einsatzorte" data-value="Sued">Sued</div>
+                    <div class="chip" onclick="toggleChip(this)" data-name="einsatzorte" data-value="West">West</div>
                 </div>
             </div>
 
@@ -261,12 +257,8 @@
             <div class="checkbox-group">
                 <label class="group-label">EU-Buerger? <span class="req">*</span></label>
                 <div class="radio-row" id="eu_buerger">
-                    <label class="radio-chip selected" onclick="selectRadio(this, 'eu_buerger')">
-                        <input type="radio" name="eu_buerger" value="ja" checked> Ja
-                    </label>
-                    <label class="radio-chip" onclick="selectRadio(this, 'eu_buerger')">
-                        <input type="radio" name="eu_buerger" value="nein"> Nein
-                    </label>
+                    <div class="radio-chip selected" onclick="selectRadio(this, 'eu_buerger', 'ja')">Ja</div>
+                    <div class="radio-chip" onclick="selectRadio(this, 'eu_buerger', 'nein')">Nein</div>
                 </div>
             </div>
         </div>
@@ -338,17 +330,27 @@
         }
     }
 
+    // State for chips and radios
+    const chipState = { arbeitstage: [], arbeitszeiten: [], einsatzorte: [] };
+    const radioState = { hauptjob_vorhanden: 'nein', eu_buerger: 'ja' };
+
     // Chip toggle
     function toggleChip(el) {
         el.classList.toggle('selected');
-        el.querySelector('input').checked = el.classList.contains('selected');
+        const name = el.dataset.name;
+        const value = el.dataset.value;
+        if (el.classList.contains('selected')) {
+            if (!chipState[name].includes(value)) chipState[name].push(value);
+        } else {
+            chipState[name] = chipState[name].filter(v => v !== value);
+        }
     }
 
     // Radio select
-    function selectRadio(el, name) {
+    function selectRadio(el, name, value) {
         el.parentElement.querySelectorAll('.radio-chip').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
-        el.querySelector('input').checked = true;
+        radioState[name] = value;
     }
 
     // File upload label
@@ -356,11 +358,6 @@
         const names = Array.from(this.files).map(f => f.name).join(', ');
         document.getElementById('fileText').textContent = names || 'Tippen Sie hier um Dateien auszuwaehlen';
     });
-
-    // Get checked values from checkbox group
-    function getCheckedValues(name) {
-        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
-    }
 
     // Form submit
     document.getElementById('bewerbungForm').addEventListener('submit', async function(e) {
@@ -376,7 +373,7 @@
             // Build data object
             const data = {
                 tenant_id: tenantId,
-                lead_id: leadId,
+                lead_id: leadId || null,
                 anrede: form.anrede.value,
                 vorname: form.vorname.value,
                 nachname: form.nachname.value,
@@ -387,17 +384,17 @@
                 ort: form.ort.value,
                 stellennummer: form.stellennummer.value || null,
                 personalnummer: form.personalnummer.value || null,
-                hauptjob_vorhanden: form.hauptjob_vorhanden?.value === 'ja',
+                hauptjob_vorhanden: radioState.hauptjob_vorhanden === 'ja',
                 gewuenschter_verdienst: form.gewuenschter_verdienst.value,
                 beschaeftigungsart: form.beschaeftigungsart.value,
-                arbeitstage: getCheckedValues('arbeitstage'),
-                arbeitszeiten: getCheckedValues('arbeitszeiten'),
-                einsatzorte: getCheckedValues('einsatzorte'),
+                arbeitstage: chipState.arbeitstage,
+                arbeitszeiten: chipState.arbeitszeiten,
+                einsatzorte: chipState.einsatzorte,
                 auto_vorhanden: form.auto_vorhanden.value,
                 verfuegbar_ab: form.verfuegbar_ab.value || null,
                 urlaub_geplant: form.urlaub_geplant.value || null,
                 erreichbarkeit: form.erreichbarkeit.value || null,
-                eu_buerger: form.eu_buerger?.value === 'ja',
+                eu_buerger: radioState.eu_buerger === 'ja',
                 hinweis: form.hinweis.value || null,
                 privacy_accepted: form.privacy.checked,
                 privacy_accepted_at: new Date().toISOString(),
