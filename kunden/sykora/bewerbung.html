@@ -300,7 +300,7 @@
 <script>
     // Config
     const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3MTgxMzQsImV4cCI6MjA4NTI5NDEzNH0.3bTn4GKOV8O0MH0JmY2aaNMVFVp2DpKMog0bYJp4fSk';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
     
     // Sykora config - fallback if no tenant_id in URL
     const SYKORA_TENANT_ID = '754f32de-bf1c-412e-9c7b-c3c2ecdf1c4a';
@@ -373,7 +373,6 @@
             // Build data object
             const data = {
                 tenant_id: tenantId,
-                lead_id: leadId || null,
                 anrede: form.anrede.value,
                 vorname: form.vorname.value,
                 nachname: form.nachname.value,
@@ -385,12 +384,12 @@
                 stellennummer: form.stellennummer.value || null,
                 personalnummer: form.personalnummer.value || null,
                 hauptjob_vorhanden: radioState.hauptjob_vorhanden === 'ja',
-                gewuenschter_verdienst: form.gewuenschter_verdienst.value,
-                beschaeftigungsart: form.beschaeftigungsart.value,
-                arbeitstage: chipState.arbeitstage,
-                arbeitszeiten: chipState.arbeitszeiten,
-                einsatzorte: chipState.einsatzorte,
-                auto_vorhanden: form.auto_vorhanden.value,
+                gewuenschter_verdienst: form.gewuenschter_verdienst.value || null,
+                beschaeftigungsart: form.beschaeftigungsart.value || null,
+                arbeitstage: chipState.arbeitstage.length > 0 ? chipState.arbeitstage : null,
+                arbeitszeiten: chipState.arbeitszeiten.length > 0 ? chipState.arbeitszeiten : null,
+                einsatzorte: chipState.einsatzorte.length > 0 ? chipState.einsatzorte : null,
+                auto_vorhanden: form.auto_vorhanden.value || null,
                 verfuegbar_ab: form.verfuegbar_ab.value || null,
                 urlaub_geplant: form.urlaub_geplant.value || null,
                 erreichbarkeit: form.erreichbarkeit.value || null,
@@ -400,6 +399,9 @@
                 privacy_accepted_at: new Date().toISOString(),
                 status: 'new'
             };
+
+            // Only include lead_id if it exists
+            if (leadId) data.lead_id = leadId;
 
             // Save to Supabase
             const res = await fetch(`${SUPABASE_URL}/rest/v1/bewerbungen`, {
@@ -416,7 +418,7 @@
             if (!res.ok) {
                 const err = await res.text();
                 console.error('Supabase error:', err);
-                throw new Error('Speichern fehlgeschlagen');
+                throw new Error('Supabase: ' + err);
             }
 
             // Send email notification to Sykora via EmailJS
@@ -449,7 +451,7 @@
 
         } catch (err) {
             console.error('Submit error:', err);
-            alert('Es gab ein Problem beim Senden. Bitte versuchen Sie es erneut.');
+            alert('Fehler: ' + err.message);
             btn.disabled = false;
             btn.textContent = 'Bewerbung absenden';
         }
