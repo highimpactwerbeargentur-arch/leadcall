@@ -48,6 +48,20 @@
         .header-user{display:flex;align-items:center;gap:8px}
         .header-user .user-name{font-weight:600;color:#1e293b}
         .admin-badge{display:inline-block;padding:2px 8px;background:#fef3c7;color:#b45309;border-radius:4px;font-size:11px;font-weight:700;text-transform:uppercase}
+        .admin-banner{display:none;position:sticky;top:0;z-index:60;background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 24px;font-size:14px;color:#1e40af;align-items:center;gap:12px}
+        .admin-banner.show{display:flex}
+        .admin-banner a{color:#2563eb;text-decoration:none;font-weight:600}
+        .admin-banner a:hover{text-decoration:underline}
+        .admin-banner .ab-name{font-weight:700}
+        .admin-overview{display:none}
+        .admin-overview.show{display:block}
+        .ao-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:16px}
+        .ao-card{background:white;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:box-shadow .15s}
+        .ao-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
+        .ao-card-name{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:4px}
+        .ao-card-detail{font-size:13px;color:#64748b;margin-bottom:2px}
+        .ao-card-btn{margin-top:12px;padding:8px 16px;font-size:13px;font-weight:600;color:white;background:#2563eb;border:none;border-radius:8px;cursor:pointer}
+        .ao-card-btn:hover{background:#1d4ed8}
         .hdr-btn{padding:6px 12px;font-size:13px;background:none;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;color:#64748b;transition:all .15s}
         .hdr-btn:hover{border-color:#cbd5e1;color:#1e293b}
         .hdr-btn.logout:hover{border-color:#dc2626;color:#dc2626}
@@ -304,6 +318,7 @@
 
 <!-- MAIN -->
 <div class="main-content" id="mainContent">
+    <div class="admin-banner" id="adminBanner"><a href="/dashboard.html">← Zurück zur Übersicht</a><span>👁 Admin-Ansicht: <span class="ab-name" id="abName"></span></span></div>
     <header class="header">
         <div class="header-left">
             <div class="logo">LeadCall24</div>
@@ -320,6 +335,11 @@
     </header>
     <div class="mob-nav" id="mobNav"></div>
     <div class="container">
+        <!-- ADMIN OVERVIEW -->
+        <div class="admin-overview" id="adminOverview">
+            <div class="section-header"><h2 class="section-title">Kundenübersicht</h2><button class="refresh-btn" onclick="loadAdminOverview()">↻ Aktualisieren</button></div>
+            <div class="ao-grid" id="aoGrid"><div class="loading">Lädt...</div></div>
+        </div>
         <!-- LEADS -->
         <div class="tab-view" id="tab-leads">
             <div class="kpi-grid" id="kpiGrid"></div>
@@ -554,7 +574,7 @@ function bc(b){return(b==='over_5000'||b==='2000_5000')?'bg-h':b==='500_2000'?'b
 function $(id){return document.getElementById(id);}
 function formatPhone(p){let c=p.replace(/[\s\-\/\(\)]/g,'');if(c.startsWith('0049'))c='+49'+c.substring(4);else if(c.startsWith('49')&&!c.startsWith('+'))c='+49'+c.substring(2);else if(c.startsWith('0'))c='+49'+c.substring(1);else if(!c.startsWith('+'))c='+49'+c;return c;}
 
-let isAdmin=false,tid=null,tname='';
+let isAdmin=false,tid=null,tname='',impersonatedTid=null;
 let leads=[],obReqs=[],tenants=[];
 let lf='all',ls='newest',of='all',lyf='all';
 let curLead=null,curOb=null,pendT=null;
@@ -664,21 +684,56 @@ async function saveChangePw(){
 // ===== APP =====
 function showApp(){
     $('loginOverlay').classList.add('hidden');$('mainContent').classList.add('show');
-    if(isAdmin){$('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';buildNav(['onboarding','leads','tenants','interessenten'],['Onboarding','Alle Leads','Kunden','Interessenten']);switchTab('onboarding');loadOB();loadLeads();loadTenants();loadInt();}
-    else{$('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';$('btnNewLead').style.display='';buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();}
+    if(isAdmin){
+        const urlTid=new URLSearchParams(window.location.search).get('tenant_id');
+        if(urlTid){
+            // Impersonation mode
+            impersonatedTid=urlTid;tid=urlTid;
+            loadTenantConfig(urlTid).then(cfg=>{tname=cfg.name||'Kunde';tconfig=cfg;
+                $('abName').textContent=tname;$('adminBanner').classList.add('show');
+                $('headerTitle').textContent=tname;$('adminBadge').style.display='';$('changePwBtn').style.display='none';
+                document.querySelector('.header').style.top='41px';
+                buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();
+                $('adminOverview').classList.remove('show');
+            });
+        }else{
+            // Admin overview
+            impersonatedTid=null;tid=null;
+            $('adminBanner').classList.remove('show');document.querySelector('.header').style.top='0';
+            $('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';
+            $('adminOverview').classList.add('show');
+            document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));
+            buildNav([],[]);loadAdminOverview();
+        }
+    }else{
+        $('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';$('btnNewLead').style.display='';
+        buildNav(['leads'],['Anfragen']);switchTab('leads');loadLeads();
+    }
 }
 function buildNav(tabs,labels){const n=$('headerNav'),m=$('mobNav');n.innerHTML='';m.innerHTML='';tabs.forEach((t,i)=>{const b=document.createElement('button');b.textContent=labels[i];b.dataset.tab=t;b.onclick=()=>switchTab(t);n.appendChild(b);const b2=b.cloneNode(true);b2.onclick=()=>switchTab(t);m.appendChild(b2);});}
-function switchTab(t){document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));$(`tab-${t}`).classList.add('active');document.querySelectorAll('.header-nav button,.mob-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));}
+function switchTab(t){$('adminOverview').classList.remove('show');document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));$(`tab-${t}`).classList.add('active');document.querySelectorAll('.header-nav button,.mob-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));}
+
+// ===== ADMIN OVERVIEW =====
+async function loadAdminOverview(){
+    try{
+        const ts=await sG('tenants','order=name.asc');
+        const lds=await sG('leads','select=tenant_id');
+        const c={};lds.forEach(l=>{c[l.tenant_id]=(c[l.tenant_id]||0)+1;});
+        const g=$('aoGrid');
+        if(!ts.length){g.innerHTML='<div class="empty-state"><h3>Noch keine Kunden</h3></div>';return;}
+        g.innerHTML=ts.map(t=>`<div class="ao-card"><div class="ao-card-name">${esc(t.name)}</div><div class="ao-card-detail">📧 ${esc(t.email||'-')}</div><div class="ao-card-detail">📞 ${esc(t.phone_number||'-')}</div><div class="ao-card-detail">📋 ${c[t.id]||0} Leads</div><div class="ao-card-detail">📅 Erstellt: ${fmtD(t.created_at)}</div><button class="ao-card-btn" onclick="window.location.href='/dashboard.html?tenant_id=${t.id}'">🔑 Als Kunde einloggen</button></div>`).join('');
+    }catch(e){$('aoGrid').innerHTML=`<div class="empty-state">Fehler: ${e.message}</div>`;}
+}
 
 // ===== LEADS =====
 function buildLF(){$('leadFG').innerHTML=[['all','Alle'],['new','Neu'],['offer_sent','Angebot'],['won','Gewonnen'],['bestandskunde','Bestandskunde'],['lost','Verloren']].map(([v,l])=>`<button class="filter-btn${lf===v?' active':''}" onclick="lf='${v}';buildLF();renderLeads()">${l}</button>`).join('');}
-async function loadLeads(){buildLF();try{leads=await sG('leads',isAdmin?'order=created_at.desc':`tenant_id=eq.${tid}&order=created_at.desc`);buildYF();renderKpis();renderLeads();}catch(e){$('leadsTB').innerHTML=`<tr><td colspan="7" class="empty-state">Fehler: ${e.message}</td></tr>`;}}
+async function loadLeads(){buildLF();try{const q=impersonatedTid?`tenant_id=eq.${impersonatedTid}&order=created_at.desc`:(isAdmin?'order=created_at.desc':`tenant_id=eq.${tid}&order=created_at.desc`);leads=await sG('leads',q);buildYF();renderKpis();renderLeads();}catch(e){$('leadsTB').innerHTML=`<tr><td colspan="7" class="empty-state">Fehler: ${e.message}</td></tr>`;}}
 function buildYF(){const yrs=[...new Set(leads.map(l=>new Date(l.created_at).getFullYear()))].sort((a,b)=>b-a);const sel=$('yearFilter');sel.innerHTML='<option value="all">Alle Jahre</option>'+yrs.map(y=>`<option value="${y}"${lyf==y?' selected':''}>${y}</option>`).join('');}
 function renderKpis(){const a=new Date(Date.now()-30*864e5),r=leads.filter(l=>new Date(l.created_at)>=a),nw=r.filter(l=>l.status==='new').length,of=r.filter(l=>l.offer_sent_at).length,wo=r.filter(l=>l.status==='won').length,lo=r.filter(l=>l.status==='lost').length,wO=r.filter(l=>l.offer_sent_at&&l.created_at);let avg='-';if(wO.length){const t=wO.reduce((s,l)=>s+(new Date(l.offer_sent_at)-new Date(l.created_at))/36e5,0)/wO.length;avg=t<24?`${Math.round(t)}h`:`${Math.round(t/24)}d`;}const cv=r.length?Math.round(wo/r.length*100):0;$('kpiGrid').innerHTML=`<div class="kpi-card hl"><div class="kpi-value">${nw}</div><div class="kpi-label">Neue Leads</div></div><div class="kpi-card"><div class="kpi-value">${of}</div><div class="kpi-label">Angebote</div></div><div class="kpi-card ok"><div class="kpi-value">${wo}</div><div class="kpi-label">Gewonnen</div></div><div class="kpi-card bad"><div class="kpi-value">${lo}</div><div class="kpi-label">Verloren</div></div><div class="kpi-card"><div class="kpi-value">${avg}</div><div class="kpi-label">⌀ Antwortzeit</div></div><div class="kpi-card"><div class="kpi-value">${cv}%</div><div class="kpi-label">Conversion</div></div>`;}
 function sortL(l){const s=[...l];switch(ls){case 'newest':s.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));break;case 'oldest':s.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));break;case 'budget_high':s.sort((a,b)=>(BV[b.budget]||0)-(BV[a.budget]||0));break;case 'budget_low':s.sort((a,b)=>(BV[a.budget]||0)-(BV[b.budget]||0));break;case 'urgency':const o={today:0,this_week:1,flexible:2};s.sort((a,b)=>(o[a.urgency]??3)-(o[b.urgency]??3));break;}return s;}
 function renderLeads(){const tb=$('leadsTB');const mc=$('leadsCards');let f=lf==='all'?leads:leads.filter(l=>l.status===lf);if(lyf!=='all')f=f.filter(l=>new Date(l.created_at).getFullYear()==lyf);f=sortL(f);if(!f.length){tb.innerHTML='<tr><td colspan="7" class="empty-state"><h3>Keine Anfragen</h3></td></tr>';mc.innerHTML='<div class="empty-state"><h3>Keine Anfragen</h3></div>';return;}tb.innerHTML=f.map(l=>`<tr class="clickable" onclick="showLD('${l.id}')"><td><div style="font-weight:600">${esc(l.name||'Unbekannt')}${l.notes?'<span class="has-notes">📝</span>':''}</div><div style="font-size:13px;color:#64748b">${esc(l.phone||'-')}</div></td><td><div>${esc(l.service_type||'-')}</div>${l.company?`<div style="font-size:13px;color:#64748b">${esc(l.company)}</div>`:''}${l.offer_amount?`<div style="font-size:13px;color:#16a34a;font-weight:600">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</div>`:''}</td><td><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span></td><td><span class="time-ago">${timeAgo(l.created_at)}</span></td><td><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'Unbekannt'}</span></td><td><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></td><td onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="angebot">📄 Angebot schreiben</option>${l.status==='offer_sent'?'<option value="followup">📧 Follow-Up senden</option>':''}<option value="bewertung">⭐ Bewertung anfragen</option>${l.phone?'<option value="bewerbung_sms">👤 Bewerbungsformular senden</option>':''}<option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></td></tr>`).join('');mc.innerHTML=f.map(l=>`<div class="lc" onclick="showLD('${l.id}')"><div class="lc-top"><div><div class="lc-name">${esc(l.name||'Unbekannt')}${l.notes?' 📝':''}</div><div class="lc-phone">${esc(l.phone||'-')}</div></div><span class="badge b-${l.status}">${SL[l.status]||l.status}</span></div><div class="lc-svc">${esc(l.service_type||'-')}</div>${l.company?`<div class="lc-company">${esc(l.company)}</div>`:''}<div class="lc-row"><span class="budget-badge ${bc(l.budget)}">${BL[l.budget]||'–'}</span><span class="u-${l.urgency||'flexible'}">${UL[l.urgency]||'Flexibel'}</span>${l.offer_amount?`<span class="lc-offer">${parseFloat(l.offer_amount).toLocaleString('de-DE')} €</span>`:''}<span class="lc-time">${timeAgo(l.created_at)}</span></div><div class="lc-actions" onclick="event.stopPropagation()"><select class="action-select" onchange="doLA('${l.id}',this.value);this.value=''"><option value="">Aktion wählen...</option><option value="contacted">→ Kontaktiert</option><option value="offer_sent">→ Angebot</option><option value="won">→ Gewonnen ✓</option><option value="bestandskunde">→ Bestandskunde ★</option><option value="lost">→ Verloren ✗</option><option value="termin">📅 Termin vereinbaren</option><option value="angebot">📄 Angebot schreiben</option>${l.status==='offer_sent'?'<option value="followup">📧 Follow-Up senden</option>':''}<option value="bewertung">⭐ Bewertung anfragen</option>${l.phone?'<option value="bewerbung_sms">👤 Bewerbungsformular senden</option>':''}<option value="notes">📝 Notizen</option><option value="delete">🗑 Löschen</option></select></div></div>`).join('');}
 function doLA(id,a){if(!a)return;curLead=id;if(a==='offer_sent'){$('offerAmt').value='';$('mOffer').classList.add('show');}else if(a==='notes'){const l=leads.find(x=>x.id===id);$('notesTxt').value=l?.notes||'';$('mNotes').classList.add('show');}else if(a==='delete')$('mDel').classList.add('show');else if(a==='termin'){const l=leads.find(x=>x.id===id);$('terminEmail').value=l?.email||'';$('terminMsg').value='';$('terminStatus').innerHTML='';$('terminSend').disabled=false;$('terminSend').textContent='📧 E-Mail senden';$('mTermin').classList.add('show');}else if(a==='angebot'){openAngebot(id);}else if(a==='followup'){openFollowUp(id);}else if(a==='bewertung'){openBewertung(id);}else if(a==='bewerbung_sms'){sendBewerbungSMS(id);}else updLS(id,a);}
-async function sendBewerbungSMS(id){const l=leads.find(x=>x.id===id);if(!l||!l.phone){alert('Keine Telefonnummer vorhanden.');return;}if(!confirm(`Bewerbungsformular per SMS an ${l.phone} senden?`))return;try{const r=await fetch('https://fbkkyzvumytipjtnrjrn.supabase.co/functions/v1/send-bewerbung-sms',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+authToken},body:JSON.stringify({phone:l.phone,lead_id:l.id,tenant_id:tid,lead_name:l.name||''})});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||`Fehler ${r.status}`);}alert('Bewerbungsformular wurde per SMS gesendet ✓');}catch(e){alert('Fehler beim Senden: '+e.message);}}
+async function sendBewerbungSMS(id){const l=leads.find(x=>x.id===id);if(!l||!l.phone){alert('Keine Telefonnummer vorhanden.');return;}if(!confirm(`Bewerbungsformular per SMS an ${l.phone} senden?`))return;try{const r=await fetch('https://fbkkyzvumytipjtnrjrn.supabase.co/functions/v1/send-bewerbung-sms',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+authToken},body:JSON.stringify({phone:l.phone,lead_id:l.id,tenant_id:impersonatedTid||tid,lead_name:l.name||''})});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||`Fehler ${r.status}`);}alert('Bewerbungsformular wurde per SMS gesendet ✓');}catch(e){alert('Fehler beim Senden: '+e.message);}}
 async function updLS(id,s,x={}){const d={status:s,updated_at:new Date().toISOString(),...x};if(s==='offer_sent'&&!x.offer_sent_at)d.offer_sent_at=new Date().toISOString();else if(s==='won'||s==='lost'||s==='bestandskunde')d.closed_at=new Date().toISOString();await sU('leads',id,d);loadLeads();}
 async function confirmOffer(){const a=$('offerAmt').value;await updLS(curLead,'offer_sent',{offer_amount:a?parseFloat(a):null,offer_sent_at:new Date().toISOString()});$('mOffer').classList.remove('show');}
 async function saveNotes(){await sU('leads',curLead,{notes:$('notesTxt').value,updated_at:new Date().toISOString()});loadLeads();$('mNotes').classList.remove('show');}
@@ -757,10 +812,10 @@ async function saveNewLead(){
     let fPhone=formatPhone(phone);
     const b=$('nlSave');b.disabled=true;b.textContent='Wird gespeichert...';
     try{
-        const tID=isAdmin?null:tid;
+        const tID=impersonatedTid||tid;
         const customDate=$('nlDate').value;
         const createdAt=customDate?new Date(customDate+'T12:00:00').toISOString():new Date().toISOString();
-        const d={tenant_id:tID||tid,name:name,phone:fPhone,email:$('nlEmail').value.trim()||null,company:$('nlCompany').value.trim()||null,service_type:svc,description:$('nlDesc').value.trim()||null,status:'new',privacy_accepted:true,privacy_accepted_at:new Date().toISOString(),created_at:createdAt};
+        const d={tenant_id:tID,name:name,phone:fPhone,email:$('nlEmail').value.trim()||null,company:$('nlCompany').value.trim()||null,service_type:svc,description:$('nlDesc').value.trim()||null,status:'new',privacy_accepted:true,privacy_accepted_at:new Date().toISOString(),created_at:createdAt};
         await sI('leads',d);
         $('mNewLead').classList.remove('show');loadLeads();
     }catch(e){err.textContent='Fehler: '+e.message;err.classList.add('show');}
