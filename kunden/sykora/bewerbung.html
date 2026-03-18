@@ -423,6 +423,10 @@
 
             // Send email notification to Sykora via EmailJS
             try {
+                const at = (data.arbeitstage || []).join(', ') || 'Keine Angabe';
+                const az = (data.arbeitszeiten || []).join(', ') || 'Keine Angabe';
+                const eo = (data.einsatzorte || []).join(', ') || 'Keine Angabe';
+
                 const emailData = {
                     service_id: EMAILJS_SERVICE,
                     template_id: EMAILJS_TEMPLATE,
@@ -430,18 +434,26 @@
                     template_params: {
                         to_email: SYKORA_EMAIL,
                         from_name: `${data.vorname} ${data.nachname}`,
-                        subject: `Neue Bewerbung: ${data.vorname} ${data.nachname}`,
-                        message: `NEUE BEWERBUNG\n\nName: ${data.anrede} ${data.vorname} ${data.nachname}\nTelefon: ${data.telefon}\nEmail: ${data.email}\nAdresse: ${data.strasse}, ${data.plz} ${data.ort}\n\nBeschaeftigung: ${data.beschaeftigungsart}\nVerdienst: ${data.gewuenschter_verdienst}\nArbeitstage: ${data.arbeitstage.join(', ')}\nArbeitszeiten: ${data.arbeitszeiten.join(', ')}\nEinsatzorte: ${data.einsatzorte.join(', ')}\nAuto: ${data.auto_vorhanden}\nVerfuegbar ab: ${data.verfuegbar_ab || 'Sofort'}\nEU-Buerger: ${data.eu_buerger ? 'Ja' : 'Nein'}\nHauptjob: ${data.hauptjob_vorhanden ? 'Ja' : 'Nein'}\n\nHinweis: ${data.hinweis || '-'}\n\n---\nBewerbung eingegangen ueber LeadCall24`
+                        message: `NEUE BEWERBUNG\n\nName: ${data.anrede || ''} ${data.vorname} ${data.nachname}\nTelefon: ${data.telefon}\nEmail: ${data.email}\nAdresse: ${data.strasse}, ${data.plz} ${data.ort}\n\nBeschaeftigung: ${data.beschaeftigungsart || 'Keine Angabe'}\nVerdienst: ${data.gewuenschter_verdienst || 'Keine Angabe'}\nArbeitstage: ${at}\nArbeitszeiten: ${az}\nEinsatzorte: ${eo}\nAuto: ${data.auto_vorhanden || 'Keine Angabe'}\nVerfuegbar ab: ${data.verfuegbar_ab || 'Sofort'}\nEU-Buerger: ${data.eu_buerger ? 'Ja' : 'Nein'}\nHauptjob: ${data.hauptjob_vorhanden ? 'Ja' : 'Nein'}\n\nHinweis: ${data.hinweis || '-'}\n\n---\nBewerbung eingegangen ueber LeadCall24`
                     }
                 };
 
-                await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                console.log('Sending EmailJS:', JSON.stringify(emailData));
+
+                const emailRes = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(emailData)
                 });
+
+                if (!emailRes.ok) {
+                    const emailErrText = await emailRes.text();
+                    console.error('EmailJS error:', emailRes.status, emailErrText);
+                } else {
+                    console.log('EmailJS sent OK');
+                }
             } catch (emailErr) {
-                console.error('Email error (non-critical):', emailErr);
+                console.error('Email error:', emailErr);
             }
 
             // Show success
