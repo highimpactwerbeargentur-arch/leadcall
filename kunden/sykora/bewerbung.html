@@ -284,8 +284,9 @@
         <!-- DATENSCHUTZ & ABSENDEN -->
         <div class="privacy">
             <input type="checkbox" id="privacy" name="privacy" required>
-            <label for="privacy">Ich habe die Datenschutzerklaerung zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Bewerbung benutzt.</label>
+            <label for="privacy">Ich habe die <a href="https://www.leadcall24.de/datenschutz.html" target="_blank">Datenschutzerklaerung</a> zur Kenntnis genommen und bin damit einverstanden, dass die von mir angegebenen Daten elektronisch erhoben und gespeichert werden. Meine Daten werden dabei nur streng zweckgebunden zur Bearbeitung und Beantwortung meiner Bewerbung benutzt.</label>
         </div>
+        <p id="privacyError" style="color:#DC2626;font-size:12px;margin:-8px 0 12px;display:none;">Bitte stimmen Sie der Datenschutzerklaerung zu.</p>
 
         <button type="submit" class="submit-btn" id="submitBtn">Bewerbung absenden</button>
     </form>
@@ -307,7 +308,7 @@
     const SYKORA_EMAIL = 'markussykora8@gmail.com';
     
     // EmailJS config (same as existing forms)
-    const EMAILJS_SERVICE = 'service_uqfqyer';
+    const EMAILJS_SERVICE = 'service_te0rxxz';
     const EMAILJS_TEMPLATE = 'template_7jtzic7';
     const EMAILJS_PUBLIC_KEY = 'fc6zzeTCmrKyrkxJ2';
 
@@ -363,11 +364,19 @@
     document.getElementById('bewerbungForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        const form = this;
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
         btn.textContent = 'Wird gesendet...';
 
-        const form = this;
+        // Privacy check
+        if (!form.privacy.checked) {
+            document.getElementById('privacyError').style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Bewerbung absenden';
+            return;
+        }
+        document.getElementById('privacyError').style.display = 'none';
 
         try {
             // Build data object
