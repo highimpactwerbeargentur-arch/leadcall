@@ -697,13 +697,13 @@ function showApp(){
                 $('adminOverview').classList.remove('show');
             });
         }else{
-            // Admin overview
+            // Admin overview + all admin tabs
             impersonatedTid=null;tid=null;
             $('adminBanner').classList.remove('show');document.querySelector('.header').style.top='0';
             $('headerTitle').textContent='Admin';$('adminBadge').style.display='';$('changePwBtn').style.display='none';
-            $('adminOverview').classList.add('show');
-            document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));
-            buildNav([],[]);loadAdminOverview();
+            buildNav(['kunden','leads','onboarding','interessenten'],['Kunden','Alle Leads','Onboarding','Interessenten']);
+            switchTab('kunden');
+            loadAdminOverview();loadLeads();loadOB();loadInt();
         }
     }else{
         $('headerTitle').textContent=tname;$('adminBadge').style.display='none';$('changePwBtn').style.display='';$('btnNewLead').style.display='';
@@ -711,7 +711,7 @@ function showApp(){
     }
 }
 function buildNav(tabs,labels){const n=$('headerNav'),m=$('mobNav');n.innerHTML='';m.innerHTML='';tabs.forEach((t,i)=>{const b=document.createElement('button');b.textContent=labels[i];b.dataset.tab=t;b.onclick=()=>switchTab(t);n.appendChild(b);const b2=b.cloneNode(true);b2.onclick=()=>switchTab(t);m.appendChild(b2);});}
-function switchTab(t){$('adminOverview').classList.remove('show');document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));$(`tab-${t}`).classList.add('active');document.querySelectorAll('.header-nav button,.mob-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));}
+function switchTab(t){$('adminOverview').classList.remove('show');document.querySelectorAll('.tab-view').forEach(x=>x.classList.remove('active'));if(t==='kunden'){$('adminOverview').classList.add('show');}else{$(`tab-${t}`).classList.add('active');}document.querySelectorAll('.header-nav button,.mob-nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));}
 
 // ===== ADMIN OVERVIEW =====
 async function loadAdminOverview(){
