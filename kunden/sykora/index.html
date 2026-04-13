@@ -473,17 +473,23 @@
                     <label class="checkbox-label">
                         <input type="checkbox" id="privacy" name="privacy" required>
                         <span class="checkbox-text">
-                            Ich akzeptiere die <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> *
+                            Ich akzeptiere die <a href="https://hausmeisterservicesykora.de/datenschutz" target="_blank">Datenschutzerklärung</a> *
                         </span>
                     </label>
                 </div>
+
+                <p style="font-size:12px;color:#888;margin:12px 0 4px;line-height:1.5;">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer <a href="https://hausmeisterservicesykora.de/datenschutz" target="_blank" style="color:#2563eb;">Datenschutzerklärung</a> zu.</p>
 
                 <button type="submit" id="submitBtn">Anfrage absenden</button>
             </form>
         </div>
     </div>
 
-    <p class="footer">Ihre Daten werden vertraulich behandelt.</p>
+    <footer style="text-align:center;font-size:13px;color:#999;margin-top:20px;padding:12px 0;">
+        <a href="https://hausmeisterservicesykora.de/datenschutz" target="_blank" style="color:#999;text-decoration:underline;">Datenschutzerklärung</a>
+        &nbsp;·&nbsp;
+        <a href="https://hausmeisterservicesykora.de/impressum" target="_blank" style="color:#999;text-decoration:underline;">Impressum</a>
+    </footer>
 
     <script>
         const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
@@ -563,7 +569,7 @@
                     headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': file.type },
                     body: file
                 });
-                if (response.ok) urls.push(`${SUPABASE_URL}/storage/v1/object/public/lead-images/${fileName}`);
+                if (response.ok) urls.push(fileName);
             }
             return urls;
         }

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 LeadCall24 is a German-language lead management SaaS for trade businesses (Handwerksbetriebe). It captures customer inquiries via missed-call → voice greeting → SMS → form pipeline, prioritizes them by budget/urgency, and presents them in a dashboard with offer generation, follow-up emails, and review requests. The entire frontend is static HTML — no build system, no bundler, no framework.
 
-**Owner:** Tristan Haupt, Unter den Linden 9, 14542 Werder (Havel). Contact: tristanhaupt01@gmail.com / 0163 1692010. Einzelunternehmer (Kleinunternehmerregelung § 19 UStG).
+**Owner:** Tristan Haupt, Unter den Linden 9, 14542 Werder (Havel). Contact: tristanhaupt01@gmail.com / 0163 1692010. Einzelunternehmer. Steuernummer: 048/228/04085.
 
 ## Architecture
 
@@ -66,6 +66,8 @@ Multi-tenant customer table. Each tenant is a Handwerksbetrieb using the platfor
 | `gerichtsstand` | text | nullable — Court jurisdiction for PDF footer |
 | `info_email` | text | nullable — Public-facing email (for PDFs/footer, may differ from `email`) |
 | `logo_base64` | text | nullable — Base64-encoded logo for PDF generation |
+| `datenschutz_url` | text | nullable — Custom privacy policy URL (fallback: {website}/datenschutz) |
+| `impressum_url` | text | nullable — Custom imprint URL (fallback: {website}/impressum) |
 | `google_review_url` | text | nullable — Google Review URL for review request emails |
 | `booking_link` | text | nullable — Calendar/booking link for appointment emails |
 | `offer_categories` | text[] | default `['Sonstiges']` — Offer type dropdown options |
@@ -168,8 +170,8 @@ Activity log for leads. **Planned but currently unused** — schema exists but n
 
 ### Storage Buckets
 
-- **`lead-images`** — Public bucket. Stores photos uploaded via lead forms. Path: `{lead_id}/{timestamp}_{index}.{ext}`
-- **`angebote`** — Public bucket. Stores generated offer PDFs. Path: `{lead_id}/{timestamp}_angebot.pdf`
+- **`lead-images`** — Private bucket. Stores photos uploaded via lead forms. Path: `{lead_id}/{timestamp}_{index}.{ext}`. Lead forms store paths (not full URLs) in `image_urls`. Dashboard uses signed URLs (1h expiry) to display images. Anon INSERT allowed via storage policy.
+- **`angebote`** — Private bucket. Stores generated offer PDFs. Path: `{lead_id}/{timestamp}_angebot.pdf`. Dashboard creates signed URLs (30 days expiry) for email delivery. Authenticated INSERT/SELECT/UPDATE via storage policy.
 
 ### Edge Functions
 
@@ -301,6 +303,41 @@ Displays: Total leads, New leads, Offer sent, Won, Lost, Bestandskunde, Conversi
    - Updates `onboarding_requests.status` to `completed`
 6. Tenant logs in for the first time → sets their own password
 7. Admin configures telephony (Twilio/Sipgate number, forwarding) and sets up customer-specific form
+
+---
+
+## Kunden-Onboarding Prozess
+
+### Automatisiert (via /new-customer)
+- Tenant in Supabase anlegen (tenants-Tabelle)
+- Supabase Auth User erstellen ({slug}@leadcall24.de)
+- Lead-Formular generieren (kunden/{subdomain}/index.html)
+- Subdomain-Routing in vercel.json hinzufügen
+- Deploy auf Vercel
+
+### Manuell danach (Twilio Console)
+- Twilio-Nummer kaufen (Voice only, passende Vorwahl, eigenes ISV-Bundle nutzen)
+- Webhook setzen: POST → https://fbkkyzvumytipjtnrjrn.supabase.co/functions/v1/voice-handler?tenant={slug}
+- Alphanumeric Sender ID registrieren (max 11 Zeichen, alphanumerisch, keine Umlaute)
+
+### Tenant-Felder die nach /new-customer vervollständigt werden müssen
+- twilio_number, forward_number
+- logo_base64 (PNG, max 200px breit, als Base64)
+- greeting_text, sms_text (mit {link} Platzhalter)
+- offer_categories, offer_category_map
+- default_offer_conditions, default_zusatz_text
+- google_review_url, booking_link (optional)
+- datenschutz_url, impressum_url (optional, Fallback: {website}/datenschutz bzw. /impressum)
+- owner_name, address, city, website, tax_id
+- iban, bic, bank_name
+
+### SMS-Absendername Regeln
+- Max 11 Zeichen, nur alphanumerisch (A-Z, 0-9, Leerzeichen), keine Umlaute/Sonderzeichen
+- Empfänger kann NICHT antworten
+
+### Rufumleitung (Kunde richtet selbst ein)
+iPhone (GSM-Codes): Nichtannahme **61*NUMMER*11*20#, Besetzt **67*NUMMER#, Nicht erreichbar **62*NUMMER#
+Fritzbox: Telefonie → Rufbehandlung → Rufumleitung → bei Besetzt/Nichtannahme → Ziel: Twilio-Nummer
 
 ---
 
