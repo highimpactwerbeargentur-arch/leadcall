@@ -680,7 +680,8 @@
                         body: JSON.stringify({
                             phone: leadData.phone,
                             name: leadData.name,
-                            tenant_name: 'Hausmeisterservice Sykora'
+                            tenant_name: 'Hausmeisterservice Sykora',
+                            tenant_id: '754f32de-bf1c-412e-9c7b-c3c2ecdf1c4a'
                         })
                     });
                 } catch (smsErr) { console.error('SMS-Fehler:', smsErr); }

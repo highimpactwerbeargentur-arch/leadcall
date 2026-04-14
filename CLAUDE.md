@@ -158,6 +158,22 @@ Marketing leads from the landing page demo form. RLS policy: `anon` INSERT only 
 | `quelle` | text | default `landingpage` |
 | `created_at` | timestamptz | |
 
+#### `sms_usage`
+Tracking aller via Twilio versendeten SMS — für Kostenabrechnung und Reporting.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | uuid (PK) | |
+| `tenant_id` | uuid (FK → tenants) | Required |
+| `recipient_phone` | text | Required |
+| `sender_id` | text | Twilio From-Nummer oder Alphanumeric Sender ID |
+| `message_type` | text | `lead_sms`, `followup`, `bewertung` |
+| `segments` | int | `Math.ceil(text.length / 160)` |
+| `cost_eur` | numeric | `segments * 0.07` |
+| `created_at` | timestamptz | |
+
+**Wer schreibt rein:** Alle Edge Functions die SMS via Twilio versenden — `voice-handler`, `sms-webhook`, `lead-notification`, `swift-worker` (followup/bewertung), `send-bewerbung-sms`. Insert erfolgt via Service Role Client nach erfolgreichem Twilio-Response. `smooth-worker` ist legacy und schreibt nicht mit (kein Tenant-Context).
+
 #### `activities` (RLS enabled, 0 rows)
 Activity log for leads. **Planned but currently unused** — schema exists but no application code writes to this table. Intended for future lead activity tracking (calls, emails, status changes).
 
