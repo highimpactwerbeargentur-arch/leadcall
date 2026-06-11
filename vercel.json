@@ -5,6 +5,12 @@
       "has": [{ "type": "host", "value": "sykora.leadcall24.de" }],
       "destination": "/kunden/sykora/index.html",
       "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "dkbe.leadcall24.de" }],
+      "destination": "/kunden/dkbe/index.html",
+      "permanent": false
     }
   ]
 }
