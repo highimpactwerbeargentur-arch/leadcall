@@ -35,9 +35,17 @@
         .radio-pill:hover { border-color: #2563eb; }
         .radio-pill:has(input:checked) { border-color: #2563eb; background: #eff6ff; color: #1d4ed8; }
         .radio-pill input { width: 16px; height: 16px; }
-        .cascade { display: flex; flex-direction: column; gap: 12px; padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; }
-        .cascade-label { font-size: 13px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
-        .final-fields { display: none; flex-direction: column; gap: 12px; padding: 12px; background: #ecfeff; border: 1px solid #a5f3fc; border-radius: 8px; }
+        .product-block { border: 1px solid #d4d4d8; border-radius: 10px; padding: 14px; background: #fafafa; display: flex; flex-direction: column; gap: 12px; }
+        .product-block + .product-block { margin-top: 12px; }
+        .product-block-head { display: flex; justify-content: space-between; align-items: center; }
+        .product-block-title { font-size: 13px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        .remove-btn { padding: 4px 10px; background: transparent; border: 1px solid #fecaca; color: #dc2626; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: inherit; }
+        .remove-btn:hover { background: #fef2f2; }
+        .add-product-btn { padding: 12px 16px; background: transparent; border: 1.5px dashed #2563eb; color: #2563eb; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; transition: all 0.15s; font-family: inherit; }
+        .add-product-btn:hover { background: #eff6ff; }
+        .cascade { display: flex; flex-direction: column; gap: 10px; padding: 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; }
+        .cascade-label { font-size: 12px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        .final-fields { display: none; flex-direction: column; gap: 10px; padding: 12px; background: #ecfeff; border: 1px solid #a5f3fc; border-radius: 8px; }
         .final-fields.show { display: flex; }
         .final-row { display: flex; gap: 10px; }
         .final-row > div { flex: 1; }
@@ -126,28 +134,8 @@
                     </div>
                 </div>
 
-                <div class="cascade" id="cascade">
-                    <div class="cascade-label">Produktauswahl</div>
-                    <div id="cascadeContainer"></div>
-                </div>
-
-                <div class="final-fields" id="finalFields">
-                    <div class="final-row">
-                        <div class="field">
-                            <label>Maße / Aufmaß *</label>
-                            <input type="text" id="masse" name="masse" placeholder="z.B. 2000×1000 mm">
-                            <div class="hint">Breite × Länge oder „nach Aufmaß"</div>
-                        </div>
-                        <div class="field" style="flex:0 0 110px;">
-                            <label>Stückzahl *</label>
-                            <input type="number" id="menge" name="menge" min="1" value="1">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Sonderfarbe / RAL <span class="optional">(optional)</span></label>
-                        <input type="text" id="sonderfarbe" name="sonderfarbe" placeholder="z.B. RAL 7016, rauchgrau, …">
-                    </div>
-                </div>
+                <div id="productBlocks"></div>
+                <button type="button" class="add-product-btn" id="addProductBtn">+ Weiteres Produkt hinzufügen</button>
 
                 <div class="field" id="lieferAddrField">
                     <label>Lieferadresse <span class="optional" id="lieferOptional">(optional)</span></label>
@@ -256,8 +244,7 @@
         };
 
         const LEVEL_LABELS = ['Hauptkategorie', 'Unterkategorie', 'Variante', 'Detail'];
-
-        let currentPath = [];
+        const SERVICE_TYPE_MAX = 220;
 
         function getNodeAt(path) {
             let node = { children: PRODUCT_TREE };
@@ -268,99 +255,12 @@
             return node;
         }
 
-        function renderCascade() {
-            const container = document.getElementById('cascadeContainer');
-            container.innerHTML = '';
-
-            let level = 0;
-            let leafReached = false;
-
-            while (true) {
-                const parent = level === 0 ? { children: PRODUCT_TREE } : getNodeAt(currentPath.slice(0, level));
-                if (!parent) break;
-
-                if (parent.freetext_only) {
-                    leafReached = true;
-                    break;
-                }
-
-                if (parent.children) {
-                    const selectedKey = currentPath[level] || '';
-                    renderSelect(container, parent.children, level, LEVEL_LABELS[level] || 'Auswahl', selectedKey);
-                    if (!selectedKey) return;
-                    level++;
-                    continue;
-                }
-
-                if (parent.variants && parent.variants.length > 0) {
-                    const selectedVariant = currentPath[level] || '';
-                    renderVariantSelect(container, parent.variants, level, selectedVariant);
-                    if (!selectedVariant) return;
-                    leafReached = true;
-                    break;
-                }
-
-                leafReached = true;
-                break;
-            }
-
-            const finalEl = document.getElementById('finalFields');
-            const lieferOpt = document.getElementById('lieferOptional');
-            if (leafReached) {
-                finalEl.classList.add('show');
-                const anliegen = document.querySelector('input[name="anliegen"]:checked')?.value;
-                lieferOpt.textContent = anliegen === 'Bestellung' ? '(empfohlen)' : '(optional)';
-            } else {
-                finalEl.classList.remove('show');
-            }
-        }
-
-        function renderSelect(container, children, level, label, selected) {
-            const div = document.createElement('div');
-            div.className = 'field';
-            div.dataset.level = level;
-            const options = Object.entries(children).map(([k, v]) =>
-                `<option value="${k}"${k === selected ? ' selected' : ''}>${v.label}</option>`
-            ).join('');
-            div.innerHTML = `<label>${label}</label>
-                <select data-cascade="${level}">
-                    <option value="">Bitte wählen...</option>
-                    ${options}
-                </select>`;
-            container.appendChild(div);
-            div.querySelector('select').addEventListener('change', e => {
-                currentPath = currentPath.slice(0, level);
-                if (e.target.value) currentPath.push(e.target.value);
-                renderCascade();
-            });
-        }
-
-        function renderVariantSelect(container, variants, level, selected) {
-            const div = document.createElement('div');
-            div.className = 'field';
-            div.dataset.level = level;
-            const options = variants.map(v =>
-                `<option value="${v}"${v === selected ? ' selected' : ''}>${v}</option>`
-            ).join('');
-            div.innerHTML = `<label>Variante / Ausführung</label>
-                <select data-cascade-variant="${level}">
-                    <option value="">Bitte wählen...</option>
-                    ${options}
-                </select>`;
-            container.appendChild(div);
-            div.querySelector('select').addEventListener('change', e => {
-                currentPath = currentPath.slice(0, level);
-                if (e.target.value) currentPath.push(e.target.value);
-                renderCascade();
-            });
-        }
-
-        function buildProductString() {
-            if (currentPath.length === 0) return '';
+        function pathToLabel(path) {
+            if (!path || path.length === 0) return '';
             const labels = [];
             let node = { children: PRODUCT_TREE };
-            for (let i = 0; i < currentPath.length; i++) {
-                const key = currentPath[i];
+            for (let i = 0; i < path.length; i++) {
+                const key = path[i];
                 if (node.children && node.children[key]) {
                     labels.push(node.children[key].label);
                     node = node.children[key];
@@ -371,17 +271,141 @@
             return labels.join(' / ');
         }
 
-        document.querySelectorAll('input[name="anliegen"]').forEach(r => {
-            r.addEventListener('change', () => {
-                const finalEl = document.getElementById('finalFields');
-                if (finalEl.classList.contains('show')) {
-                    const lieferOpt = document.getElementById('lieferOptional');
-                    lieferOpt.textContent = r.value === 'Bestellung' ? '(empfohlen)' : '(optional)';
-                }
+        function createProductBlock() {
+            const block = document.createElement('div');
+            block.className = 'product-block';
+            block._path = [];
+            block.innerHTML = `
+                <div class="product-block-head">
+                    <div class="product-block-title">Produkt <span class="block-num">1</span></div>
+                    <button type="button" class="remove-btn" style="display:none;">× Entfernen</button>
+                </div>
+                <div class="cascade">
+                    <div class="cascade-label">Produktauswahl</div>
+                    <div class="cascade-container"></div>
+                </div>
+                <div class="final-fields">
+                    <div class="final-row">
+                        <div class="field">
+                            <label>Maße / Aufmaß *</label>
+                            <input type="text" class="block-masse" placeholder="z.B. 2000×1000 mm">
+                            <div class="hint">Breite × Länge oder „nach Aufmaß"</div>
+                        </div>
+                        <div class="field" style="flex:0 0 110px;">
+                            <label>Stückzahl *</label>
+                            <input type="number" class="block-menge" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Sonderfarbe / RAL <span class="optional">(optional)</span></label>
+                        <input type="text" class="block-sonderfarbe" placeholder="z.B. RAL 7016, rauchgrau, …">
+                    </div>
+                </div>
+            `;
+            block.querySelector('.remove-btn').addEventListener('click', () => {
+                block.remove();
+                renumberBlocks();
             });
+            renderBlockCascade(block);
+            return block;
+        }
+
+        function renumberBlocks() {
+            const blocks = document.querySelectorAll('.product-block');
+            blocks.forEach((b, i) => {
+                b.querySelector('.block-num').textContent = i + 1;
+                b.querySelector('.remove-btn').style.display = (blocks.length > 1) ? 'inline-block' : 'none';
+            });
+        }
+
+        function renderBlockCascade(block) {
+            const container = block.querySelector('.cascade-container');
+            container.innerHTML = '';
+            const path = block._path;
+
+            let level = 0;
+            let leafReached = false;
+
+            while (true) {
+                const parent = level === 0 ? { children: PRODUCT_TREE } : getNodeAt(path.slice(0, level));
+                if (!parent) break;
+                if (parent.freetext_only) { leafReached = true; break; }
+                if (parent.children) {
+                    const selected = path[level] || '';
+                    renderSelectInBlock(container, parent.children, level, LEVEL_LABELS[level] || 'Auswahl', selected, block);
+                    if (!selected) return;
+                    level++;
+                    continue;
+                }
+                if (parent.variants && parent.variants.length > 0) {
+                    const selected = path[level] || '';
+                    renderVariantInBlock(container, parent.variants, level, selected, block);
+                    if (!selected) return;
+                    leafReached = true;
+                    break;
+                }
+                leafReached = true;
+                break;
+            }
+
+            const finalEl = block.querySelector('.final-fields');
+            if (leafReached) finalEl.classList.add('show');
+            else finalEl.classList.remove('show');
+        }
+
+        function renderSelectInBlock(container, children, level, label, selected, block) {
+            const div = document.createElement('div');
+            div.className = 'field';
+            const options = Object.entries(children).map(([k, v]) =>
+                `<option value="${k}"${k === selected ? ' selected' : ''}>${v.label}</option>`
+            ).join('');
+            div.innerHTML = `<label>${label}</label>
+                <select>
+                    <option value="">Bitte wählen...</option>
+                    ${options}
+                </select>`;
+            container.appendChild(div);
+            div.querySelector('select').addEventListener('change', e => {
+                block._path = block._path.slice(0, level);
+                if (e.target.value) block._path.push(e.target.value);
+                renderBlockCascade(block);
+            });
+        }
+
+        function renderVariantInBlock(container, variants, level, selected, block) {
+            const div = document.createElement('div');
+            div.className = 'field';
+            const options = variants.map(v =>
+                `<option value="${v}"${v === selected ? ' selected' : ''}>${v}</option>`
+            ).join('');
+            div.innerHTML = `<label>Variante / Ausführung</label>
+                <select>
+                    <option value="">Bitte wählen...</option>
+                    ${options}
+                </select>`;
+            container.appendChild(div);
+            div.querySelector('select').addEventListener('change', e => {
+                block._path = block._path.slice(0, level);
+                if (e.target.value) block._path.push(e.target.value);
+                renderBlockCascade(block);
+            });
+        }
+
+        const productBlocksEl = document.getElementById('productBlocks');
+        productBlocksEl.appendChild(createProductBlock());
+        renumberBlocks();
+
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            productBlocksEl.appendChild(createProductBlock());
+            renumberBlocks();
         });
 
-        renderCascade();
+        document.querySelectorAll('input[name="anliegen"]').forEach(r => {
+            r.addEventListener('change', () => {
+                const lieferOpt = document.getElementById('lieferOptional');
+                lieferOpt.textContent = r.value === 'Bestellung' ? '(empfohlen)' : '(optional)';
+            });
+        });
 
         const urlParams = new URLSearchParams(window.location.search);
         const prefillPhone = urlParams.get('p') || urlParams.get('phone') || '';
@@ -467,28 +491,46 @@
                 if (!f.get('privacy')) throw new Error('Bitte akzeptieren Sie die Datenschutzerklärung');
 
                 const anliegen = f.get('anliegen');
-                const productPath = buildProductString();
-                if (!productPath) throw new Error('Bitte wählen Sie ein Produkt');
 
-                const finalShown = document.getElementById('finalFields').classList.contains('show');
-                const masse = (f.get('masse') || '').trim();
-                const menge = (f.get('menge') || '').trim();
-                const sonderfarbe = (f.get('sonderfarbe') || '').trim();
+                // Alle Produktblöcke validieren + aggregieren
+                const blocks = document.querySelectorAll('.product-block');
+                if (blocks.length === 0) throw new Error('Bitte mindestens ein Produkt auswählen');
+                const productStrings = [];
+                blocks.forEach((block, idx) => {
+                    const num = idx + 1;
+                    const pathLabel = pathToLabel(block._path);
+                    if (!pathLabel) throw new Error(`Produkt ${num}: Bitte Produkt auswählen`);
+                    const finalShown = block.querySelector('.final-fields').classList.contains('show');
+                    const masse = (block.querySelector('.block-masse').value || '').trim();
+                    const menge = (block.querySelector('.block-menge').value || '').trim();
+                    const sonderfarbe = (block.querySelector('.block-sonderfarbe').value || '').trim();
+                    if (finalShown) {
+                        if (!masse) throw new Error(`Produkt ${num}: Maß / Aufmaß fehlt`);
+                        if (!menge || parseInt(menge) < 1) throw new Error(`Produkt ${num}: Stückzahl fehlt`);
+                    }
+                    const bits = [pathLabel];
+                    if (masse) bits.push('Maß ' + masse);
+                    if (menge) bits.push(menge + ' Stk');
+                    if (sonderfarbe) bits.push('Farbe ' + sonderfarbe);
+                    productStrings.push(bits.join(', '));
+                });
 
-                if (finalShown) {
-                    if (!masse) throw new Error('Bitte geben Sie das gewünschte Maß / Aufmaß ein');
-                    if (!menge || parseInt(menge) < 1) throw new Error('Bitte geben Sie eine gültige Stückzahl ein');
+                // service_type: inline wenn kurz genug, sonst Kurzfassung + Details in description
+                const numbered = productStrings.map((p, i) => `(${i+1}) ${p}`);
+                const inlineFull = anliegen + ' | ' + numbered.join(' | ');
+                let serviceType;
+                let productsInDescription = null;
+                if (inlineFull.length <= SERVICE_TYPE_MAX) {
+                    serviceType = inlineFull;
+                } else {
+                    serviceType = `${anliegen} | ${productStrings.length} Produkte`;
+                    productsInDescription = '[Produkte]\n' + numbered.join('\n');
                 }
-
-                const parts = [anliegen, productPath];
-                if (masse) parts.push('Maß: ' + masse);
-                if (menge) parts.push(menge + ' Stk');
-                if (sonderfarbe) parts.push('Farbe: ' + sonderfarbe);
-                const serviceType = parts.join(' | ');
 
                 const lieferadresse = (f.get('lieferadresse') || '').trim();
                 const nachricht = (f.get('nachricht') || '').trim();
                 const descParts = [];
+                if (productsInDescription) descParts.push(productsInDescription);
                 if (lieferadresse) descParts.push('[Lieferadresse]\n' + lieferadresse);
                 if (nachricht) descParts.push('[Nachricht]\n' + nachricht);
                 const description = descParts.join('\n\n') || null;
