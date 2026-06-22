@@ -12,5 +12,12 @@
       "destination": "/kunden/dkbe/index.html",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "login.leadcall24.de" }],
+      "destination": "/dashboard.html"
+    }
   ]
 }
