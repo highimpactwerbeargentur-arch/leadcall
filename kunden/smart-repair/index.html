@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Schaden melden &middot; Smart-Repair</title>
+<style>
+:root{
+  --ink:#12161c;
+  --ink-2:#4a5361;
+  --line:#dfe3e8;
+  --bg:#f4f5f7;
+  --card:#ffffff;
+  --signal:#d64518;
+  --signal-soft:#fdefe9;
+  --ok:#1c7a4a;
+  --radius:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.5;
+  padding:0 0 48px;
+}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* ---------- Kopf ---------- */
+.head{
+  background:var(--ink);color:#fff;
+  padding:28px 16px 26px;margin-bottom:18px;
+}
+.head-in{max-width:560px;margin:0 auto}
+.brand{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:#8d97a5;margin-bottom:10px;font-weight:600;
+}
+.head h1{margin:0 0 8px;font-size:25px;line-height:1.25;font-weight:700;letter-spacing:-.02em}
+.head p{margin:0;color:#b8c0cb;font-size:14.5px}
+
+/* ---------- Karte ---------- */
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 18px;margin-bottom:14px;
+}
+.step{
+  display:flex;align-items:baseline;gap:9px;
+  margin:0 0 16px;font-size:15px;font-weight:700;letter-spacing:-.01em;
+}
+.step i{
+  font-style:normal;font-size:11px;font-weight:700;color:var(--signal);
+  letter-spacing:.08em;padding-top:1px;
+}
+
+label.fl{display:block;font-size:13.5px;font-weight:600;margin:0 0 6px;color:var(--ink)}
+.hint{font-size:12.5px;color:var(--ink-2);margin:-2px 0 9px}
+.req{color:var(--signal)}
+
+input[type=text],input[type=tel],input[type=email],textarea,select{
+  width:100%;padding:13px 12px;font-size:16px;font-family:inherit;color:var(--ink);
+  background:#fff;border:1.5px solid var(--line);border-radius:10px;
+  transition:border-color .12s;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--ink)}
+textarea{resize:vertical;min-height:80px}
+.field{margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:420px){.row{grid-template-columns:1fr}}
+
+/* ---------- Schadenstyp ---------- */
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pill{position:relative;display:block}
+.pill input{position:absolute;opacity:0;pointer-events:none}
+.pill span{
+  display:block;padding:14px 12px;text-align:center;
+  border:1.5px solid var(--line);border-radius:10px;background:#fff;
+  font-size:14.5px;font-weight:600;cursor:pointer;transition:all .12s;
+}
+.pill input:checked+span{border-color:var(--signal);background:var(--signal-soft);color:var(--signal)}
+.pill input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ---------- Foto ---------- */
+.shot{
+  border:1.5px dashed #c3cad3;border-radius:12px;background:#fbfcfd;
+  padding:26px 16px;text-align:center;cursor:pointer;transition:all .12s;
+}
+.shot:hover,.shot.on{border-color:var(--signal);background:var(--signal-soft)}
+.shot-t{font-weight:700;font-size:15px;margin-bottom:3px}
+.shot-s{font-size:13px;color:var(--ink-2)}
+#photoInput{display:none}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.thumb{position:relative;width:74px;height:74px;border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{
+  position:absolute;top:3px;right:3px;width:20px;height:20px;border:none;border-radius:50%;
+  background:rgba(0,0,0,.62);color:#fff;font-size:13px;line-height:20px;padding:0;cursor:pointer;
+}
+
+/* ---------- Datenschutz ---------- */
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);line-height:1.45}
+.consent input{width:19px;height:19px;margin:1px 0 0;flex-shrink:0;accent-color:var(--signal)}
+.consent a{color:var(--ink);text-decoration:underline}
+
+/* ---------- Senden ---------- */
+.send{
+  width:100%;padding:17px;border:none;border-radius:11px;background:var(--signal);color:#fff;
+  font-size:16.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .12s;
+}
+.send:hover{opacity:.9}
+.send:disabled{opacity:.5;cursor:default}
+
+.err{
+  display:none;background:var(--signal-soft);border:1px solid #f2c4b4;color:#a5320f;
+  padding:12px 14px;border-radius:10px;font-size:14px;margin-bottom:14px;
+}
+.err.show{display:block}
+
+/* ---------- Danke ---------- */
+.done{display:none;text-align:center;padding:46px 20px}
+.done.show{display:block}
+.done-ic{
+  width:58px;height:58px;border-radius:50%;background:var(--ok);color:#fff;
+  font-size:29px;line-height:58px;margin:0 auto 18px;
+}
+.done h2{margin:0 0 9px;font-size:22px}
+.done p{margin:0;color:var(--ink-2);font-size:15px}
+.hidden{display:none}
+.foot{text-align:center;font-size:12px;color:#8d97a5;margin-top:22px}
+.foot a{color:#8d97a5}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div class="head-in">
+    <div class="brand">Smart-Repair</div>
+    <h1>Sie haben angerufen &ndash;<br>wir waren am Fahrzeug.</h1>
+    <p>Schildern Sie kurz den Schaden. Mit Foto geht&rsquo;s am schnellsten &ndash; dann kommt der Preis, ohne dass Sie vorbeifahren m&uuml;ssen.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="formWrap">
+    <div class="err" id="err"></div>
+
+    <form id="leadForm" novalidate>
+
+      <!-- 1 Schaden -->
+      <div class="card">
+        <div class="step"><i>01</i> Worum geht&rsquo;s?</div>
+
+        <div class="field">
+          <label class="fl">Art des Schadens <span class="req">*</span></label>
+          <div class="pills">
+            <label class="pill"><input type="radio" name="damage" value="Delle / Hagel" required><span>Delle / Hagel</span></label>
+            <label class="pill"><input type="radio" name="damage" value="Lack / Kratzer"><span>Lack / Kratzer</span></label>
+            <label class="pill"><input type="radio" name="damage" value="Felge"><span>Felge</span></label>
+            <label class="pill"><input type="radio" name="damage" value="Scheibe"><span>Scheibe</span></label>
+            <label class="pill"><input type="radio" name="damage" value="Sto&szlig;stange"><span>Sto&szlig;stange</span></label>
+            <label class="pill"><input type="radio" name="damage" value="Etwas anderes"><span>Etwas anderes</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="fl" for="vehicle">Fahrzeug</label>
+          <div class="hint">Marke und Modell, z.&nbsp;B. &bdquo;VW Golf 7&ldquo;</div>
+          <input type="text" id="vehicle" name="vehicle" autocomplete="off" placeholder="Marke und Modell">
+        </div>
+
+        <div class="field">
+          <label class="fl" for="note">Kurz beschrieben</label>
+          <textarea id="note" name="note" rows="3" placeholder="Wo sitzt der Schaden? Wie ist er passiert?"></textarea>
+        </div>
+      </div>
+
+      <!-- 2 Foto -->
+      <div class="card">
+        <div class="step"><i>02</i> Foto vom Schaden</div>
+        <div class="hint" style="margin-top:-8px">Ohne Bild k&ouml;nnen wir keinen Preis nennen &ndash; eine Delle kann 80&nbsp;&euro; oder 400&nbsp;&euro; sein. Zwei, drei Aufnahmen reichen: einmal n&auml;her ran, einmal weiter weg.</div>
+        <div class="shot" id="shot">
+          <div class="shot-t">Foto aufnehmen oder ausw&auml;hlen</div>
+          <div class="shot-s">Bis zu 5 Bilder</div>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" multiple>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <!-- 3 Kontakt -->
+      <div class="card">
+        <div class="step"><i>03</i> Wie erreichen wir Sie?</div>
+        <div class="row">
+          <div class="field">
+            <label class="fl" for="name">Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="fl" for="phone">Telefon <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="fl" for="email">E-Mail</label>
+          <div class="hint">Falls Sie das Angebot lieber schriftlich m&ouml;chten</div>
+          <input type="email" id="email" name="email" autocomplete="email">
+        </div>
+        <div class="field">
+          <label class="fl" for="callback">Wann passt ein R&uuml;ckruf?</label>
+          <select id="callback" name="callback">
+            <option value="">Egal &ndash; jederzeit</option>
+            <option value="Vormittags (8-12 Uhr)">Vormittags (8&ndash;12 Uhr)</option>
+            <option value="Nachmittags (12-17 Uhr)">Nachmittags (12&ndash;17 Uhr)</option>
+            <option value="Abends (17-20 Uhr)">Abends (17&ndash;20 Uhr)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 4 Absenden -->
+      <div class="card">
+        <div class="field">
+          <label class="consent">
+            <input type="checkbox" id="privacy" name="privacy" required>
+            <span>Ich bin damit einverstanden, dass meine Angaben zur Bearbeitung der Anfrage gespeichert werden. Mehr dazu in der <a href="https://www.leadcall24.de/datenschutz.html" target="_blank" rel="noopener">Datenschutzerkl&auml;rung</a>. <span class="req">*</span></span>
+          </label>
+        </div>
+        <button type="submit" class="send" id="sendBtn">Anfrage senden</button>
+      </div>
+    </form>
+
+    <div class="foot">
+      Demo-Formular &middot; <a href="https://www.leadcall24.de" target="_blank" rel="noopener">LeadCall24</a>
+    </div>
+  </div>
+
+  <div class="done" id="done">
+    <div class="done-ic">&#10003;</div>
+    <h2>Angekommen.</h2>
+    <p>Ihre Anfrage liegt jetzt im Dashboard &ndash; mit Foto und allem drum und dran.</p>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://fbkkyzvumytipjtnrjrn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZia2t5enZ1bXl0aXBqdG5yanJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NzM0MTMsImV4cCI6MjA4NTI0OTQxM30.FsdSHmWuyP5QiKqGbaDG6XZJiAzaOKdsbqgrXKrfQCk';
+const TENANT_ID = 'da222563-f78b-465f-a2f4-c3f869fdce88';
+
+const $ = id => document.getElementById(id);
+let files = [];
+
+/* ---- Foto-Auswahl ---- */
+$('shot').addEventListener('click', () => $('photoInput').click());
+$('photoInput').addEventListener('change', e => {
+  for (const f of e.target.files) {
+    if (files.length >= 5) break;
+    if (!f.type.startsWith('image/')) continue;
+    files.push(f);
+  }
+  e.target.value = '';
+  drawThumbs();
+});
+
+function drawThumbs() {
+  const box = $('thumbs');
+  box.innerHTML = '';
+  files.forEach((f, i) => {
+    const d = document.createElement('div');
+    d.className = 'thumb';
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(f);
+    img.onload = () => URL.revokeObjectURL(img.src);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = '\u00d7';
+    b.setAttribute('aria-label', 'Bild entfernen');
+    b.onclick = ev => { ev.stopPropagation(); files.splice(i, 1); drawThumbs(); };
+    d.appendChild(img); d.appendChild(b); box.appendChild(d);
+  });
+  $('shot').classList.toggle('on', files.length > 0);
+}
+
+/* ---- Telefonnummer normalisieren ---- */
+function formatPhone(p) {
+  let c = p.replace(/[\s\-\/\(\)]/g, '');
+  if (c.startsWith('0049')) c = '+49' + c.substring(4);
+  else if (c.startsWith('49') && !c.startsWith('+')) c = '+49' + c.substring(2);
+  else if (c.startsWith('0')) c = '+49' + c.substring(1);
+  else if (!c.startsWith('+')) c = '+49' + c;
+  return c;
+}
+
+function showErr(msg) {
+  const e = $('err');
+  e.textContent = msg;
+  e.classList.add('show');
+  e.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function hideErr() { $('err').classList.remove('show'); }
+
+/* ---- Upload ---- */
+async function uploadImages(leadId) {
+  const paths = [];
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    const ext = (f.name.split('.').pop() || 'jpg').toLowerCase();
+    const path = `${leadId}/${Date.now()}_${i}.${ext}`;
+    try {
+      const r = await fetch(`${SUPABASE_URL}/storage/v1/object/lead-images/${path}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': f.type
+        },
+        body: f
+      });
+      if (r.ok) paths.push(path);
+    } catch (_) { /* einzelnes Bild scheitert -> Rest trotzdem senden */ }
+  }
+  return paths;
+}
+
+/* ---- Absenden ---- */
+$('leadForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  hideErr();
+
+  const f = new FormData(this);
+  const damage = f.get('damage');
+  const name = (f.get('name') || '').trim();
+  const phone = (f.get('phone') || '').trim();
+
+  if (!damage) { showErr('Bitte w\u00e4hlen Sie aus, worum es geht.'); return; }
+  if (!name) { showErr('Bitte geben Sie Ihren Namen an.'); return; }
+  if (!phone) { showErr('Bitte geben Sie Ihre Telefonnummer an.'); return; }
+  if (!f.get('privacy')) { showErr('Bitte best\u00e4tigen Sie die Datenschutzerkl\u00e4rung.'); return; }
+
+  const btn = $('sendBtn');
+  btn.disabled = true;
+  btn.textContent = 'Wird gesendet \u2026';
+
+  const vehicle = (f.get('vehicle') || '').trim();
+  const note = (f.get('note') || '').trim();
+
+  const serviceType = vehicle ? `${damage} \u2013 ${vehicle}` : damage;
+  const descParts = [];
+  if (vehicle) descParts.push('[Fahrzeug]\n' + vehicle);
+  if (note) descParts.push('[Beschreibung]\n' + note);
+
+  const lead = {
+    tenant_id: TENANT_ID,
+    name: name,
+    phone: formatPhone(phone),
+    email: (f.get('email') || '').trim() || null,
+    company: null,
+    service_type: serviceType,
+    description: descParts.join('\n\n') || null,
+    urgency: 'flexible',
+    budget: null,
+    preferred_callback_time: f.get('callback') || null,
+    privacy_accepted: true,
+    privacy_accepted_at: new Date().toISOString(),
+    form_submitted_at: new Date().toISOString(),
+    status: 'new'
+  };
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(lead)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + (await res.text()));
+
+    const rows = await res.json();
+    const leadId = rows && rows[0] && rows[0].id;
+
+    if (leadId && files.length) {
+      const paths = await uploadImages(leadId);
+      if (paths.length) {
+        await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${leadId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ image_urls: paths })
+        });
+      }
+    }
+
+    $('formWrap').classList.add('hidden');
+    $('done').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    showErr('Das hat nicht geklappt. Bitte versuchen Sie es noch einmal.');
+    btn.disabled = false;
+    btn.textContent = 'Anfrage senden';
+  }
+});
+</script>
+</body>
+</html>
