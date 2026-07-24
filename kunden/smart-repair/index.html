@@ -73,6 +73,9 @@ textarea{resize:vertical;min-height:80px}
 
 /* ---------- Schadenstyp ---------- */
 .pills{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pills.three{grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pills.three span{padding:12px 6px;font-size:13.5px}
+@media(max-width:360px){.pills.three span{font-size:12.5px;padding:12px 3px}}
 .pill{position:relative;display:block}
 .pill input{position:absolute;opacity:0;pointer-events:none}
 .pill span{
@@ -166,20 +169,55 @@ textarea{resize:vertical;min-height:80px}
         </div>
 
         <div class="field">
-          <label class="fl" for="vehicle">Fahrzeug</label>
-          <div class="hint">Marke und Modell, z.&nbsp;B. &bdquo;VW Golf 7&ldquo;</div>
-          <input type="text" id="vehicle" name="vehicle" autocomplete="off" placeholder="Marke und Modell">
+          <label class="fl">Wie viele Stellen sind betroffen?</label>
+          <div class="pills three">
+            <label class="pill"><input type="radio" name="count" value="1 Stelle"><span>Eine</span></label>
+            <label class="pill"><input type="radio" name="count" value="2-3 Stellen"><span>2&ndash;3</span></label>
+            <label class="pill"><input type="radio" name="count" value="Mehr als 3 Stellen"><span>Mehr</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="fl">Wo am Fahrzeug?</label>
+          <div class="hint">Mehreres ausw&auml;hlbar</div>
+          <div class="pills three">
+            <label class="pill"><input type="checkbox" name="pos" value="T&uuml;r"><span>T&uuml;r</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Kotfl&uuml;gel"><span>Kotfl&uuml;gel</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Motorhaube"><span>Motorhaube</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Dach"><span>Dach</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Heckklappe"><span>Heckklappe</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Sto&szlig;stange"><span>Sto&szlig;stange</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Schweller"><span>Schweller</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Seitenwand"><span>Seitenwand</span></label>
+            <label class="pill"><input type="checkbox" name="pos" value="Wei&szlig; ich nicht"><span>Wei&szlig; ich nicht</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 Fahrzeug -->
+      <div class="card">
+        <div class="step"><i>02</i> Das Fahrzeug</div>
+
+        <div class="field">
+          <label class="fl" for="vehicle">Marke und Modell</label>
+          <input type="text" id="vehicle" name="vehicle" autocomplete="off" placeholder="z. B. VW Golf 7">
+        </div>
+
+        <div class="field">
+          <label class="fl" for="paintcode">Farbcode</label>
+          <div class="hint">Steht meist auf dem Typenschild im T&uuml;rrahmen der Fahrert&uuml;r oder unter der Motorhaube &ndash; z.&nbsp;B. &bdquo;LY9B&ldquo;. Wenn Sie ihn nicht finden: einfach leer lassen.</div>
+          <input type="text" id="paintcode" name="paintcode" autocomplete="off" placeholder="Farbcode oder Farbe">
         </div>
 
         <div class="field">
           <label class="fl" for="note">Kurz beschrieben</label>
-          <textarea id="note" name="note" rows="3" placeholder="Wo sitzt der Schaden? Wie ist er passiert?"></textarea>
+          <textarea id="note" name="note" rows="3" placeholder="Wie ist der Schaden passiert? Gibt es etwas, das wir wissen sollten?"></textarea>
         </div>
       </div>
 
       <!-- 2 Foto -->
       <div class="card">
-        <div class="step"><i>02</i> Foto vom Schaden</div>
+        <div class="step"><i>03</i> Foto vom Schaden</div>
         <div class="hint" style="margin-top:-8px">Ohne Bild k&ouml;nnen wir keinen Preis nennen &ndash; eine Delle kann 80&nbsp;&euro; oder 400&nbsp;&euro; sein. Zwei, drei Aufnahmen reichen: einmal n&auml;her ran, einmal weiter weg.</div>
         <div class="shot" id="shot">
           <div class="shot-t">Foto aufnehmen oder ausw&auml;hlen</div>
@@ -189,9 +227,37 @@ textarea{resize:vertical;min-height:80px}
         <div class="thumbs" id="thumbs"></div>
       </div>
 
-      <!-- 3 Kontakt -->
+      <!-- 4 Termin -->
       <div class="card">
-        <div class="step"><i>03</i> Wie erreichen wir Sie?</div>
+        <div class="step"><i>04</i> Wann und wo?</div>
+
+        <div class="field">
+          <label class="fl">Wie h&auml;tten Sie's gern?</label>
+          <div class="pills">
+            <label class="pill"><input type="radio" name="place" value="Kunde kommt in die Werkstatt"><span>Ich komme vorbei</span></label>
+            <label class="pill"><input type="radio" name="place" value="Vor Ort beim Kunden" id="placeMobile"><span>Sie kommen zu mir</span></label>
+          </div>
+        </div>
+
+        <div class="field" id="zipField" style="display:none">
+          <label class="fl" for="zip">PLZ und Ort</label>
+          <div class="hint">Damit wir wissen, ob die Anfahrt passt</div>
+          <input type="text" id="zip" name="zip" autocomplete="postal-code" placeholder="z. B. 14542 Werder">
+        </div>
+
+        <div class="field">
+          <label class="fl">Wie eilig ist es?</label>
+          <div class="pills three">
+            <label class="pill"><input type="radio" name="urgency" value="Diese Woche"><span>Diese Woche</span></label>
+            <label class="pill"><input type="radio" name="urgency" value="In den n&auml;chsten 2 Wochen"><span>2 Wochen</span></label>
+            <label class="pill"><input type="radio" name="urgency" value="Hat Zeit"><span>Hat Zeit</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Kontakt -->
+      <div class="card">
+        <div class="step"><i>05</i> Wie erreichen wir Sie?</div>
         <div class="row">
           <div class="field">
             <label class="fl" for="name">Name <span class="req">*</span></label>
@@ -281,6 +347,14 @@ function drawThumbs() {
   $('shot').classList.toggle('on', files.length > 0);
 }
 
+/* ---- PLZ nur zeigen, wenn Anfahrt gewuenscht ---- */
+document.querySelectorAll('input[name="place"]').forEach(r => {
+  r.addEventListener('change', () => {
+    const mobile = $('placeMobile').checked;
+    $('zipField').style.display = mobile ? 'block' : 'none';
+  });
+});
+
 /* ---- Telefonnummer normalisieren ---- */
 function formatPhone(p) {
   let c = p.replace(/[\s\-\/\(\)]/g, '');
@@ -342,12 +416,35 @@ $('leadForm').addEventListener('submit', async function (e) {
   btn.textContent = 'Wird gesendet \u2026';
 
   const vehicle = (f.get('vehicle') || '').trim();
+  const paintcode = (f.get('paintcode') || '').trim();
   const note = (f.get('note') || '').trim();
+  const count = f.get('count') || '';
+  const place = f.get('place') || '';
+  const zip = (f.get('zip') || '').trim();
+  const urgencyLabel = f.get('urgency') || '';
+  const positions = f.getAll('pos');
 
-  const serviceType = vehicle ? `${damage} \u2013 ${vehicle}` : damage;
+  /* Kurzfassung fuer die Listenansicht im Dashboard */
+  const stBits = [damage];
+  if (count) stBits.push(count);
+  if (vehicle) stBits.push(vehicle);
+  const serviceType = stBits.join(' \u2013 ');
+
+  /* Details fuer die Lead-Detailansicht */
   const descParts = [];
+  if (positions.length) descParts.push('[Position am Fahrzeug]\n' + positions.join(', '));
   if (vehicle) descParts.push('[Fahrzeug]\n' + vehicle);
+  if (paintcode) descParts.push('[Farbcode]\n' + paintcode);
+  if (place) descParts.push('[Ort]\n' + place + (zip ? ' \u2013 ' + zip : ''));
+  if (urgencyLabel) descParts.push('[Zeitrahmen]\n' + urgencyLabel);
   if (note) descParts.push('[Beschreibung]\n' + note);
+
+  /* urgency-Spalte ist varchar(20) - nur kurze Schluesselwerte */
+  const urgencyMap = {
+    'Diese Woche': 'urgent',
+    'In den n\u00e4chsten 2 Wochen': 'soon',
+    'Hat Zeit': 'flexible'
+  };
 
   const lead = {
     tenant_id: TENANT_ID,
@@ -357,7 +454,7 @@ $('leadForm').addEventListener('submit', async function (e) {
     company: null,
     service_type: serviceType,
     description: descParts.join('\n\n') || null,
-    urgency: 'flexible',
+    urgency: urgencyMap[urgencyLabel] || 'flexible',
     budget: null,
     preferred_callback_time: f.get('callback') || null,
     privacy_accepted: true,
