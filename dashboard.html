@@ -284,6 +284,13 @@
         .ang-status.show{display:block}
         .ang-status.ok{background:#dcfce7;color:#166534}
         .ang-status.err{background:#fee2e2;color:#dc2626}
+        /* Angebots-Schreiber: Mobile-Fixes gegen horizontalen Overflow (nur schmale Screens) */
+        @media (max-width:600px){
+            .ang-row{grid-template-columns:1fr}
+            .ang-table td,.ang-table th{padding:4px}
+            .ang-table .col-pos,.ang-table .col-num,.ang-table .col-price,.ang-table .col-total,.ang-table .col-del{width:auto}
+            .ang-table .col-desc{min-width:0}
+        }
     </style>
 </head>
 <body>
