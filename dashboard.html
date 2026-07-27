@@ -603,7 +603,7 @@ async function sU(t,id,d){return(await fetch(`${SB}/rest/v1/${t}?id=eq.${id}`,{m
 async function sI(t,d){return(await fetch(`${SB}/rest/v1/${t}`,{method:'POST',headers:{...getJH(),'Prefer':'return=representation'},body:JSON.stringify(d)})).json();}
 async function sD(t,id){return(await fetch(`${SB}/rest/v1/${t}?id=eq.${id}`,{method:'DELETE',headers:getH()})).ok;}
 async function signUrl(bucket,path,exp){try{const r=await fetch(SB+'/storage/v1/object/sign/'+bucket+'/'+path,{method:'POST',headers:getJH(),body:JSON.stringify({expiresIn:exp||3600})});if(!r.ok)return path;const d=await r.json();return SB+d.signedURL;}catch(e){return path;}}
-async function resolveImageUrl(u){const p=u.includes('/lead-images/')?decodeURIComponent(u.split('/lead-images/').pop()):u;return signUrl('lead-images',p,3600);}
+function resolveImageUrl(u){return u.startsWith('http')?u:SB+'/storage/v1/object/public/lead-images/'+u;}
 async function resolveAngeboteUrl(filename,exp){return signUrl('angebote',filename,exp||604800);}
 
 // ===== LOGIN (Supabase Auth) =====
